@@ -1,0 +1,41 @@
+//average of two numbers
+// pseudo code
+ 
+function averageOfTwo(number1, number2)
+    return (number1 + number2) / 2
+
+function averageOfTwoTest()
+    input number1, number2
+    result =  averageOfTwo(number1, number2)
+    print result
+
+BEGIN
+    averageOfTwoTest
+END
+
+
+
+// c++ code
+#include<iostream>
+using namespace std;
+
+int averageOfTwo(int number1, int number2){
+    return (number1 + number2)/2;
+    
+}
+void averageOfTwoTest(){
+    int number1, number2;
+    cout << "Enter the number1"<<endl;
+    cin >> number1;
+    cout << "Enter the number2"<<endl;
+    cin >> number2;
+    int result = averageOfTwo(number1, number2);
+    
+    cout << result << endl;
+    }
+int main()
+{
+    averageOfTwoTest();
+
+    return 0;
+}
