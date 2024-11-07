@@ -1,0 +1,31 @@
+#include <iostream>
+int fibonacci(int n) {
+    int first = 0, second = 1, next;
+    if (n >= 1) {
+        std::cout << first << std::endl;
+    }
+    if (n >= 2) {
+        std::cout << second << std::endl;
+    }
+    for (int i = 3; i <= n; i++) {
+        next = first + second;
+        std::cout << next << std::endl;
+        first = second;
+        second = next;
+    }
+    return 0;
+}
+void fibonacciTest() {
+    int n;
+    std::cout << "Enter the number of terms: ";
+    std::cin >> n;
+    if (n < 1) {
+        std::cout << "Please enter a positive integer." << std::endl;
+    } else {
+        fibonacci(n);
+    }
+}
+int main() {
+    fibonacciTest();
+    return 0;
+}
