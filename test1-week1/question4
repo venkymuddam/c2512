@@ -1,0 +1,125 @@
+1. Write a program to read 10 numbers from the user, find their sum. [with array]
+2. Write a program to read 10 numbers from the user, find their sum [without using array]
+
+[pseudo code and c++ code]
+
+
+
+
+//pseudo code of question 1.
+function addUsingArray(int &numbers[])
+    sum = 0
+
+    for (int i = 0; i < 10; i++) 
+        input "Enter the number to array : "
+        sum += numbers[i]
+    end for
+
+    return sum
+
+function addUsingArrayTest(void)
+    numbers[10]
+    sum = 0
+
+    sum = addUsingArray(numbers)
+    print "The sum of the numbers is: " << sum << endl;
+    
+}
+start
+function main(void) 
+    addUsingArrayTest(void)
+
+    return 0;
+end
+
+
+//pseudo code of question 2.
+function addUsingArray(int &sum)
+    sum = 0
+
+    for (int i = 0; i < 10; i++) 
+        input "Enter the currentNumber : "
+        sum += currentNumber
+    end for
+
+    return sum
+
+function addUsingArrayTest(void)
+    sum = 0
+
+    sum = addUsingArray(sum)
+    print "The sum of the numbers is: " << sum << endl
+    
+start
+function main(void) 
+    addUsingArrayTest(void)
+
+    return 0;
+end
+
+
+
+
+// question 1. c++
+#include <iostream>
+using namespace std;
+
+void addUsingArray(int &numbers[])
+{
+    int sum = 0;
+    for (int i = 0; i < 10; i++) 
+    {
+        cout << "Enter the number : ";
+        cin >> numbers[i];
+        sum += numbers[i];
+    }
+    return sum;
+}
+
+void addUsingArrayTest(void)
+{
+    int numbers[10];
+    int sum = 0;
+
+    sum = addUsingArray(numbers)
+    cout << "The sum of the numbers is: " << sum << endl;
+    
+}
+
+int main(void) {
+    addUsingArrayTest(void)
+
+    return 0;
+}
+
+
+// question 2. c++
+#include <iostream>
+using namespace std;
+
+void addWithoutUsingArray(int &sum)
+{
+    int sum = 0;
+    int currentNumber;
+    for (int i = 0; i < 10; i++) 
+    {
+        cout << "Enter the number : ";
+        cin >> currentNumber;
+        sum += currentNumber;
+    }
+    return sum;
+}
+
+void addWithoutUsingArrayTest(void)
+{
+    int sum = 0;
+
+    sum = addUsingArray(sum)
+    cout << "The sum of the numbers is : " << sum << endl;
+}
+
+int main(void) {
+    addWithoutUsingArrayTest(void)
+
+    return 0;
+}
