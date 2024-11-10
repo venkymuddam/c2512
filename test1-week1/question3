@@ -1,0 +1,91 @@
+Write a program that continuously prompts the user to enter a number. The program should add the entered number to the previous valid number if it is divisible by 3 or 5 and display the sum. If the number is not divisible by 3 or 5, display a message indicating this. The program should terminate when the user types any particular character. Additionally, handle invalid input by prompting the user to enter a valid number.
+
+[both pseudo code and C++ code]
+
+
+
+// pseudo code
+function addToCurrentNumber(string input)
+    if (isInteger(input)) 
+        return true
+    else 
+        return false
+
+function addToCurrentNumberTest()
+
+    sum to 0
+    while (true)
+        input "Enter a number or any character:"
+
+        bool isNumber = addToCurrentNumber(input)
+
+        If (isNumber == true)
+            If ((stoi(input) % 3 == 0) || (stoi(input) % 5 == 0))
+                sum = sum + stoi(input)
+                Print "Number is divisible by 3 or 5. Current sum: sum"
+            else
+                Print "Number is not divisible by 3 or 5."
+        else
+            Print "Program Terminated because it is not a number"
+            break 
+
+start
+function main(void)
+    addToCurrentNumberTest()
+
+    return 0
+end
+
+// c++ code
+#include <iostream>
+#include<string>
+using namespace std;
+
+bool addToCurrentNumber(string input) 
+{
+    if (isInteger(input)) 
+    {
+        return true;
+    } 
+    else 
+    {
+        return false;
+    }
+}
+
+void addToCurrentNumberTest(void) 
+{
+    int sum = 0;
+
+    while (true) {
+        string input;
+        cout << "Enter a number or any character : ";
+        cin >> input;
+
+        bool isNumber = addToCurrentNumber(input);
+
+        if(isNumber)
+        {
+            if stoi(input) % 3 == 0 || stoi(input) % 5 == 0) 
+            {
+                sum += stoi(input);
+                cout << "Number is divisible by 3 or 5. Current sum: " << sum << endl;
+            } 
+            else 
+            {
+                cout << "Number is not divisible by 3 or 5." << endl;
+            }
+
+        }
+        else
+        {
+            cout << "Program Terminated because it isnot a number " << endl;
+            break;
+        }
+}
+
+int main(void) {
+    addToCurrentNumberTest(void);
+
+    return 0;
+}
