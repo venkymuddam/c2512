@@ -1,0 +1,68 @@
+Write a program to find the highest number from 10 numbers.
+(user should input numbers)
+The highest number should be returned from a function.
+
+Write pseudocode and c++ code. And test with different test cases.
+
+
+// pseudo code
+function findHighestNumber(numbers, size)
+    highest = numbers[0]
+    
+    for (i = 0; i < size; i++)
+        if numbers[i] > highest
+            highest = numbers[i]
+        end if
+    end for
+    
+    return highest
+
+function findHighestNumberTest(void)
+    input ""array of 10 numbers";
+    
+    for(i=0; i<10; i++)
+        read numbers[i]
+    end for
+    
+    highest = findHighestNumber(numbers, 10)
+    print "The highest number is: " highest
+
+findHighestNumberTest()
+
+
+
+// c++ code
+#include <iostream>
+using namespace std;
+
+int findHighestNumber(int numbers[], int size) 
+{
+    int highest = numbers[0];
+    
+    for (int i = 0; i < size; i++) {
+        if (numbers[i] > highest) {
+            highest = numbers[i];
+        }
+    }
+    
+    return highest;
+}
+
+void findFindHighestNumberTest() 
+{
+    int numbers[10];
+    cout << "Enter 10 numbers:" << endl;
+    
+    for (int i = 0; i < 10; i++) {
+        cin >> numbers[i];
+    }
+    
+    int highest = findHighestNumber(numbers, 10);
+    cout << "The highest number is: " << highest << endl;
+}
+
+int main() {
+    findHighestNumberTest();
+
+    return 0;
+}
