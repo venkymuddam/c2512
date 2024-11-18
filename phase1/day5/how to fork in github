@@ -1,0 +1,17 @@
+Task to Josh and Sana team, 
+everyone of the team to be aware of the below process.
+
+1. abel's public repo is forked by sreya.
+2. sreay and abel together do the changes 
+   in the file discusssion.txt.
+3. sreya completed her task. 
+   commited the file.
+   'pull request' done. 
+4. abel completed his task.
+   committed the file. 
+5. abel sees the PRs list.
+   if there is conflict, resolve the conflict by edititing.
+   then merge the file.
+   abel repo is upto date.
+6. sreya repo behind the abel repo. 
+   sreya has to 'sync' forked repo to get update.
