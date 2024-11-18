@@ -1,0 +1,154 @@
+1. to find average of two numbers.  [Sana] 
+2. to find cube of number. [Sana]
+3. to find square of the number. [Josh]
+4. swap two numbers. [Josh]
+5. to check nubmer is divisible by 3. [Abel] 
+6. number divisible by 27.  [Abel]
+7. to print N natural numbers. [Sana]
+8. to check a number palindrome. [Sana] 
+9. to check a number amstrong.  [Josh]
+10. to check a number prime. [Josh]
+11. to check a number perfect number. [Abel]
+12. to check number is odd or even. [Abel]
+13. to check a year leap. [Sana]
+14. to check a number perfect square or not. [Sana]  
+15. Reverse the number.  
+16. Factorials of the number. [Josh]
+17. Fibonacci. [Abel]
+18. to print prime numbers between in the limit. [Abel]  
+19. to find an element from the array. [Sana]
+20. to find the largest number from array. [Josh] 
+21. to sort the elements in the array. [Abel]
+22. to find sum of n numbers. [Sana]
+23. to display the duplicate numbers in the array. [Josh]
+24. to check string anagram. [Abel]
+25. to find length of the string.  [Sana]
+26. to delete duplicates strings in sting list. [Josh] 
+27. to count vowels in a string.  [Abel]
+28. to count whitespaces in a sentence.  [Josh]
+
+         
+    What is compiler?
+        translator of HLL code into machine code 
+        one pass 
+        Examples: C, C++, Java Compilr[JVM[.class]], .NET compiler[CLR [IL]] 
+    What is interpreter? 
+        translator of HLL code into machine code 
+        line by line
+        Examples: Java JIT [.class into machine code] 
+            Python,
+            C# JIT   
+
+    What is IDE?  
+        IDE - Integrated Development Environment
+        various tools 
+            - editor 
+            - debugger 
+            - build 
+            - source control 
+
+        Examples: VS, IntelliJ, Eclipse, 
+            Pycharm etc 
+    What is editor? 
+        Place we will write the program 
+        VSC, notepad++, Atom, etc 
+        vi/vim 
+
+    What is machine language? 
+        binary numbers 0's 1's
+        started punched cards etc 
+
+    What is assembly language?
+        human undestands the coide as. lang.
+
+        Assembler
+            translator to translate 
+                assembly language code 
+                into machine language 
+        8080
+        8086 
+        80186 etc 
+            microprocessor programming 
+    What is HLL?
+        Python, Java, C, C++  
+
+        easily the code understandable by 
+        human compared with assembly lang.
+
+        Compiler, Interpreter 
+
+
+    Techniques for Problem solving?
+    1. Undestand the problem [clearly]
+    2. Seeking help from people 
+    3. Seeking help from technology 
+        like search engines, AI like chatgpt/codeblocks,
+        forums like stackoverflow etc 
+    4. If proble is complex, 
+        decompose into small problems.
+        solve sub problem first
+        then comiple all the solutions of the sub probs 
+        to get final solution 
+    5. Master DSA, ADSA 
+    6. Testing  to validate solution 
+        defect/error/bug in product - debugging  
+    7. Using Debugger to drill into the bugs
+      
+    8. Optimal Solution from knowns solutions 
+
+    Linker 
+        application code 
+        standard - language libraries 
+        third-party librarires
+
+    Q: What is algorithm?
+        human readable set of instructtions ie like in english statements
+            to arrive the logic for solution of the problem
+        without following any syntax 
+    Q: What is pseudocode? 
+        code to solve the logic [following uniformity+standard]
+        without following any progmming language syntax 
+
+    Q: What is flowchart? 
+        Its pictorial representation of algorithm. 
+
+        start, assignment / function call, 
+        dimand for condition, arrows to go some where else 
+
+
+To find a number prime or not. 
+Algorithm: 
+    1. Enter the number 
+    2. Repeat from number+1 till below half of the number  [best solution]
+       Repeat from number+1 till square root of the number [optimal solution]
+            2.1 check the number is divisible by one the number in the range
+                2.1.1. If divided, stop and conclude the number not prime 
+       End repeat 
+    3. conclude the number is prime 
+Flowchart: [Done]
+
+Psedocode 
+    function isPrime(number->int)->int
+        for J in 2 .. sqrt(number)
+            if number % J == 0 then 
+                return false 
+            end if 
+        end for 
+        return true 
+    end function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    
