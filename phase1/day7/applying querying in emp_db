@@ -1,0 +1,385 @@
+-- -- departments [abel team]
+
+-- Display all departments [abel]
+    select * from departments;
+
+    select id, name from departments; -- best practice 
+-- Display department by id (=10) [sreya]       // best practice
+    -- select * from departments where id = 10;
+    select id, name from departments where id = 10;
+
+-- Display deparments names for ids 20 or 30 [minhaj] 
+    select name from departments where (id = 20) or (id = 30);
+
+    select name from departments where (id IN (10,20));    
+-- Display number of departments 
+    select count(*) AS number_of_departments from departments;
+
+-- Display all departments sorted by name A-Z order [sooraj]
+    select id, name from departments order by name asc;
+    --  by default ASC for order by
+
+-- Display all departments sorted by name Z-A order [sooraj]
+    select id, name from departments order by name desc;
+
+-- Display deparments names for ids 20 or 30 sort by Z-A order [venkatesh]
+    select name 
+    from departments 
+    where (id IN (10,20)) 
+    order by name desc;
+
+-- Display deparment by name = 'Alpha' [athira]
+    select id, name as departMent_name
+    from departments 
+    where name = 'Alpha';
+
+-- countries [josh team]
+
+-- Display all countries [josh]
+    -- select * from countries;
+    select id, name, ruler 
+    from countries;
+
+-- Display countries by id (=10) [mani]
+    select id, name, ruler 
+    from countries 
+    where id = 11;
+
+-- Display countries names for ids 21 or 41 [nayana]
+    select name 
+    from countries 
+    where (id = 21) or (id = 41);
+
+    select name 
+    from countries 
+    where (id in (21,41));
+-- Display number of countries [dhaheen]
+    select count(*) AS number_of_countries
+    from countries;
+
+-- Display all countries sorted by name A-Z order [bhagya]
+    select id, name, ruler 
+    from countries 
+    order by name asc;
+
+-- Display all countries sorted by name Z-A order 
+    select id, name, ruler 
+    from countries 
+    order by name desc;
+
+-- Display countries names for ids 21 or 41 sort by Z-A order 
+    select name
+    from countries 
+    where (id in (21,41))
+    order by name desc;
+
+-- -- cities [sana team]
+-- Display all cities [sana]
+    select id, name, admin, country_id
+    from cities;
+
+-- Display cities by id (=101) [vishak]
+    select id, name, admin, country_id
+    from cities
+    where (id = 101);
+
+-- Display cities names for ids 102 or 103 [vinayak]
+    select name
+    from cities
+    where (id in (102, 103));
+
+-- Display number of cities [nimisha]
+    select count(*) AS number_of_cities
+    from cities;
+
+-- Display all cities sorted by name A-Z order [ayisha] 
+    select id, name, admin, country_id
+    from cities
+    order by name asc;
+
+-- Display all cities sorted by name Z-A order [ayisha]
+    select id, name, admin, country_id
+    from cities
+    order by name desc;
+
+-- Display cities names for ids 102 or 103 sort by Z-A order [ayisha]
+    select name
+    from cities
+    where (id in (102, 103))
+    order by name desc;
+
+-- select cities data by country_id = 11 [abel]
+    select id, name, admin, country_id
+    from cities
+    where (country_id = 11);
+
+    -- select country id for given country name 
+    select id 
+    from countries 
+    where name = 'India';
+
+    -- select cities data by country name = 'India' [ayisha->abel]
+
+        -- by with using inner query
+    select id, name, admin, country_id
+    from cities
+    where (country_id = (select id 
+                        from countries 
+                        where name = 'India'));
+
+        -- by using joins
+    select cities.id, cities.name, cities.admin, cities.country_id
+    from cities inner join countries
+    on cities.country_id = countries.id
+    where countries.name = 'India';
+
+    
+
+
+    -- 8 x 2 x 4 = 64 batches 
+    -- each batch 60 students 
+    select 64 * (60 / 2) as total_projects from dual;
+    
+    -- select cities data by country ruler = 'Trump' [abel]
+    select id, name, admin, country_id
+    from cities
+    where (country_id = (select id 
+                        from countries 
+                        where ruler = 'Trump'));
+
+    -- select cities data by country ruler = 'Trump' or 'Modi' [abel]
+    select id, name, admin, country_id
+    from cities
+    where (country_id IN (select id 
+                        from countries 
+                        where (ruler IN ('Trump','Modi'))));
+
+-- -- employees 
+    -- basic queries - practical [self - solving]
+    
+    -- [athira -> vinayak] 
+    -- display employees from department name = 'Beta'
+        select id 
+        from departments 
+        where (name = 'Beta');
+
+        select id, name, job_title, department_id, address, city_id 
+        from employees 
+        where (department_id = 20);
+        -- expected output 
+    select id, name, job_title, department_id, address, city_id 
+    from employees 
+    where (department_id = (select id 
+                            from departments 
+                            where (name = 'Beta')));
+
+    -- [bhagya -> nimisha]
+    -- display employees from country name = 'India'
+        --#1 
+        select id 
+        from countries 
+        where (name = 'India');
+        --#2    
+        select id 
+        from cities  
+        where (country_id = 11);
+        --#3   
+        select id 
+        from cities  
+        where (country_id = (select id 
+                            from countries 
+                            where (name = 'India')));
+        --#4
+        select id, name, job_title, department_id, address, city_id
+        from employees 
+        where (city_id IN (102, 103));
+        --#5
+        -- expected output 
+            -- solved using inner queries
+        select id, name, job_title, department_id, address, city_id, salary, bonus
+        from employees 
+        where (city_id IN (select id 
+                            from cities  
+                            where (country_id = (select id 
+                                                from countries 
+                                                where (name = 'India')))));
+
+
+            -- solved using inner join
+        SELECT employees.id, employees.name, employees.job_title, employees.department_id, 
+            employees.address, employees.city_id, employees.salary, employees.bonus
+                FROM employees
+                INNER JOIN cities ON employees.city_id = cities.id
+                INNER JOIN countries ON cities.country_id = countries.id
+                WHERE countries.name = 'India';
+
+
+
+    -- [ayisha -> sreya]
+    -- aggregators : count, sum, avg, min, max 
+    -- department id based number_of_employees
+    select department_id, COUNT(*) as number_of_employees
+    from employees 
+    group by department_id;
+
+    -- job_title based number_of_employees
+    select job_title, COUNT(*) as number_of_employees
+    from employees
+    group by job_title;
+
+    -- city_id based number_of_employees
+    select city_id, COUNT(*) as number_of_employees
+    from employees 
+    group by city_id;
+
+    -- find number_of_employees, total salary, 
+    -- min salary, max salary, average salary
+    select count(*) as number_of_employees, 
+        sum(salary) as total_salary, 
+        min(salary) as min_salary, 
+        max(salary) as max_salary, 
+        avg(salary) as average_salary
+    from employees;
+
+    -- find total salary each deparment id wise 
+    select department_id, sum(salary) as total_salary
+    from employees 
+    group by department_id;
+
+    -- find number of employees, total salary, min salary, max salary, average salary 
+    -- each deparment id wise 
+    select department_id, 
+        count(*) as number_of_employees, 
+        sum(salary) as total_salary, 
+        min(salary) as min_salary, 
+        max(salary) as max_salary, 
+        avg(salary) as average_salary
+    from employees 
+    group by department_id;
+
+    -- find emp name, country name 
+    select employees.name as emp_name, countries.name as country_name
+    from employees
+        inner join cities on (employees.city_id = cities.id)
+        inner join countries on (cities.country_id = countries.id);
+
+
+
+                    --------------------------------------
+
+
+-- emp_db 
+    select * from employees WHERE name like '_y%';
+
+    select * from employees WHERE name like '__n%';
+
+    -- display employess name, salary and total salary (salary + bonus)
+    -- display employees name, salary, bonus, incentive percentage, 
+        -- caculated incentive, total salary (salary + bonus + incetive) 
+        -- Note: incentive = 10% of salary = salary / 100 * 10
+        --     (salary + bonus + ((salary / 100) * 10))
+    -- display employees whose salary between
+
+    select 12567 / 100, 12567 / 100 * 10 from dual;
+
+    select * from employees;
+
+    -- display employees name, department name, city name, 
+    -- country name, city admin, country ruler, salary, bonus, total salary (salary + bonus)
+    -- country name, city admin, country ruler, salary, bonus
+        --   for the salary between 10000 and 12000 
+                -- WHERE (salary >= 10000) AND (salary <= 12000)
+                -- WHERE (salary BETWEEN 10000 AND 12000)
+                -- WHERE (salary NOT BETWEEN 10000 AND 12000)
+    -- country name, city admin, country ruler, salary, bonus
+        -- where name ends with letter 'a'
+        --       name starts with letter 'A' 
+        --       name contains letter 'y'
+        --       name's scond character to be e 
+        --       name's third character to be n
+        --       name's contains any where two 'e's   
+            -- WHERE (name LIKE '%a')
+    -- select employees whose salary is company's second max salary
+        select * 
+        from employees 
+        where salary = (select max(salary) as second_max_salary
+                        from employees
+                        where salary < (select max(salary) as first_max_salary
+                                        from employees));
+
+    -- select employees whose salary is less than company's average salary 
+
+
+    -- country id based total salary 
+
+    -- country nanme based total salary 
+
+    -- city name based total salary 
+
+    -- country name then city name based total salary sort by country A-Z then by city name Z-A order 
+
+
+        -- question, display the cities having salary less than 25000
+        --(group by, join, having)
+        --for example, 
+            select cities.country_id, cities.name, sum(employees.salary) 
+            from employees 
+            inner join cities on employees.city_id = cities.id
+            group by cities.country_id, cities.name
+            having sum(employees.salary) < 25000; 
+
+    -- display employees who are all getting second max salary from the company [using sub query]
+        --#1
+            -- select department_id, max(salary)
+            -- from employees 
+            -- group by department_id;
+
+            10 15000 [athira, not minhaj]
+            20 13000 [dhaheen, not ayisha]
+            30 10000 [nayana, not venkatesh]
+        --#2
+
+
+    --question, display employees whose salary matching their department's max salary [correlated sub query]
+        SELECT parent.*
+        from employees parent 
+        where parent.salary = (
+                                SELECT max(child.salary) 
+                                from employees child 
+                                where parent.department_id = child.department_id
+                                );
+
+        
+        
+
+    --question, display employees whose salary matching their department's second max salary [correlated sub query]
+
+
+        select emp1.* 
+        from employees emp1 
+        where emp1.salary = 
+                (select max(emp2.salary) as second_max_salary
+                    from employees emp2
+                    where (emp2.department_id = emp1.department_id) and salary < 
+                                            (select max(emp3.salary) as first_max_salary
+                                            from employees emp3
+                                            where (emp3.department_id = emp2.department_id)
+                                            ) 
+                );
+
+        
+
+                -- if we want to print the "one" employee, who is taking second max salary
+                    select parent.* 
+                    from employees parent 
+                    where parent.salary = (select max(salary) as second_max_salary from employees 
+                                            where 
+                                                (salary < (select max(salary) as first_max_salary
+                                                    from employees)));
+
+
+        
+        
+    -- display employees whose salary less than their department's average salary [correlated sub query]
+
+
