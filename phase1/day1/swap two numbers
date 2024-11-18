@@ -1,0 +1,42 @@
+// pseudo code
+
+function swapNumbers(number1, number2)
+    temp = number1
+    number1 = number2
+    number2 = temp
+
+function swapNumbersTest()
+    input number1, number2
+    swapNumbers(number1, number2)
+    print "After swapping, first number is:", number1, "and second number is:", number2
+
+BEGIN
+    swapNumbersTest
+END
+
+
+
+// c++ code
+#include<iostream>
+using namespace std;
+
+void swapNumbers(int &number1, int &number2) {
+    int temp = number1;
+    number1 = number2;
+    number2 = temp;
+}
+
+void swapNumbersTest() {
+    int number1, number2;
+    cout << "Enter the first number: " << endl;
+    cin >> number1;
+    cout << "Enter the second number: " << endl;
+    cin >> number2;
+    swapNumbers(number1, number2);
+    cout << "After swapping, first number is: " << number1 << " and second number is: " << number2 << endl;
+}
+
+int main() {
+    swapNumbersTest();
+    return 0;
+}
