@@ -1,0 +1,194 @@
+
+I have an UNF table
+tickets
+AirlineID, AirlineName, Country, FlightID, 
+FlightNumber, Origin1, origin2, origin3, 
+Destination, DepartureTime, ArrivalTime, 
+BookingID, FlightID, PassengerName1, PassengerName2, PassengerName3, SeatNumber, BookingDate
+
+
+I formed the below NF tables:
+AirlineID, AirlineName, Country, FlightID, 
+AirlineID, FlightNumber, Origin, 
+Destination, DepartureTime, ArrivalTime, 
+BookingID, FlightID, PassengerName, SeatNumber, BookingDate
+
+
+final tables are:
+Airlines : {AirlineID, AirlineName, Country}
+Flights : {FlightID, AirlineID, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime}
+Bookings : {BookingID, FlightID, PassengerName, SeatNumber, BookingDate}
+
+
+                        ----------------solution----------------------------
+
+
+CREATE USER airlines_db IDENTIFIED BY venky;
+
+GRANT CONNECT, RESOURCE TO airlines_db;
+
+ALTER USER airlines_db QUOTA UNLIMITED ON USERS;
+
+
+
+
+SELECT TABLE_NAME FROM USER_TABLES;
+
+
+CREATE TABLE Airlines (
+    AirlineID INT PRIMARY KEY,
+    AirlineName VARCHAR2(125) NOT NULL,
+    Country VARCHAR2(125) NOT NULL
+);
+commit;
+
+
+INSERT INTO Airlines (AirlineID, AirlineName, Country)
+VALUES (10,'AirIndia', 'India');
+INSERT INTO Airlines (AirlineID, AirlineName, Country)
+VALUES (11,'AirUSA', 'USA');
+INSERT INTO Airlines (AirlineID, AirlineName, Country)
+VALUES (12,'AirCanada', 'Canada');
+INSERT INTO Airlines (AirlineID, AirlineName, Country)
+VALUES (13,'AirDubai', 'UAE');
+INSERT INTO Airlines (AirlineID, AirlineName, Country)
+VALUES (14,'AirUK', 'UK');
+INSERT INTO Airlines (AirlineID, AirlineName, Country)
+VALUES (15,'AirQatar', 'Qatar');
+commit;
+
+select * from Airlines;
+
+
+CREATE TABLE Flights (
+    FlightID INT PRIMARY KEY,
+    AirlineID INT,
+    FlightNumber VARCHAR2(125) NOT NULL,
+    Origin VARCHAR2(125) NOT NULL,
+    Destination VARCHAR2(125) NOT NULL,
+    DepartureTime VARCHAR2(10) NOT NULL,
+    ArrivalTime VARCHAR2(10) NOT NULL,
+    FOREIGN KEY (AirlineID) REFERENCES Airlines(AirlineID)
+);
+commit;
+
+
+INSERT INTO Flights (FlightID, AirlineID, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime)
+VALUES (101, 10, 'AI123', 'Delhi', 'Mumbai', '8am', '10am');
+
+INSERT INTO Flights (FlightID, AirlineID, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime)
+VALUES (102, 11, 'AU456', 'New York', 'Los Angeles', '2pm', '6pm');
+
+INSERT INTO Flights (FlightID, AirlineID, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime)
+VALUES (103, 12, 'AC789', 'Toronto', 'Vancouver', '9am', '11:30am');
+
+INSERT INTO Flights (FlightID, AirlineID, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime)
+VALUES (104, 13, 'AD101', 'Dubai', 'London', '6am', '10am');
+
+INSERT INTO Flights (FlightID, AirlineID, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime)
+VALUES (105, 14, 'AK202', 'London', 'Paris', '10am', '11:30am');
+
+INSERT INTO Flights (FlightID, AirlineID, FlightNumber, Origin, Destination, DepartureTime, ArrivalTime)
+VALUES (106, 15, 'AQ303', 'Doha', 'Berlin', '5pm', '9pm');
+
+commit;
+
+select * from Flights;
+
+
+
+CREATE TABLE Bookings (
+    BookingID INT PRIMARY KEY,
+    FlightID INT,
+    PassengerName VARCHAR2(125) NOT NULL,
+    SeatNumber VARCHAR2(10) NOT NULL,
+    BookingDate VARCHAR2(10) NOT NULL,
+    FOREIGN KEY (FlightID) REFERENCES Flights(FlightID)
+);
+
+commit;
+
+
+INSERT INTO Bookings (BookingID, FlightID, PassengerName, SeatNumber, BookingDate)
+VALUES (201, 101, 'Venkatesh', '12A', '10:00am');
+
+INSERT INTO Bookings (BookingID, FlightID, PassengerName, SeatNumber, BookingDate)
+VALUES (202, 102, 'Abel', '14B', '11:00am');
+
+INSERT INTO Bookings (BookingID, FlightID, PassengerName, SeatNumber, BookingDate)
+VALUES (203, 103, 'Athira', '16C', '12:00pm');
+
+INSERT INTO Bookings (BookingID, FlightID, PassengerName, SeatNumber, BookingDate)
+VALUES (204, 104, 'Sreya', '18D', '1:00pm');
+
+INSERT INTO Bookings (BookingID, FlightID, PassengerName, SeatNumber, BookingDate)
+VALUES (205, 105, 'Sooraj', '20E', '2:00pm');
+
+INSERT INTO Bookings (BookingID, FlightID, PassengerName, SeatNumber, BookingDate)
+VALUES (206, 106, 'Arun', '21F', '3:00pm');
+
+commit;
+
+select * from Bookings;
+
+
+
+                                ------ querying on above tables -----------
+
+
+-- 1. Display all airlines.
+SELECT * FROM Airlines;
+
+
+-- 2. Display all flights.
+SELECT * FROM Flights;
+
+
+-- 3. Display all bookings.
+SELECT * FROM Bookings;
+
+
+-- 4. Display only airline names and their countries.
+SELECT AirlineName, Country FROM Airlines;
+
+-- 5. Display flight numbers and their origins.
+SELECT FlightNumber, Origin FROM Flights;
+
+
+-- 6. Display passenger names and booking dates.
+SELECT PassengerName, BookingDate FROM Bookings;
+--7. Display all airlines based in 'India'.
+SELECT * FROM Airlines
+WHERE Country = 'India';
+
+
+
+-- 8. Find the name and country of airlines that have flights originating from 'Delhi'.
+    SELECT AirlineName, Country
+    FROM Airlines
+    WHERE AirlineID IN (
+        SELECT AirlineID
+        FROM Flights
+        WHERE Origin = 'Delhi'
+    );
+
+
+-- 9. List all flights along with their airline names, ordered by departure time.
+    SELECT F.FlightID, F.FlightNumber, F.Origin, F.Destination, F.DepartureTime, A.AirlineName
+    FROM Flights F
+    JOIN Airlines A ON F.AirlineID = A.AirlineID
+    ORDER BY F.DepartureTime;
+
+-- 10. Find the total number of bookings for each flight, and only display flights with more than 2 bookings.
+    SELECT F.FlightID, F.FlightNumber, COUNT(B.BookingID) AS TotalBookings
+    FROM Flights F
+    JOIN Bookings B ON F.FlightID = B.FlightID
+    GROUP BY F.FlightID, F.FlightNumber
+    HAVING COUNT(B.BookingID) > 2;
+
+
+-- 11. Find the total number of flights operated by each airline.
+    SELECT A.AirlineName, COUNT(F.FlightID) AS TotalFlights
+    FROM Airlines A
+    LEFT JOIN Flights F ON A.AirlineID = F.AirlineID
+    GROUP BY A.AirlineName;
