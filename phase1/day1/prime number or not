@@ -1,0 +1,70 @@
+// // pseudo code
+// function isPrime(int integer) -> bool
+//     if (number <= 1)
+//         return false
+//     end if
+//     for (i = 2; i <= (number / 2); i = i + 1)
+//         if (number % i == 0)
+//             return false
+//         end if
+//     end for
+//     return true
+
+// function isPrimeTest(void)
+//     input number
+//     if (isPrime(number))
+//         output "this is a prime number"
+//     else
+//         output "this is not a prime number"
+//     end if
+
+// start 
+//     isPrimeTest(void)
+// end
+
+
+// c++ code
+#include <iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+bool isPrime(int number) 
+{
+    if (number <= 1) 
+    {
+        return false;
+    }
+    for (int i = 2; i <= number / 2; i++) 
+    {
+        if (number % i == 0) 
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void isPrimeTest(void) 
+{
+    int number;
+    
+    cout << "Enter the number: " << endl;
+    cin >> number;
+    
+    if (isPrime(number))
+    {
+        cout << "This is a Prime Number" << endl;
+    }
+    else
+    {
+        cout << "This is not a Prime Number" << endl;
+    }
+}
+
+int main(void) 
+{
+    isPrimeTest();
+    
+    return 0;
+}
