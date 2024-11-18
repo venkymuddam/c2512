@@ -1,0 +1,34 @@
+// pseudo code
+
+function cubeOfNumber(number)
+    return number * number * number
+function cubeOfNumberTest()
+    input number
+    result = cubeOfNumber(number)
+    print "The cube of", number, "is:", result
+
+BEGIN
+    cubeOfNumberTest()
+END
+
+
+// c++ code
+#include<iostream>
+using namespace std;
+
+int cubeOfNumber(int number) {
+    return number * number * number;
+}
+
+void cubeOfNumberTest() {
+    int number;
+    cout << "Enter the number: " << endl;
+    cin >> number;
+    int result = cubeOfNumber(number);
+    cout << "The cube of " << number << " is: " << result << endl;
+}
+
+int main() {
+    cubeOfNumberTest();
+    return 0;
+}
