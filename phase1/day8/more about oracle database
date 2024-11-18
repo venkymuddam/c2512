@@ -1,0 +1,145 @@
+1. what is oracle?
+2. how do we design relation database? 
+    -- NFs
+    -- terms: repeating group, PD, TD
+    -- keys : super, candidate, alternate, primary, unique - composite 
+3. oracle 21c - "sql developer" vsc extenstion 
+    installation 
+4. employee - UNF, -> 3NF tables -> denormalized table 
+5. Oracle - CRUD operations with employees 
+    schema : emp_db (create user | grant | quoto -> tablespace "USERS")
+    departments, countries, cities, employees 
+        CREATE TABLE 
+        INSERT 
+        ALTER TABLE employees 
+        UPDATE employees 
+
+        denormalized result table using JOINS 
+            inner join 
+            left outer join 
+            right outer join 
+            full outer join 
+6. SQL - query 
+    basic queries for all four tables - 3 tables we did in the class 
+        - employees (self leraning)
+    filtering (where condition) : IN 
+    sorting (order by ASC | DESC)
+    aggregators: COUNT, SUM, AVG, MIN, MAX 
+    group by: group based aggregators 
+
+Not covered: 
+    DDL:
+        CREATE TABLE with foreigh keys, check constraint 
+        DROP TABLE, ALTER TABLE, TRUCATE TABLE 
+    DML:
+        bulk update, DELETE, bulk delete 
+    DCL:
+        REVOKE 
+    TCL:
+        rollback, savepoint 
+    
+    Data types: number, string, boolean, date and time, b/c lob
+
+    Query:  
+        selectors : [columns], constant, expression (operators + functions)
+            arithmetic operators: 
+        filtering: relational operators (=, <>, <=, >=, <, >)
+                        LIKE, between, EXISTS, IN 
+                        NOT LIKE, NOT BETWEEN, NOT EXISTS, NOT IN 
+                logical operators (AND, OR, NOT)
+                 
+        soring: multi-column 
+        group by: multi-column, having (after group giving condition)
+        join with group by 
+        sub query: [normal sub query], correlated sub query 
+        alias names: [column, ] table
+    views, stored procedure
+
+
+
+what is sub-query? query within query 
+    how sub-query is executed? 
+        is tehre any exception? correlated-query 
+    -- to display employees for given country id 
+        employees (city_id) cities (country_id)
+        select * from employees where city_id in (select city_id from cities where country_id=91)
+    -- to display employees whose salary is max salary of his/her department 
+        -- OR to display each dept's max salary getting employees 
+        select * from employees e where salary = (select max(salary) 
+            from employees m where m.department_id = e.department_id)
+
+what is join? 
+    join is to denormalize the normalized table to get data from many tables. 
+
+    types of joins:
+        1. cross join - every row of the left table witll be joined each row of the right table 
+        2. inner join - every row of the left table witll be joined matching row of the right table
+                        for given condition 
+
+                        maxmimum time it will be equi join ie equal condition
+
+                        ie only matched rows 
+        3. outer join 
+            i. left outer join : matched rows + extra rows in left table 
+            ii. right outer join : matched rows + extra rows in right table 
+            iii. full outer join : matched rows + extra rows in left table + extra rows in left table
+    examples:
+        employees, departments, cities, countries 
+
+        -- display all employees name and dept_name 
+        select employees.name, departments.name as department_name 
+        from employees 
+        inner join departments on employees.department_id = departments.id
+
+        -- display all employees name and city name 
+        select employees.name, cities.name as city_name 
+        from employees 
+        inner join cities on employees.city_id = cities.id 
+
+what are all aggregation functions? 
+    sum, avg, min, max, count(*), count(column_name), count(distinct column_name)
+
+    what is group by? 
+        to categorize the rows into many group and then apply aggregators on each group 
+        we use the 'group by' clause in 'SELECT' statement.  
+    give me an example. 
+        -- to display each department's (department_id) total salary 
+            select department_id, sum(salary) as salary
+            from employees 
+            group by department_id
+    what 'having' clause and tell difference betwen 'where' clause and having cluase? 
+        'where' clause is used 
+        for filtering the rows of the table 
+        based on coniditons before 'group by' 
+
+        'having'clause is used 
+        for filtering the rows of the table
+        after 'group by'
+
+        as 'where' clause will not allow the aggregators to use the filter 
+        we use the aggregators or participated column for the grouping 
+        in the 'having' clause
+    syntax: 
+        select <columns> 
+        from table 
+            [[inner | left | right | full] another_table [on <condition>] ...]
+        where <condition> 
+        group by <group_columns ...>
+        having <condition> 
+        order by <order_columns [desc | asc]...> 
+
+    -- country name then city name based total salary sort by country A-Z then by city name Z-A order 
+        -- display the cities having total salary less than 25000
+
+        select 
+            countries.name as country_name, 
+            cities.name as city_name,  
+            sum(employees.salary) as salary 
+        from employees 
+            inner join cities on employees.city_id = cities.id 
+            inner join countries on cities.country_id = countries.id 
+        group by countries.name,  cities.name
+        having sum(employees.salary) < 25000
+        -- order by countries.name Asc, cities.name DESC 
+        -- order by country_name Asc, city_name DESC 
+        order by 1 Asc, 2 DESC 
