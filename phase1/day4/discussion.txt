@@ -1,0 +1,282 @@
+----1.---
+Write a program to find the highest number from 10 numbers.
+(user should input numbers)
+The highest number should be returned from a function.
+
+Write pseudocode and c++ code. And test with different test cases.
+
+----2.---
+1. Write a program to read 10 numbers from the user, find their sum. [with array]
+2. Write a program to read 10 numbers from the user, find their sum [without using arra
+[pseudo code and c++ code]
+
+----3.---
+Program for reversing a string without using any built in functions.
+
+[pseudo code and c++ code]
+
+----4.---
+Write a program that continuously prompts the user to enter a number. The program should add the entered number to the previous valid number if it is divisible by 3 or 5 and display the sum. If the number is not divisible by 3 or 5, display a message indicating this. The program should terminate when the user types any particular character. Additionally, handle invalid input by prompting the user to enter a valid number.
+
+[both pseudo code and C++ code]
+
+
+----1.---
+Solution:
+10 is size of the array
+array: numbers
+
+    - read the numbers
+        for loop ?  <- 10 times 
+            read number and add to array 
+    - highestNumber = INT_MIN
+        for each number in numbers:
+             if number > highestNumber
+                highestNumber = number 
+             end if 
+        end for 
+    - print highestNumber
+
+``````````````````````````````````````````
+    pseudo code
+``````````````````````````````````````````
+function readNumbers(numbers -> [int], size -> int) 
+    for I in 0..size-1 
+        input number 
+        numbers[I] = number 
+    end for 
+function findHighest(numbers -> [int], size -> int) -> int 
+    highestNumber = INT_MIN
+    
+    for I in 0..(size - 1):
+        if numbers[I] > highestNumber
+            highestNumber = numbers[I] 
+        end if 
+    end for 
+
+    return highestNumber
+function findHighestTest()
+    //declare x array / list 
+    size = 10 
+    readNumbers(x, size)
+    highestNumber = findHighest(x, size)
+    print highestNumber
+pseudomain:
+    findHighestTest()
+``````````````````````````````````````````
+    c++ code
+``````````````````````````````````````````
+#include<climits>
+#include<cstdlib>
+#include<iostream>
+#define MAX_SIZE 10
+
+using std::cin;
+using std::cout;
+
+void readNumbers(int numbers[], int size)
+{ 
+    for(int I = 0; I < size; I++)
+    {
+        int number = 0;
+        cout << "Enter number at index " << I << ":";
+        cin >> number; 
+        numbers[I] = number; 
+    } 
+}
+
+int findHighest(int numbers[], int size)
+{ 
+    int highestNumber = INT_MIN; // <climits>
+    
+    for(int I = 0; I < size; I++)
+    {
+        if(numbers[I] > highestNumber)
+        {
+            highestNumber = numbers[I];
+        } 
+    } 
+
+    return highestNumber;
+}
+
+void findHighestTest()
+{
+    int size = MAX_SIZE; //int size {10};
+    int x[size] {}; 
+     
+    readNumbers(x, size); //<iostream> | std::cin, std::cout
+    int highestNumber = findHighest(x, size);
+    cout << "Highest number is " << highestNumber;
+}
+
+int main()
+{
+    findHighestTest();
+
+    return EXIT_SUCCESS; //<cstdlib>
+}
+
+````````````````````````````from blockbox ai`````````````````
+Function Purpose
+The purpose of the findHighest function is to find and return the highest number from an array of integers. It takes two parameters:
+
+numbers[]: An array of integers from which we want to find the highest number.
+size: An integer representing the number of elements in the numbers array.
+Detailed Breakdown
+Initialization:
+
+c
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+int highestNumber = INT_MIN;
+Here, highestNumber is initialized to INT_MIN, which is a constant representing the smallest possible integer value. This ensures that any number in the numbers array will be greater than this initial value, allowing the function to correctly identify the highest number.
+Looping through the Array:
+
+c
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+for I in 0..(size - 1):
+This loop iterates over each index I of the numbers array, starting from 0 and going up to size - 1. The variable size indicates how many numbers are in the array.
+Comparing Each Number:
+
+c
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+if numbers[I] > highestNumber
+    highestNumber = numbers[I] 
+end if 
+Inside the loop, there is a conditional statement that checks if the current number (numbers[I]) is greater than the current highestNumber.
+If it is greater, highestNumber is updated to the value of numbers[I]. This means that the function keeps track of the largest number encountered so far as it iterates through the array.
+Returning the Result:
+
+c
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+return highestNumber
+After the loop has finished executing (i.e., all numbers have been checked), the function returns the value of highestNumber, which now holds the highest number found in the array.
+Example Walkthrough
+Let's say we have the following array of integers: [3, 5, 7, 2, 8, -1, 4, 10, 6, 0] and size = 10.
+
+Initialization:
+
+highestNumber is set to INT_MIN.
+Iteration:
+
+For I = 0: numbers[0] = 3, highestNumber becomes 3.
+For I = 1: numbers[1] = 5, highestNumber becomes 5.
+For I = 2: numbers[2] = 7, highestNumber becomes 7.
+For I = 3: numbers[3] = 2, highestNumber remains 7.
+For I = 4: numbers[4] = 8, highestNumber becomes 8.
+For I = 5: numbers[5] = -1, highestNumber remains 8.
+For I = 6: numbers[6] = 4, highestNumber remains 8.
+For I = 7: numbers[7] = 10, highestNumber becomes 10.
+For I = 8: numbers[8] = 6, highestNumber remains 10.
+For I = 9: numbers[9] = 0, highestNumber remains 10.
+Return Value:
+
+After the loop, the function returns 10, which is the highest number in the array.
+Summary
+The findHighest function effectively scans through an array of integers, keeping track of the highest value it encounters, and returns that value. The use of INT_MIN allows for a robust comparison that works regardless of the values in the array.
+`````````````````````````````````````````````````````````
+
+--2--
+2.1
+`````````````````````````````````````````````````````````
+    pseudo code 
+`````````````````````````````````````````````````````````
+function readNumbers(numbers -> [long], size -> int)
+    for I in 0..(size-1):
+        input number 
+        numbers[I] = numbr 
+    end for 
+
+function findSum(numbers -> [long], size -> int) -> long 
+    sum = 0
+    
+    for I in 0..(size-1):
+        sum += numbers[I]
+    end for 
+
+    return sum 
+
+function findSumTest():
+    size = 10
+    //declare x[size] -> long
+    readNumbers(x, size)
+    sum = findSum(x, size)
+    print sum 
+
+pseudo main:
+    findSumTest()
+
+`````````````````````````````````````````````````````````
+    C++ 
+`````````````````````````````````````````````````````````
+#include<cstdlib>
+#include<iostream>
+#define MAX_SIZE 10
+
+using std::cin;
+using std::cout;
+
+void readNumbers(long numbers[], int size)
+{
+    for(int I = 0; I < size; I++)
+    {
+        long number {0L};
+
+        cout << "Enter number at index " << I << ":"; 
+        cin >> number; 
+
+        numbers[I] = number; 
+    } 
+}
+
+long findSum(long numbers[], int size)
+{  
+    long sum {0L};
+    
+    for(int I = 0; I < size; I++)
+    {
+        sum += numbers[I];
+    } 
+
+    return sum;
+}
+
+void findSumTest()
+{
+    int size = MAX_SIZE;
+    long x[size] {};
+
+    readNumbers(x, size);
+
+    long sum = findSum(x, size);
+
+    cout << "Sum is " << sum; //<iostream>, cin, cout 
+}
+
+int main()
+{
+    findSumTest();
+
+    return EXIT_SUCCESS; //<cstdlib>
+}
+`````````````````````````````````````````````````````````
