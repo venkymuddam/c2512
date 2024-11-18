@@ -57,7 +57,22 @@ INSERT INTO Airlines (AirlineID, AirlineName, Country)
 VALUES (15,'AirQatar', 'Qatar');
 commit;
 
+
+
 select * from Airlines;
+
+select Flights.flightNumber
+from flights inner join 
+airlines on (flights.airline = airlines.airlineid)
+where (airlinename = 'airindia');
+
+select flights.flightsNumber 
+from flights where airlineid = (
+                select airlineid 
+                from airlines
+                where (airlineName = 'AirIndia')
+                );
+
 
 
 CREATE TABLE Flights (
@@ -128,6 +143,9 @@ INSERT INTO Bookings (BookingID, FlightID, PassengerName, SeatNumber, BookingDat
 VALUES (206, 106, 'Arun', '21F', '3:00pm');
 
 commit;
+
+select count(*) as total_num_of_passengers from bookings;
+select AVG(*) as average_amount from bookings;
 
 select * from Bookings;
 
