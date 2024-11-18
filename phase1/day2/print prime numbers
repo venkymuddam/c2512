@@ -1,0 +1,94 @@
+// Print prime numbers in the limit
+
+Pseudo Functions:
+
+Function isPrime(number->int)->bool
+
+    if number < 2
+
+        Return False
+
+    for i from 2 ..sqrt(number)
+
+        if number % i == 0
+
+            Return False
+
+    Return True
+
+Function printPrimeNumber(lowerLimit->int, upperLimit->int)
+
+    for number from lowerLimit ..upperLimit
+
+        if isPrime(number)
+
+            Print number
+
+Function printPrimeNumberTest()
+
+    input lowerLimit
+    input upperLimit
+
+    printPrimeNumber(lowerLimit, upperLimit)
+
+Pseudocode:
+
+int main()
+
+    printPrimeNumberTest()
+
+CODE:
+
+#include <cmath>
+#include <iostream>
+using namespace std;
+
+bool isPrime(int number) 
+{
+    if (number < 2) 
+    {
+        return false;  
+    }
+    
+    for (int i = 2; i <= sqrt(number); i++) 
+    {
+        if (number % i == 0) 
+        {
+            return false;  
+        }
+    }
+    
+    return true;  
+}
+
+void printPrimeNumber(int lowerLimit, int upperLimit) 
+{
+    for (int number = lowerLimit; number <= upperLimit; number++) 
+    {
+        if (isPrime(number)) 
+        {
+            cout << number << " ";  
+        }
+    }
+}
+
+void printPrimeNumberTest(void) 
+{
+    int lowerLimit, upperLimit;
+    
+    cout << "Enter the lower limit: ";
+    cin >> lowerLimit;
+    cout << "Enter the upper limit: ";
+    cin >> upperLimit;
+    
+    cout << "Prime numbers between " << lowerLimit << " and " << upperLimit << ": ";
+
+    printPrimeNumber(lowerLimit, upperLimit);
+}
+
+int main(void)
+{
+    printPrimeNumberTest();
+    
+    return 0;
+}
