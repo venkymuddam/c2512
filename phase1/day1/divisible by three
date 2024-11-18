@@ -1,0 +1,43 @@
+// pseudo code
+
+function isDivisibleByTwentySeven(number)
+    return number % 27 == 0
+
+function isDivisibleByTwentySevenTest()
+    input number
+    result = isDivisibleByTwentySeven(number)
+    if result
+        print "The number", number, "is divisible by 27."
+    else
+        print "The number", number, "is not divisible by 27."
+
+BEGIN
+   isDivisibleByTwentySevenTest()
+END
+
+
+
+// c++ code
+#include<iostream>
+using namespace std;
+
+bool isDivisibleByTwentySeven(int number) {
+    return number % 27 == 0;
+}
+
+void isDivisibleByThreeTest() {
+    int number;
+    cout << "Enter the number: " << endl;
+    cin >> number;
+    bool result = isDivisibleByTwentySevenTest(number);
+    if (result) {
+        cout << "The number " << number << " is divisible by 27." << endl;
+    } else {
+        cout << "The number " << number << " is not divisible by 27." << endl;
+    }
+}
+
+int main() {
+    isDivisibleByTwentySevenTest();
+    return 0;
+}
