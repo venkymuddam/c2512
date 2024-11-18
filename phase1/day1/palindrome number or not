@@ -1,0 +1,82 @@
+
+// pseudo code
+
+function reverseNumber(int number) -> int
+    reversedNumber = 0
+    while (number > 0)
+        digit = number % 10
+        reversedNumber = (reversedNumber * 10) + digit
+        number = number / 10
+    end while
+    return reversedNumber
+end function
+
+function is_palindrome(number: integer) -> bool
+    return (reverseNumber(number) == number)
+end function
+
+function is_palindrome_test()
+    input number
+    if (is_palindrome(number))
+        output "this is a palindrome number"
+    else
+        output "this is not a palindrome number"
+    end if
+end start
+
+start 
+main()
+    call is_palindrome_test()
+end
+
+
+// c++ code
+
+#include <iostream>
+using std::cout;
+using std::cin;
+using std::endl;
+
+int reverseNumber(int number) 
+{
+    int reversedNumber = 0;
+    
+    while (number > 0) 
+    {
+        int digit = number % 10;
+        reversedNumber = reversedNumber * 10 + digit;
+        number = number / 10;
+    }
+    
+    return reversedNumber;
+}
+
+
+bool isPalindrome(int number) 
+{
+    return (reverseNumber(number) == number);
+}
+
+void isPalindromeTest(void) 
+{
+    int number;
+    
+    std::cout << "Enter the number: " << endl;
+    std::cin >> number;
+    
+    if (isPalindrome(number))
+    {
+        std::cout << "This is a Palindrome Number" << std::endl;
+    }
+    else
+    {
+        std::cout << "This is not a Palindrome Number" << std::endl;
+    }
+}
+
+int main(void) 
+{
+    isPalindromeTest();
+    
+    return 0;
+}
