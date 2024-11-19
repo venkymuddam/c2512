@@ -1,0 +1,275 @@
+My name is Sachin, and I set out to create a simplified Airline Booking Database Management System to manage flight bookings. The inspiration came from a real-life ticket booking experience.
+I booked a flight from Delhi to Chennai for myself on 15th December 2024 at 10:00 AM, traveling with AirIndia. I selected the economy class, checked the ticket fare, and confirmed my booking.
+Later, I helped my family book tickets, each capturing their names, passport numbers, and preferences for class and fare. To manage this efficiently, I designed a compact database structure focusing on the following essential components: Passengers, Flights, Bookings, and Airlines.
+This design ensured an efficient and normalized database to keep track of flights, passengers, and bookings.
+
+
+CREATE TABLE Airlines (
+    AirlineID VARCHAR2(10) PRIMARY KEY,
+    AirlineName VARCHAR2(50) NOT NULL
+);
+
+SELECT * FROM Airlines;
+
+CREATE TABLE Flights (
+    FlightCode VARCHAR2(10) PRIMARY KEY,
+    AirlineID VARCHAR2(10) REFERENCES Airlines(AirlineID),
+    Source VARCHAR2(50) NOT NULL,
+    Destination VARCHAR2(50) NOT NULL,
+    DepartureTime VARCHAR2(20) NOT NULL,
+    ArrivalTime VARCHAR2(20) NOT NULL,
+    DateOfFlight DATE NOT NULL,
+    Duration VARCHAR2(5),
+    PriceEconomy NUMBER,
+    PriceBusiness NUMBER
+);
+
+SELECT * FROM Flights;
+
+CREATE TABLE Passengers (
+    PassportNumber CHAR(8) PRIMARY KEY,
+    FirstName VARCHAR2(50) NOT NULL,
+    LastName VARCHAR2(50) NOT NULL,
+    Age NUMBER,
+    Gender VARCHAR2(1),
+    Phone VARCHAR2(10),
+    Address VARCHAR2(100)
+);
+
+SELECT * FROM Passengers;
+
+CREATE TABLE Bookings (
+    BookingID NUMBER PRIMARY KEY,
+    PassportNumber VARCHAR2(8) REFERENCES Passengers(PassportNumber),
+    FlightCode VARCHAR2(10) REFERENCES Flights(FlightCode),
+    DateOfBooking DATE NOT NULL,
+    TicketClass VARCHAR2(20) NOT NULL, -- Economy or Business
+    Fare NUMBER NOT NULL
+);
+
+SELECT * FROM Bookings;
+
+
+
+INSERT INTO Airlines (AirlineID, AirlineName) VALUES
+('AI001', 'Air India');
+INSERT INTO Airlines (AirlineID, AirlineName) VALUES
+('IN002', 'IndiGo');
+INSERT INTO Airlines (AirlineID, AirlineName) VALUES
+('SG003', 'SpiceJet');
+
+
+INSERT INTO Flights (FlightCode, AirlineID, Source, Destination, DepartureTime, ArrivalTime, DateOfFlight, Duration, PriceEconomy, PriceBusiness) VALUES
+('AI123', 'AI001', 'Delhi', 'Chennai', '10:00 AM', '01:00 PM', TO_DATE('2024-12-15', 'YYYY-MM-DD'), '3h', 4000, 8000);
+INSERT INTO Flights (FlightCode, AirlineID, Source, Destination, DepartureTime, ArrivalTime, DateOfFlight, Duration, PriceEconomy, PriceBusiness) VALUES
+('IN456', 'IN002', 'Mumbai', 'Kolkata', '06:00 PM', '09:30 PM', TO_DATE('2024-12-20', 'YYYY-MM-DD'), '3h30m', 3500, 7500);
+INSERT INTO Flights (FlightCode, AirlineID, Source, Destination, DepartureTime, ArrivalTime, DateOfFlight, Duration, PriceEconomy, PriceBusiness) VALUES
+('SG789', 'SG003', 'Bangalore', 'Hyderabad', '07:00 AM', '08:30 AM', TO_DATE('2024-12-25', 'YYYY-MM-DD'), '1h30m', 2000, 5000);
+
+INSERT INTO Passengers (PassportNumber, FirstName, LastName, Age, Gender, Phone, Address) VALUES
+('P1234567', 'Sachin', 'Tendulkar', 50, 'M', '9876543210', 'Mumbai, India');
+INSERT INTO Passengers (PassportNumber, FirstName, LastName, Age, Gender, Phone, Address) VALUES
+('P7654321', 'Virat', 'Kohli', 35, 'M', '8765432109', 'Delhi, India');
+INSERT INTO Passengers (PassportNumber, FirstName, LastName, Age, Gender, Phone, Address) VALUES
+('P1122334', 'Smriti', 'Mandhana', 28, 'F', '7654321098', 'Bangalore, India');
+
+
+INSERT INTO Bookings (BookingID, PassportNumber, FlightCode, DateOfBooking, TicketClass, Fare) VALUES
+(1, 'P1234567', 'AI123', TO_DATE('2024-12-01', 'YYYY-MM-DD'), 'Economy', 4000);
+INSERT INTO Bookings (BookingID, PassportNumber, FlightCode, DateOfBooking, TicketClass, Fare) VALUES
+(2, 'P7654321', 'IN456', TO_DATE('2024-12-05', 'YYYY-MM-DD'), 'Business', 7500);
+INSERT INTO Bookings (BookingID, PassportNumber, FlightCode, DateOfBooking, TicketClass, Fare) VALUES
+(3, 'P1122334', 'SG789', TO_DATE('2024-12-10', 'YYYY-MM-DD'), 'Economy', 2000);
+
+COMMIT;
+
+
+Airlines Table:
+
+AirlineID	AirlineName
+----------      -----------
+AI001	        Air India
+IN002	        IndiGo
+SG003	        SpiceJet
+
+Flights Table:
+
+FlightCode  AirlineID	Source	     Destination    DepartureTime   ArrivalTime	  DateOfFlight	Duration    PriceEconomy    PriceBusiness
+---------   ---------   ------      -------------   --------------  ------------  ------------  ---------   ------------    --------------
+AI123	    AI001	Delhi	     Chennai	    10:00 AM	    01:00 PM	  2024-12-15	3h	    4000	    8000
+IN456	    IN002	Mumbai	     Kolkata	    06:00 PM	    09:30 PM	  2024-12-20	3h30m	    3500	    7500
+SG789	    SG003	Bangalore    Hyderabad	    07:00 AM	    08:30 AM	  2024-12-25	1h30m	    2000	    5000
+
+Passengers Table:
+
+PassportNumber	FirstName   LastName	Age   Gender	Phone	      Address
+--------------  ---------   ---------   ----  ------    ----------    -------------
+P1234567	Sachin	    Tendulkar	50    M	        9876543210    Mumbai, India
+P7654321	Virat	    Kohli	35    M	        8765432109    Delhi, India
+P1122334	Smriti	    Mandhana	28    F	        7654321098    Bangalore, India
+
+
+Bookings Table:
+
+BookingID     PassportNumber    FlightCode  DateOfBooking   TicketClass	   Fare
+----------    --------------    ----------  --------------  ------------   ------
+1	      P1234567	        AI123	    2024-12-01	    Economy	   4000
+2	      P7654321	        IN456	    2024-12-05	    Business	   7500
+3	      P1122334	        SG789	    2024-12-10	    Economy	   2000
+
+
+
+
+
+update the economy fare for the flight AI123:
+
+UPDATE Flights
+SET PriceEconomy = 4500
+WHERE FlightCode = 'AI123';
+
+update the phone number for the passenger with PassportNumber = 'P1234567':
+
+UPDATE Passengers
+SET Phone = '9998887777'
+WHERE PassportNumber = 'P1234567';
+
+
+delete the passenger with PassportNumber = 'P1122334':
+
+DELETE FROM Passengers
+WHERE PassportNumber = 'P1122334';
+
+
+--IN
+ find all flights operated by 'Air India' (AI001) and 'IndiGo' (IN002):
+
+SELECT FlightCode, AirlineID, Source, Destination
+FROM Flights
+WHERE AirlineID IN ('AI001', 'IN002');
+
+--BETWEEN
+find all flights departing between 2024-12-01 and 2024-12-15:
+
+SELECT FlightCode, Source, Destination, DateOfFlight
+FROM Flights
+WHERE DateOfFlight BETWEEN TO_DATE('2024-12-01', 'YYYY-MM-DD') AND TO_DATE('2024-12-15', 'YYYY-MM-DD');
+
+--LIKE
+ find passengers with first names starting with 'S':
+
+SELECT FirstName, LastName, PassportNumber
+FROM Passengers
+WHERE FirstName LIKE 'S%';
+
+
+
+
+--Aggregates
+
+
+Total Number of Flights Operated by Each Airline
+
+SELECT AirlineID, COUNT(*) AS TotalFlights
+FROM Flights
+GROUP BY AirlineID;
+
+Average Fare for Economy Class Across All Flights
+
+SELECT AVG(PriceEconomy) AS AverageEconomyFare
+FROM Flights;
+
+Total Bookings for Each Flight
+
+SELECT FlightCode, COUNT(*) AS TotalBookings
+FROM Bookings
+GROUP BY FlightCode;
+
+Total Revenue Generated from Business Class Bookings
+
+SELECT SUM(Fare) AS TotalRevenueBusiness
+FROM Bookings
+WHERE TicketClass = 'Business';
+
+Oldest Passenger in the Database
+
+SELECT MAX(Age) AS OldestPassengerAge
+FROM Passengers;
+
+Number of Passengers by Gender
+
+SELECT Gender, COUNT(*) AS PassengerCount
+FROM Passengers
+GROUP BY Gender;
+
+Flights with the Highest Economy Class Fare
+
+SELECT FlightCode, MAX(PriceEconomy) AS HighestEconomyFare
+FROM Flights
+GROUP BY FlightCode
+ORDER BY HighestEconomyFare DESC
+FETCH FIRST 1 ROWS ONLY;
+
+
+
+--JOINS
+
+--Inner join
+
+to retrieve the FirstName, LastName, and FlightCode for all passengers who have made bookings:
+
+SELECT P.FirstName, P.LastName, B.FlightCode
+FROM Passengers P
+INNER JOIN Bookings B ON P.PassportNumber = B.PassportNumber;
+
+--Left Outer
+
+to retrieve the FirstName, LastName, and FlightCode for all passengers, including those who havent booked a flight:
+
+SELECT P.FirstName, P.LastName, B.FlightCode
+FROM Passengers P
+LEFT OUTER JOIN Bookings B ON P.PassportNumber = B.PassportNumber;
+
+--Right Outer
+
+to retrieve BookingID, FlightCode, and passenger details for all bookings, including those that may not have an associated passenger:
+
+SELECT B.BookingID, B.FlightCode, P.FirstName, P.LastName
+FROM Bookings B
+RIGHT OUTER JOIN Passengers P ON B.PassportNumber = P.PassportNumber;
+
+--Full Outer 
+
+to retrieve all passenger details and all bookings, including those that do not have a match:
+
+SELECT P.FirstName, P.LastName, B.BookingID, B.FlightCode
+FROM Passengers P
+FULL OUTER JOIN Bookings B ON P.PassportNumber = B.PassportNumber;
+
+
+--Sub Query
+
+to find all passengers who have booked flights where the PriceEconomy is greater than 5000:
+
+SELECT FirstName, LastName
+FROM Passengers
+WHERE PassportNumber IN (
+    SELECT PassportNumber
+    FROM Bookings
+    WHERE FlightCode IN (
+        SELECT FlightCode
+        FROM Flights
+        WHERE PriceEconomy > 1000
+    )
+);
+
+
+--Corelated Query
+
+ to find all flights where the PriceEconomy is higher than the average PriceEconomy:
+
+SELECT FlightCode, AirlineID, Source, Destination, PriceEconomy
+FROM Flights
+WHERE PriceEconomy > (
+    SELECT AVG(PriceEconomy)
+    FROM Flights
+);
