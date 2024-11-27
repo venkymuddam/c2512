@@ -1,0 +1,53 @@
+body{
+    font-family: Verdana;
+    min-height: 100vh;
+    margin: 0;
+    flex-wrap: wrap;
+}
+
+table thead tr th{
+    background-color: palegreen;
+}
+
+label {
+    width: 100px; 
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+
+button {
+    margin-top: 10px;
+}
+
+input {
+    padding: 4px;
+}
+
+
+
+.container {
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40; 
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.btn-success, .btn-danger {
+    width: 100%;
+}
+
+input:hover {
+    cursor: pointer;
+}
