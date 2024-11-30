@@ -1,22 +1,20 @@
 // class name, "Prescription" [number 02]
 // comparision, "Dosage"
 
+
 #include <iostream>
 #include <iomanip>
-
 using namespace std;
-
 
 // Constants
 const int MAX_PRESCRIPTIONS = 100;
 
-
 class Prescription {
     friend class PrescriptionManager;
-    private:
+    private: // member data
         string PrescriptionID;
         int Dosage;
-    public:
+    public: // member functions
         bool GreaterThan(const Prescription& other);
         bool LessThan(const Prescription& other);
          //getters-setters
@@ -24,15 +22,14 @@ class Prescription {
         int GetDosage();
 };
 
-
 class PrescriptionManager {
     friend class PrescriptionAggregator;
     friend int main();
     private:
-        // attributes
+        // member data
         Prescription prescriptions[MAX_PRESCRIPTIONS];    
         int numOfPrescriptions;
-    public:
+    public: // member functions
         // support
         int findIndexById(string PrescriptionID);
         // behaviours - crud
@@ -72,33 +69,37 @@ int main() {
 
 
         switch (choice) {
-            case 1: prescription_obj1.create();    break;
-            case 2: prescription_obj1.displayAll();  break;
-            case 3: prescription_obj1.editById();      break;
-            case 4: prescription_obj1.deleteById();    break;
+            case 1: prescription_obj1.create();    
+                break;
+            case 2: prescription_obj1.displayAll();  
+                break;
+            case 3: prescription_obj1.editById();      
+                break;
+            case 4: prescription_obj1.deleteById();    
+                break;
             case 5: 
-                std::cout << "Prescription with Min Stay: " 
+                std::cout << "Prescription with Min Dosage: " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findMin(prescription_obj1)].GetPrescriptionId() 
                     << " with Dosage " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findMin(prescription_obj1)].GetDosage() 
                     << std::endl;
                 break;
             case 6: 
-                std::cout << "Prescription with Max Stay: " 
+                std::cout << "Prescription with Max Dosage: " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findMax(prescription_obj1)].GetPrescriptionId() 
                     << " with Dosage " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findMax(prescription_obj1)].GetDosage() 
                     << std::endl;
                 break;
             case 7: 
-                std::cout << "Prescription with 2nd Min Stay: " 
+                std::cout << "Prescription with 2nd Min Dosage: " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findSecondMin(prescription_obj1)].GetPrescriptionId() 
                     << " with Dosage " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findSecondMin(prescription_obj1)].GetDosage() 
-                    << std::endl;
+                    << std::endl; 
                 break;
             case 8: 
-                std::cout << "Prescription with 2nd Max Stay: " 
+                std::cout << "Prescription with 2nd Max Dosage: " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findSecondMax(prescription_obj1)].GetPrescriptionId() 
                     << " with Dosage " 
                     << prescription_obj1.prescriptions[aggregator_obj1.findSecondMax(prescription_obj1)].GetDosage() 
