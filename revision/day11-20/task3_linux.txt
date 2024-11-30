@@ -1,5 +1,37 @@
 
-// problem number 08.
+			--------------------// problem number 08.--------------------
+
+Problem Statement:
+
+You are tasked with creating a C++ program 
+that performs the following operations:
+
+1. `Input & Store`:  
+   - Take an array of 10 integers from the user.
+   
+2. `Functions`:  
+   - Create a function `find_max` 
+   that returns the maximum value from the array.
+   - Create a function `find_min` 
+   that returns the minimum value from the array.
+   - Create a function `average` 
+   that returns the average of the array elements.
+
+3. `Branching Statements`:  
+   - In the `main` function, use an `if` condition to check 
+   if the average is greater than 50. 
+   If so, display "The average is greater than 50". 
+   Otherwise, display "The average is less than or equal to 50".
+
+4. `Loops`:  
+   - Use a `for` loop to iterate through the array and 
+   calculate the sum of its elements.
+
+5. `Output`:  
+   - Print the array, the maximum value, 
+   the minimum value, and the average.
+
+// code
 #include<iostream>
 #include<climits>
 using std::cout;
@@ -114,8 +146,30 @@ int main()
 }
 
 
-// problem number 03
+			---------------------// problem number 03--------------------
 
+
+`Tasks`:
+
+1. Create a new directory called `my_cpp_project` for your C++ programs.
+2. Change into the `my_cpp_project` directory.
+3. Create a C++ file named `greet.cpp` 
+in the `my_cpp_project` directory.
+4. Write a C++ program inside `greet.cpp` 
+that asks the user for their name and prints a greeting message.
+5. Compile the `greet.cpp` program into an executable.
+6. Run the compiled executable and ensure 
+that it prompts for the user’s name and displays the greeting.
+7. Use a Linux command to display the contents of `greet.cpp`.
+8. Modify the `greet.cpp` file 
+to add a simple farewell message and save the changes.
+9. Compile and run the modified program 
+to ensure it works as expected.
+10. Remove the `greet.cpp` file once you're done.
+11. Check the contents of the `my_cpp_project` directory, and 
+remove the directory if it’s empty.
+
+//code
 
 #include<iostream>
 #include<cstdlib>
