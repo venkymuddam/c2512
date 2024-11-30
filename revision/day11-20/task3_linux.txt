@@ -1,0 +1,114 @@
+
+// problem number 08.
+#include<iostream>
+#include<climits>
+using std::cout;
+using std::cin;
+using std::endl;
+const int MAX_SIZE = 3;
+
+
+int findMaximumNumber(int arr[])
+{
+        int maximumNumber = INT_MIN;
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                if (arr[i] > maximumNumber)
+                {
+                        maximumNumber = arr[i];
+                }
+        }
+        return maximumNumber;
+
+}
+
+
+int findMinimumNumber(int arr[])
+{
+        int minimumNumber = INT_MAX;
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                if (arr[i] < minimumNumber)
+                {
+                        minimumNumber = arr[i];
+                }
+        }
+        return minimumNumber;
+
+}
+
+
+int findAverageNumber(int arr[])
+{
+        float averageNumber = 0;
+        int sum = 0;
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                sum += arr[i];
+        }
+        averageNumber = (float)((sum/MAX_SIZE));
+        return averageNumber;
+
+}
+
+int isAverageGreaterThan50(int avgNum)
+{
+        if (avgNum > 50)
+        {
+                return true;
+        }
+        return false;
+}
+
+int findSumOfElements(int arr[])
+{
+        int sum=0;
+        for (int i=0; i<MAX_SIZE; i++)
+        {
+                sum += arr[i];
+        }
+        return sum;
+}
+
+
+
+void Test(void)
+{
+        int arr[MAX_SIZE] = {};
+        int maxi = 0, mini = 0, avg = 0;
+        for (int i =0; i < MAX_SIZE; i++)
+        {
+                cout << "Enter the " << i + 1 << "th number into array : ";
+                cin >> arr[i]; 
+        }
+
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                cout << arr[i] << endl;
+        }
+	maxi = findMaximumNumber(arr);
+        cout << "The maximum number is : " << maxi << endl;
+        mini = findMinimumNumber(arr);
+        cout << "The minimum number is : " << mini << endl;
+        int avgValue = findAverageNumber(arr);
+        cout << "The average number is : " << avgValue << endl;
+	int isGreaterThan50 = isAverageGreaterThan50(avgValue);
+        if (isGreaterThan50 == true)
+        {
+                cout << "avg is greater than 50" << endl;
+        }
+        else 
+        {
+                cout << "Avg is not greater than 50 " << endl;
+        }
+        int sumOfElements = findSumOfElements(arr);
+        cout << "The sum of all numbers is " << sumOfElements << endl;
+
+}
+
+int main() 
+{
+        Test();
+
+        return EXIT_SUCCESS;
+}
