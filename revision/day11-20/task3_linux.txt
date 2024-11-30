@@ -112,3 +112,26 @@ int main()
 
         return EXIT_SUCCESS;
 }
+
+
+// problem number 03
+
+
+#include<iostream>
+#include<cstdlib>
+using std::cout;
+using std::cin;
+using std::endl;
+
+int main()
+{
+        char name[255];
+
+        cout << "Enter your name : ";
+        cin >> name;
+
+        cout << "Hello, " << name << " welcome to vim editor." << endl;
+
+        return EXIT_SUCCESS;
+
+}
