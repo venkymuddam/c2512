@@ -1,5 +1,5 @@
-// class name, "Prescription" [number 02]
-// comparision, "Dosage"
+// class name is, "Prescription" [number 02]
+// comparision doing is, "Dosage"
 
 
 #include <iostream>
