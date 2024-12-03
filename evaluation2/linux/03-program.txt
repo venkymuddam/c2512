@@ -1,0 +1,70 @@
+			        ---------------------// problem number 03--------------------
+
+
+`Tasks`:
+
+1. Create a new directory called `my_cpp_project` for your C++ programs.
+    $ mkdir my_cpp_project
+2. Change into the `my_cpp_project` directory.
+    $ cd my_cpp_project
+3. Create a C++ file named `greet.cpp` 
+in the `my_cpp_project` directory.
+    $ touch greet.cpp
+4. Write a C++ program inside `greet.cpp` 
+that asks the user for their name and prints a greeting message.
+    $ nano greet.cpp
+5. Compile the `greet.cpp` program into an executable.
+    $ g++ -o App.out greet.cpp
+6. Run the compiled executable and ensure 
+that it prompts for the user’s name and displays the greeting.
+    $ ./App.out
+7. Use a Linux command to display the contents of `greet.cpp`.
+    $ cat -n greet.cpp
+8. Modify the `greet.cpp` file 
+to add a simple farewell message and save the changes.
+    $ nano greet.cpp
+9. Compile and run the modified program 
+to ensure it works as expected.
+    $ g++ -o App.out greet.cpp [compile]
+    $ ./App.out                [run]
+10. Remove the `greet.cpp` file once you're done.
+    $ rm greet.cpp
+11. Check the contents of the `my_cpp_project` directory, and 
+remove the directory if it’s empty.
+    $ rmdir my_cpp_project  [if it is empty]
+    $ rm -r my_cpp_project  [even if it is not-empty]
+
+
+//code
+#include<iostream>
+#include<cstdlib>
+using std::cout;
+using std::cin;
+using std::endl;
+
+int main()
+{
+        char name[255];
+
+        cout << "Enter your name : ";
+        cin >> name;
+
+        cout << "Hello, " << name << " welcome to vim editor." << endl;
+
+        cout << "Hello, " << name << "Bye... Bye..see you soon!! " << endl;
+
+        return EXIT_SUCCESS;
+
+}
+
+
+output:
+1)
+Enter your name : Venkatesh
+Hello, Venkatesh welcome to vim editor.
+
+2) 
+Enter your name : Venkatesh
+Hello, Venkatesh welcome to vim editor.
+Hello, Venkatesh, Bye... Bye..see you soon!! 
+
