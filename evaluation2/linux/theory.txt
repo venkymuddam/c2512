@@ -1,0 +1,70 @@
+                  -------------------------Linux Architecture ---------------------
+
+1. `Hardware Layer`:  
+   - Physical components like CPU, memory, and storage.  
+   - Linux interacts with this layer via drivers.
+
+2. `Kernel Layer`:  
+   - Core of the operating system.  
+   - It is responsible for each of the major actions of the Linux OS. 
+   - Manages hardware resources, memory, processes, and devices.  
+   - Types of kernels:
+     - `Monolithic Kernel` (used by Linux): All functions run in one layer.
+     - Micro kernels
+     - Exo kernels
+   
+3. `System Call Interface (Shell)`:  
+   - Acts as a bridge between applications and the kernel.  
+   - Allows programs to request kernel services.
+
+4. `System Libraries`:  
+   - Pre-written code that helps applications use OS features.  
+   - Example: GNU C Library (glibc) for file management and networking.
+
+5. `User Space (Applications)`:  
+   - Programs and utilities run in this layer.  
+   - Examples: Text editors, browsers, terminal.
+
+6. `Shell`:  
+   - Command-line interface (CLI) to interact with the kernel.  
+   - It can take commands through the user and runs the functions of the kernel.
+   - Types: Bash, Zsh, etc.
+
+Diagram (Layers Top to Bottom)
+`Applications` → `Shell` → `Libraries` → `Kernel` → `Hardware`  
+
+This layered design ensures stability, flexibility, and security.
+
+
+
+            ---------------------Linux Shell-------------------
+
+1. `What is a Shell?`  
+   - A command-line interface (CLI) 
+   that allows users to interact 
+   with the Linux operating system.
+
+2. `Types of Shells`:  
+   - `Bash (Bourne Again Shell)`: Most common and beginner-friendly.  
+   - `Zsh (Z Shell)`: Advanced features and customizations.  
+   - `Ksh (Korn Shell)`: For scripting and programming.  
+   - `Tcsh/Csh (C Shell)`: Syntax similar to C programming.  
+
+3. `Functions of the Shell`:  
+   - Execute commands.  
+   - Run shell scripts (automating tasks).  
+   - Provide an interface between the user and kernel.
+
+4. `Features`:  
+   - Command history.  
+   - Tab completion.  
+   - Redirection and piping.  
+   - Job control (background/foreground processes).  
+
+5. `Examples of Use`:  
+   - Navigating files (`cd`, `ls`).  
+   - Managing processes (`ps`, `kill`).  
+   - File operations (`cp`, `mv`, `rm`).  
+
+Linux shells are powerful tools 
+for interacting with the system efficiently!
