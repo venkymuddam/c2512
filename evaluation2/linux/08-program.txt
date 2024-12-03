@@ -1,0 +1,216 @@
+			--------------------// problem number 08.--------------------
+
+Problem Statement:
+
+You are tasked with creating a C++ program 
+that performs the following operations:
+
+1. `Input & Store`:  
+   - Take an array of 10 integers from the user.
+   
+2. `Functions`:  
+   - Create a function `find_max` 
+   that returns the maximum value from the array.
+   - Create a function `find_min` 
+   that returns the minimum value from the array.
+   - Create a function `average` 
+   that returns the average of the array elements.
+
+3. `Branching Statements`:  
+   - In the `main` function, use an `if` condition to check 
+   if the average is greater than 50. 
+   If so, display "The average is greater than 50". 
+   Otherwise, display "The average is less than or equal to 50".
+
+4. `Loops`:  
+   - Use a `for` loop to iterate through the array and 
+   calculate the sum of its elements.
+
+5. `Output`:  
+   - Print the array, the maximum value, 
+   the minimum value, and the average.
+
+
+// code
+#include<iostream>
+#include<climits>
+using std::cout;
+using std::cin;
+using std::endl;
+const int MAX_SIZE = 10;
+
+int findMaximumNumber(int arr[])
+{
+        int maximumNumber = INT_MIN;
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                if (arr[i] > maximumNumber)
+                {
+                        maximumNumber = arr[i];
+                }
+        }
+        return maximumNumber;
+
+}
+
+
+int findMinimumNumber(int arr[])
+{
+        int minimumNumber = INT_MAX;
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                if (arr[i] < minimumNumber)
+                {
+                        minimumNumber = arr[i];
+                }
+        }
+        return minimumNumber;
+
+}
+
+
+int findAverageNumber(int arr[])
+{
+        float averageNumber = 0;
+        int sum = 0;
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                sum += arr[i];
+        }
+        averageNumber = (float)((sum/MAX_SIZE));
+        return averageNumber;
+
+}
+
+int isAverageGreaterThan50(int avgNum)
+{
+        if (avgNum > 50)
+        {
+                return true;
+        }
+        return false;
+}
+
+int findSumOfElements(int arr[])
+{
+        int sum=0;
+        for (int i=0; i<MAX_SIZE; i++)
+        {
+                sum += arr[i];
+        }
+        return sum;
+}
+
+
+
+void Test(void)
+{
+        int arr[MAX_SIZE] = {};
+        int maxi = 0, mini = 0, avg = 0;
+        for (int i =0; i < MAX_SIZE; i++)
+        {
+                cout << "Enter the " << i + 1 << "th number into array : ";
+                cin >> arr[i]; 
+        }
+
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+                cout << arr[i] << endl;
+        }
+	maxi = findMaximumNumber(arr);
+        cout << "The maximum number is : " << maxi << endl;
+        mini = findMinimumNumber(arr);
+        cout << "The minimum number is : " << mini << endl;
+        int avgValue = findAverageNumber(arr);
+        cout << "The average number is : " << avgValue << endl;
+	int isGreaterThan50 = isAverageGreaterThan50(avgValue);
+        if (isGreaterThan50 == true)
+        {
+                cout << "avg is greater than 50" << endl;
+        }
+        else 
+        {
+                cout << "Avg is not greater than 50 " << endl;
+        }
+        int sumOfElements = findSumOfElements(arr);
+        cout << "The sum of all numbers is " << sumOfElements << endl;
+
+}
+
+int main() 
+{
+        Test();
+
+        return EXIT_SUCCESS;
+}
+
+
+
+
+1. Create a new directory called `cpp_arr_program` for your C++ programs.
+    $ mkdir cpp_arr_program
+
+2. Change into the `cpp_arr_program` directory.
+    $ cd cpp_arr_program
+
+3. Create a C++ file named `arr_operations.cpp` in the `cpp_arr_program` directory.
+    $ touch arr_operations.cpp
+
+4. Write a C++ program inside `arr_operations.cpp` that asks the user for their name and prints a greeting message.
+    $ vim arr_operations.cpp
+
+5. Compile the `arr_operations.cpp` program into an executable.
+    $ g++ -o App.out array_operations.cpp
+
+6. Run the compiled executable and ensure that it prompts for the user’s name and displays the greeting.
+    $ ./App.out
+
+7. Use a Linux command to display the contents of `arr_operations.cpp`.
+    $ cat -n arr_operations.cpp         [-n will print including line numbers]
+
+8. Compile and run the modified program to ensure it works as expected.
+    $ g++ -o App.out arr_operations.cpp     [compile]
+    $ ./App.out                             [run]
+
+9. Remove the `arr_operations.cpp` file once you're done.
+    $ rm arr_operations.cpp
+
+10. Check the contents of the `cpp_arr_program` directory, and remove the directory if it’s empty.               
+    $ ls                     [check files inside cpp_arr_program]
+    $ cd ..                  [go back one directotory to remove this directory]
+    $ rmdir cpp_arr_program  [if it is empty]
+    $ rm -r cpp_arr_program  [even if it is not-empty]
+
+
+
+
+output:
+
+Enter the 1th number into array : 10
+Enter the 2th number into array : 20
+Enter the 3th number into array : 30
+Enter the 4th number into array : 40
+Enter the 5th number into array : 50
+Enter the 6th number into array : 60
+Enter the 7th number into array : 70
+Enter the 8th number into array : 80
+Enter the 9th number into array : 90
+Enter the 10th number into array : 100
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+The maximum number is : 100
+The minimum number is : 10
+The average number is : 55
+avg is greater than 50
+The sum of all numbers is 550
+
+
+
