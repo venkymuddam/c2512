@@ -180,8 +180,9 @@ to ensure it works as expected.
     $ rm arr_operations.cpp
 
 10. Check the contents of the `cpp_arr_program` directory, and 
-remove the directory if it’s empty.
-    $ ls                    [check files inside cpp_arr_program]
+remove the directory if it’s empty.               
+    $ ls                     [check files inside cpp_arr_program]
+    $ cd ..                   
     $ rmdir cpp_arr_program  [if it is empty]
     $ rm -r cpp_arr_program  [even if it is not-empty]
 
@@ -215,6 +216,10 @@ The minimum number is : 10
 The average number is : 55
 avg is greater than 50
 The sum of all numbers is 550
+
+
+
+
 
 
 
