@@ -1,0 +1,72 @@
+
+#include<iostream>
+using namespace std;
+
+class Institution{
+    private:
+        string instituteName;
+        string location;
+    
+    public:
+        Institution(string p_instituteName, string p_location);
+        void showDetails();
+};
+
+class School : public Institution {
+    private:
+        int numOfStudents;
+    public:
+        School(string p_instituteName, string p_location, int p_numOfStudents);
+        void conductClass();
+};
+
+
+Institution::Institution(string p_instituteName, string p_location) : instituteName(p_instituteName), location(p_location) {}        
+School::School(string p_instituteName, string p_location, int p_numOfStudents) : Institution(p_instituteName, p_location), numOfStudents(p_numOfStudents) {}        
+
+
+void Institution::showDetails(){
+    cout << "The institution " << instituteName << "is near " << location << endl;
+}
+
+void School::conductClass(){
+    cout << "conducting classes for "<< numOfStudents << endl;
+
+}
+
+int main(){
+
+    // static objects
+
+    //for parent class
+    Institution ob1("Institute1", "Location1");
+    Institution ob2("Institute2", "Location2");
+    ob1.showDetails();
+    ob2.showDetails();
+    // for derived class
+    School ob3("Institute3", "Location3", 30);
+    School ob4("Institute4", "Location4", 40);
+    ob3.showDetails();
+    ob3.conductClass();
+    ob4.showDetails();
+    ob4.conductClass();
+
+    
+    // dynamic objects
+
+    //for parent class
+    Institution* institution3 = new Institution("Institute C", "Location E");
+    Institution* institution4 = new Institution("Institute D", "Location F");
+    institution3->showDetails();
+    institution4->showDetails();
+
+    // for derived class
+    School* school3 = new School("School C", "Location G", 300);
+    School* school4 = new School("School D", "Location H", 400);
+    school3->showDetails();
+    school3->conductClass();
+    school4->showDetails();
+    school4->conductClass();
+
+    return 0;
+}
