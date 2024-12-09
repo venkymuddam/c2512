@@ -1,0 +1,93 @@
+
+#include <iostream>
+using namespace std;
+
+
+class Transportation {
+    private:
+        int capacity; 
+
+    public:
+
+        Transportation() : capacity(50) {  
+            cout << "Transportation constructor called..." << endl;
+        }
+
+        virtual ~Transportation() {
+            cout << "Transportation destructor called." << endl;
+        }
+        void transport() {
+            cout << "This is inside transportation. Capacity: " << capacity << endl;
+        }
+};
+
+class RoadVehicle : virtual public Transportation {
+    private:
+        int speed; 
+
+    public:
+        RoadVehicle() : speed(80) {  
+            cout << "RoadVehicle constructor called..." << endl;
+        }
+
+        virtual ~RoadVehicle() {
+            cout << "RoadVehicle destructor called." << endl;
+        }
+        void drive() {
+            cout << "This is inside the RoadVehicle drive. Speed: " << speed << " km/h" << endl;
+        }
+};
+
+class RailVehicle : virtual public Transportation {
+    private:
+        string trackType; 
+
+    public:
+
+        RailVehicle() : trackType("standard") {  
+            cout << "RailVehicle constructor called..." << endl;
+        }
+
+        virtual ~RailVehicle() {
+            cout << "RailVehicle destructor called." << endl;
+        }
+        void moveOnRails() {
+            cout << "This is inside RailVehicle move on rails. Track Type: " << trackType << endl;
+        }
+};
+
+class Tram : public RoadVehicle, public RailVehicle {
+    private:
+        string electrification; 
+
+    public:
+
+        Tram() : electrification("Electric-transport") {  
+            cout << "Tram constructor called..." << endl;
+        }
+
+        virtual ~Tram() {
+            cout << "Tram destructor called." << endl;
+        }
+        void switchModes() {
+            cout << "This is inside Tram switch modes. Electrification: " << electrification << endl;
+        }
+};
+
+
+int main() {
+    Tram ob1;
+
+    ob1.transport();
+    ob1.drive();        
+    ob1.moveOnRails();  
+    ob1.switchModes();  
+
+    cout << endl;
+    cout << endl;
+    Transportation* ob2 = new Tram();
+    ob2->transport(); 
+    delete ob2;
+
+    return 0;
+}
