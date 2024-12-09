@@ -1,0 +1,68 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class Vehicle {
+    private:
+        string make;
+        string model;
+
+    public:
+        Vehicle(const string& p_make, const string& p_model) : make(p_make), model(p_model) {
+            cout << "Vehicle constructor called. Make: " << make << ", Model: " << model << endl;
+        }
+
+        virtual ~Vehicle() {
+            cout << "Vehicle destructor called." << endl;
+        }
+
+        virtual void start(){
+            cout << "start function inside the vehicle class" << endl;
+        } 
+        virtual void stop(){
+            cout << "stop function inside the vehicle class" << endl;
+
+        }   
+};
+
+
+class ElectricCar : public Vehicle {
+    private:
+        int batteryLevel; 
+
+    public:
+        ElectricCar(const string& p_make, const string& p_model, int p_batteryLevel)
+            : Vehicle(p_make, p_model), batteryLevel(p_batteryLevel) {
+            cout << "ElectricCar constructor called. Battery Level: " << batteryLevel << "%" << endl;
+        }
+
+        ~ElectricCar() {
+            cout << "ElectricCar destructor called." << endl;
+        }
+
+        void start() override {
+            cout << "ElectricCar is starting. Battery Level: " << batteryLevel << "%" << endl;
+        }
+
+        void stop() override {
+            cout << "ElectricCar is stopping." << endl;
+        }
+};
+
+int main() {
+    
+    ElectricCar ob1("Tesla", "Model S", 90);
+    Vehicle* ob2 = &ob1; 
+    ob2->start();
+    ob2->stop();
+
+
+    Vehicle* ob3 = new ElectricCar("Nissan", "Leaf", 80);
+    ob3->start();
+    ob3->stop();
+    delete ob3;
+
+
+    return 0;
+}
