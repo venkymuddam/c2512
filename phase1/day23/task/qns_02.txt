@@ -14,6 +14,7 @@ Define constructors and destructors for all the classes
 using namespace std;
 
 class Institution{
+
     private:
         string instituteName;
         string location;
@@ -21,9 +22,11 @@ class Institution{
     public:
         Institution(string p_instituteName, string p_location);
         void showDetails();
+
 };
 
 class School : public Institution {
+
     private:
         int numOfStudents;
     public:
