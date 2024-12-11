@@ -29,13 +29,8 @@ class Vehicle {
             cout << "Vehicle destructor called." << endl;
         }
 
-        virtual void start(){
-            cout << "start function inside the vehicle class" << endl;
-        } 
-        virtual void stop(){
-            cout << "stop function inside the vehicle class" << endl;
-
-        }   
+        virtual void start() const = 0; 
+        virtual void stop() const = 0; 
 };
 
 
