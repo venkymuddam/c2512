@@ -56,7 +56,7 @@ class ElectricCar : public Vehicle {
         }
 
 
-        ~ElectricCar() override {
+        virtual ~ElectricCar()  {
             delete[] batteryType;
         }
 
