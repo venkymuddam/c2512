@@ -10,66 +10,76 @@ Define all the fields as dynamic fields in each class
 
 
 // code
+
 #include <iostream>
-#include <string>
+#include <cstring>
 using namespace std;
 
 
 class Vehicle {
+    
     private:
-        string make;
-        string model;
+        char* make;
+        char* model;
 
     public:
-        Vehicle(const string& p_make, const string& p_model) : make(p_make), model(p_model) {
-            cout << "Vehicle constructor called. Make: " << make << ", Model: " << model << endl;
+
+        Vehicle(const char* vehicleMake, const char* vehicleModel) {
+            make = new char[strlen(vehicleMake) + 1];
+            strcpy(make, vehicleMake);
+
+            model = new char[strlen(vehicleModel) + 1];
+            strcpy(model, vehicleModel);
         }
 
         virtual ~Vehicle() {
-            cout << "Vehicle destructor called." << endl;
+            delete[] make;
+            delete[] model;
         }
 
-        virtual void start() const = 0; 
-        virtual void stop() const = 0; 
+        virtual void start() const = 0;
+        virtual void stop() const = 0;
 };
 
-
 class ElectricCar : public Vehicle {
+
     private:
-        int batteryLevel; 
+        char* batteryType;
+
 
     public:
-        ElectricCar(const string& p_make, const string& p_model, int p_batteryLevel)
-            : Vehicle(p_make, p_model), batteryLevel(p_batteryLevel) {
-            cout << "ElectricCar constructor called. Battery Level: " << batteryLevel << "%" << endl;
+
+        ElectricCar(const char* carMake, const char* carModel, const char* carBatteryType)
+            : Vehicle(carMake, carModel) {
+            batteryType = new char[strlen(carBatteryType) + 1];
+            strcpy(batteryType, carBatteryType);
         }
 
-        ~ElectricCar() {
-            cout << "ElectricCar destructor called." << endl;
+
+        ~ElectricCar() override {
+            delete[] batteryType;
         }
 
-        void start() override {
-            cout << "ElectricCar is starting. Battery Level: " << batteryLevel << "%" << endl;
+        void start() const override {
+            cout << "Starting ElectricCar: " << make << " " << model
+                    << " with battery type: " << batteryType << endl;
         }
 
-        void stop() override {
-            cout << "ElectricCar is stopping." << endl;
+        void stop() const override {
+            cout << "Stopping ElectricCar: " << make << " " << model << endl;
         }
 };
 
 int main() {
-    
-    ElectricCar ob1("Tesla", "Model S", 90);
-    Vehicle* ob2 = &ob1; 
-    ob2->start();
-    ob2->stop();
+    Vehicle* car1 = new ElectricCar("tesla", "model S", "lithium battery");
+    Vehicle* car2 = new ElectricCar("maruti suzuki", "model x", "Nickel battery");
 
+    car1->start();
+    car1->stop();
+    car2->start();
+    car2->stop();
 
-    Vehicle* ob3 = new ElectricCar("Nissan", "Leaf", 80);
-    ob3->start();
-    ob3->stop();
-    delete ob3;
-
-
+    delete car1;
+    delete car2;
     return 0;
 }
