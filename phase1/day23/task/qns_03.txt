@@ -60,12 +60,12 @@ class ElectricCar : public Vehicle {
             delete[] batteryType;
         }
 
-        void start() const override {
+        void start() override {
             cout << "Starting ElectricCar: " << make << " " << model
                     << " with battery type: " << batteryType << endl;
         }
 
-        void stop() const override {
+        void stop() override {
             cout << "Stopping ElectricCar: " << make << " " << model << endl;
         }
 };
