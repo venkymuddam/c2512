@@ -1,4 +1,11 @@
+    //1.3 Programmer { string* tasks; int taskCount; } : Employee | tasks is the multiple tasks - array of task 
+        swap function overloadable
+        here, create the dynamic programmer object assigned to employee pointer.
+        field 'tasks' is dynamic memoery.
+        operator << overloadable, swap is overridden.
 
+
+// code
 #include <iostream>
 #include <string>
 #include <cstring>
