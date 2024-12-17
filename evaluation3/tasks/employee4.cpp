@@ -1,4 +1,8 @@
+ //1.4 replace dynamic fields as smart pointers 
+        prove that Employee virtual destructor is not needed.
+        create the dynamic programmer object assigned to employee smart pointer 
 
+// code
 #include <iostream>
 #include <string>
 #include <memory>
