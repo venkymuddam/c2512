@@ -1,4 +1,8 @@
+    //1.2 "id, age, name" as dynamic memory using new and delete 
 
+
+
+// code
 #include <iostream>
 #include <cstring>
 #include <utility>
