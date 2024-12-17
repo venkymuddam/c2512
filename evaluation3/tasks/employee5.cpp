@@ -1,4 +1,7 @@
+  //1.5 construct array of N programmers. read programmers from keyboard.
+        cin >> var; // overload operator>> in employee and programmer 
 
+// code
 #include <iostream>
 #include <cstring>
 #include <utility>
