@@ -1,0 +1,197 @@
+Builder Design Pattern
+Purpose:
+The Builder design pattern is used to construct complex objects step by step.
+Instead of having a single constructor with many parameters, a Builder separates the construction of an object from its representation.
+This allows you to create different types and configurations of an object using the same building process.
+Key Concepts:
+Builder: Provides methods to build parts of a complex object.
+ConcreteBuilder: Implements the steps defined in the Builder interface to create a specific type of object.
+Director: Guides the building process by using the Builder.
+Product: The final object being built.
+Easy-to-Understand Example
+Imagine you're building a customizable house. A house can have optional features like a swimming pool, garden, or garage. Instead of having a single, complicated constructor for all configurations, we use a Builder to create the house step by step.
+
+Code Example
+cpp
+Copy code
+#include <iostream>
+#include <string>
+#include <memory>
+
+// Product: The complex object we want to build
+class House {
+private:
+    std::string foundation;
+    std::string structure;
+    std::string roof;
+    std::string interior;
+
+public:
+    void setFoundation(const std::string& f) { foundation = f; }
+    void setStructure(const std::string& s) { structure = s; }
+    void setRoof(const std::string& r) { roof = r; }
+    void setInterior(const std::string& i) { interior = i; }
+
+    void show() const {
+        std::cout << "House built with:\n";
+        std::cout << " Foundation: " << foundation << "\n";
+        std::cout << " Structure: " << structure << "\n";
+        std::cout << " Roof: " << roof << "\n";
+        std::cout << " Interior: " << interior << "\n";
+    }
+};
+
+// Abstract Builder
+class HouseBuilder {
+public:
+    virtual void buildFoundation() = 0;
+    virtual void buildStructure() = 0;
+    virtual void buildRoof() = 0;
+    virtual void buildInterior() = 0;
+    virtual std::shared_ptr<House> getHouse() = 0;
+    virtual ~HouseBuilder() = default;
+};
+
+// Concrete Builder: Builds a specific type of house
+class ConcreteHouseBuilder : public HouseBuilder {
+private:
+    std::shared_ptr<House> house;
+
+public:
+    ConcreteHouseBuilder() { house = std::make_shared<House>(); }
+
+    void buildFoundation() override {
+        house->setFoundation("Concrete Foundation");
+        std::cout << "Building concrete foundation.\n";
+    }
+
+    void buildStructure() override {
+        house->setStructure("Wooden Structure");
+        std::cout << "Building wooden structure.\n";
+    }
+
+    void buildRoof() override {
+        house->setRoof("Asphalt Roof");
+        std::cout << "Building asphalt roof.\n";
+    }
+
+    void buildInterior() override {
+        house->setInterior("Modern Interior");
+        std::cout << "Designing modern interior.\n";
+    }
+
+    std::shared_ptr<House> getHouse() override {
+        return house;
+    }
+};
+
+// Director: Orchestrates the building process
+class Director {
+private:
+    HouseBuilder* builder;
+
+public:
+    void setBuilder(HouseBuilder* b) { builder = b; }
+
+    void constructHouse() {
+        if (builder) {
+            builder->buildFoundation();
+            builder->buildStructure();
+            builder->buildRoof();
+            builder->buildInterior();
+        }
+    }
+};
+
+int main() {
+    // Director controls the building process
+    Director director;
+
+    // Concrete builder to build a specific type of house
+    ConcreteHouseBuilder builder;
+
+    // Setting the builder for the director
+    director.setBuilder(&builder);
+
+    // Constructing the house
+    director.constructHouse();
+
+    // Getting the built house and displaying its details
+    std::shared_ptr<House> house = builder.getHouse();
+    house->show();
+
+    return 0;
+}
+Step-by-Step Code Explanation:
+Product Class:
+
+cpp
+Copy code
+class House {
+private:
+    std::string foundation;
+    std::string structure;
+    std::string roof;
+    std::string interior;
+House is the object being built, containing parts like foundation, structure, roof, and interior.
+Each part is set using setter methods.
+Abstract Builder:
+
+cpp
+Copy code
+class HouseBuilder {
+public:
+    virtual void buildFoundation() = 0;
+    virtual void buildStructure() = 0;
+    virtual void buildRoof() = 0;
+    virtual void buildInterior() = 0;
+    virtual std::shared_ptr<House> getHouse() = 0;
+};
+HouseBuilder defines the interface for building the parts of the house.
+All the methods are pure virtual (= 0), so subclasses must implement them.
+Concrete Builder:
+
+cpp
+Copy code
+class ConcreteHouseBuilder : public HouseBuilder {
+private:
+    std::shared_ptr<House> house;
+ConcreteHouseBuilder implements the steps defined in HouseBuilder.
+It holds a House object being constructed.
+Build Methods:
+
+cpp
+Copy code
+void buildFoundation() override {
+    house->setFoundation("Concrete Foundation");
+    std::cout << "Building concrete foundation.\n";
+}
+Each method sets a specific part of the house and prints a message to show progress.
+Director Class:
+
+cpp
+Copy code
+class Director {
+private:
+    HouseBuilder* builder;
+The Director controls the order of building the house.
+It uses the HouseBuilder interface to build the house step by step.
+Main Function:
+
+cpp
+Copy code
+Director director;
+ConcreteHouseBuilder builder;
+
+director.setBuilder(&builder);
+director.constructHouse();
+
+std::shared_ptr<House> house = builder.getHouse();
+house->show();
+A Director object is created to oversee the building process.
+A ConcreteHouseBuilder is used to define how the house is built.
+The house is built step by step and displayed.
+Key Advantages:
+Flexibility: You can construct different representations of the product using the same process.
+Readable Code: The construction process is clear and separate from the object.
+Reusable Builders: Builders can be reused to construct multiple products with different configurations.
