@@ -1,0 +1,219 @@
+Decorator Design Pattern
+Purpose:
+The Decorator Design Pattern is used to dynamically add new functionalities or behaviors to an object without modifying its structure or the original class. This is achieved by wrapping the object with "decorators."
+
+Key Concepts:
+Component Interface: Defines the base behavior of the object.
+Concrete Component: The core object that we want to enhance or decorate.
+Decorator: An abstract class or interface that implements the component interface and adds functionality.
+Concrete Decorator: Implements additional functionalities while delegating base behavior to the original object.
+Real-Life Analogy:
+Think of a coffee. A simple coffee might be just black coffee (the base component). You can "decorate" it with sugar, milk, or whipped cream (decorators). Each decorator adds a specific functionality or feature to the coffee without altering the original "black coffee."
+
+Easy-to-Understand Example
+Let’s implement a coffee-making system where you can add different features (like milk, sugar, etc.) dynamically to a basic coffee.
+
+Code Example
+cpp
+Copy code
+#include <iostream>
+#include <memory>
+#include <string>
+
+// Step 1: Component Interface
+class Coffee {
+public:
+    virtual std::string getDescription() const = 0;
+    virtual double getCost() const = 0;
+    virtual ~Coffee() = default;
+};
+
+// Step 2: Concrete Component (Basic Coffee)
+class SimpleCoffee : public Coffee {
+public:
+    std::string getDescription() const override {
+        return "Simple Coffee";
+    }
+
+    double getCost() const override {
+        return 5.0; // Base cost of simple coffee
+    }
+};
+
+// Step 3: Abstract Decorator (Base class for all decorators)
+class CoffeeDecorator : public Coffee {
+protected:
+    std::shared_ptr<Coffee> decoratedCoffee; // Holds the coffee being decorated
+
+public:
+    explicit CoffeeDecorator(std::shared_ptr<Coffee> coffee) : decoratedCoffee(std::move(coffee)) {}
+
+    std::string getDescription() const override {
+        return decoratedCoffee->getDescription();
+    }
+
+    double getCost() const override {
+        return decoratedCoffee->getCost();
+    }
+};
+
+// Step 4: Concrete Decorators (Add features to coffee)
+class MilkDecorator : public CoffeeDecorator {
+public:
+    explicit MilkDecorator(std::shared_ptr<Coffee> coffee) : CoffeeDecorator(std::move(coffee)) {}
+
+    std::string getDescription() const override {
+        return decoratedCoffee->getDescription() + ", Milk";
+    }
+
+    double getCost() const override {
+        return decoratedCoffee->getCost() + 1.5; // Milk adds $1.5
+    }
+};
+
+class SugarDecorator : public CoffeeDecorator {
+public:
+    explicit SugarDecorator(std::shared_ptr<Coffee> coffee) : CoffeeDecorator(std::move(coffee)) {}
+
+    std::string getDescription() const override {
+        return decoratedCoffee->getDescription() + ", Sugar";
+    }
+
+    double getCost() const override {
+        return decoratedCoffee->getCost() + 0.5; // Sugar adds $0.5
+    }
+};
+
+class WhippedCreamDecorator : public CoffeeDecorator {
+public:
+    explicit WhippedCreamDecorator(std::shared_ptr<Coffee> coffee) : CoffeeDecorator(std::move(coffee)) {}
+
+    std::string getDescription() const override {
+        return decoratedCoffee->getDescription() + ", Whipped Cream";
+    }
+
+    double getCost() const override {
+        return decoratedCoffee->getCost() + 2.0; // Whipped cream adds $2.0
+    }
+};
+
+// Step 5: Client Code
+int main() {
+    // Start with a simple coffee
+    std::shared_ptr<Coffee> coffee = std::make_shared<SimpleCoffee>();
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    // Add milk to the coffee
+    coffee = std::make_shared<MilkDecorator>(coffee);
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    // Add sugar to the coffee
+    coffee = std::make_shared<SugarDecorator>(coffee);
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    // Add whipped cream to the coffee
+    coffee = std::make_shared<WhippedCreamDecorator>(coffee);
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    return 0;
+}
+Step-by-Step Code Explanation:
+Component Interface:
+
+cpp
+Copy code
+class Coffee {
+public:
+    virtual std::string getDescription() const = 0;
+    virtual double getCost() const = 0;
+    virtual ~Coffee() = default;
+};
+Defines the base behavior that all coffee objects must have (getDescription and getCost).
+Concrete Component:
+
+cpp
+Copy code
+class SimpleCoffee : public Coffee {
+public:
+    std::string getDescription() const override {
+        return "Simple Coffee";
+    }
+
+    double getCost() const override {
+        return 5.0;
+    }
+};
+SimpleCoffee provides a basic coffee implementation with a fixed cost and description.
+Abstract Decorator:
+
+cpp
+Copy code
+class CoffeeDecorator : public Coffee {
+protected:
+    std::shared_ptr<Coffee> decoratedCoffee;
+
+public:
+    explicit CoffeeDecorator(std::shared_ptr<Coffee> coffee) : decoratedCoffee(std::move(coffee)) {}
+
+    std::string getDescription() const override {
+        return decoratedCoffee->getDescription();
+    }
+
+    double getCost() const override {
+        return decoratedCoffee->getCost();
+    }
+};
+CoffeeDecorator wraps a Coffee object and delegates base behavior to it.
+This acts as the base class for all decorators.
+Concrete Decorators:
+
+cpp
+Copy code
+class MilkDecorator : public CoffeeDecorator {
+public:
+    explicit MilkDecorator(std::shared_ptr<Coffee> coffee) : CoffeeDecorator(std::move(coffee)) {}
+
+    std::string getDescription() const override {
+        return decoratedCoffee->getDescription() + ", Milk";
+    }
+
+    double getCost() const override {
+        return decoratedCoffee->getCost() + 1.5;
+    }
+};
+MilkDecorator, SugarDecorator, and WhippedCreamDecorator:
+Add specific features (like milk, sugar, whipped cream) by extending the behavior of CoffeeDecorator.
+Each decorator updates the description and adds the respective cost.
+Client Code:
+
+cpp
+Copy code
+int main() {
+    std::shared_ptr<Coffee> coffee = std::make_shared<SimpleCoffee>();
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    coffee = std::make_shared<MilkDecorator>(coffee);
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    coffee = std::make_shared<SugarDecorator>(coffee);
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    coffee = std::make_shared<WhippedCreamDecorator>(coffee);
+    std::cout << coffee->getDescription() << " - $" << coffee->getCost() << "\n";
+
+    return 0;
+}
+The client starts with a SimpleCoffee.
+Additional features are added dynamically by wrapping the object in decorators.
+Each decorator enhances the coffee while preserving the original object.
+Output:
+bash
+Copy code
+Simple Coffee - $5
+Simple Coffee, Milk - $6.5
+Simple Coffee, Milk, Sugar - $7
+Simple Coffee, Milk, Sugar, Whipped Cream - $9
+Key Advantages:
+Open-Closed Principle: New features can be added without modifying existing classes.
+Flexibility: Combine multiple decorators to create unique configurations dynamically.
+Reusability: Decorators can be reused across different components.
