@@ -1,0 +1,457 @@
+Memento Design Pattern
+Purpose:
+The Memento Design Pattern is used to capture and save the current state of an object so that it can be restored later without revealing the object's implementation details. This is particularly useful in scenarios like "undo" functionality in applications.
+
+Key Concepts:
+Memento: Stores the internal state of the object. This is a snapshot of the object at a specific point in time.
+Originator: The object whose state needs to be saved or restored.
+Caretaker: Manages the memento objects but does not modify or examine their content. It ensures the Originator can revert to previous states.
+Real-Life Analogy:
+Think of a text editor where you are typing. Every time you press "Ctrl + S," the editor saves the document's current state (a memento). If you make changes and want to go back to a previous version, you can "restore" the state.
+
+Easy-to-Understand Example
+Let’s create a text editor with an "undo" functionality using the Memento Design Pattern. The editor will allow saving the state of the text and reverting to a previous state when needed.
+
+Code Example
+cpp
+Copy code
+#include <iostream>
+#include <string>
+#include <vector>
+
+// Step 1: Memento Class (Snapshot of the state)
+class Memento {
+private:
+    std::string state;
+
+public:
+    explicit Memento(const std::string& s) : state(s) {}
+
+    std::string getState() const {
+        return state;
+    }
+};
+
+// Step 2: Originator Class (The object whose state is being saved/restored)
+class TextEditor {
+private:
+    std::string text;
+
+public:
+    void type(const std::string& words) {
+        text += words; // Append new text
+    }
+
+    std::string getText() const {
+        return text;
+    }
+
+    std::shared_ptr<Memento> save() const {
+        return std::make_shared<Memento>(text); // Save current state
+    }
+
+    void restore(const std::shared_ptr<Memento>& memento) {
+        text = memento->getState(); // Restore saved state
+    }
+};
+
+// Step 3: Caretaker Class (Manages mementos)
+class Caretaker {
+private:
+    std::vector<std::shared_ptr<Memento>> history;
+
+public:
+    void save(const std::shared_ptr<Memento>& memento) {
+        history.push_back(memento); // Save the memento
+    }
+
+    std::shared_ptr<Memento> get(size_t index) const {
+        if (index < history.size()) {
+            return history[index];
+        }
+        return nullptr;
+    }
+
+    size_t getHistorySize() const {
+        return history.size();
+    }
+};
+
+// Step 4: Client Code
+int main() {
+    TextEditor editor;
+    Caretaker caretaker;
+
+    // Type some text and save states
+    editor.type("Hello");
+    caretaker.save(editor.save());
+    std::cout << "Current text: " << editor.getText() << "\n";
+
+    editor.type(", world!");
+    caretaker.save(editor.save());
+    std::cout << "Current text: " << editor.getText() << "\n";
+
+    editor.type(" This is a test.");
+    std::cout << "Current text: " << editor.getText() << "\n";
+
+    // Undo changes (restore to previous states)
+    if (caretaker.getHistorySize() >= 2) {
+        editor.restore(caretaker.get(1));
+        std::cout << "After undo: " << editor.getText() << "\n";
+    }
+
+    if (caretaker.getHistorySize() >= 1) {
+        editor.restore(caretaker.get(0));
+        std::cout << "After second undo: " << editor.getText() << "\n";
+    }
+
+    return 0;
+}
+Step-by-Step Code Explanation:
+Memento Class:
+
+cpp
+Copy code
+class Memento {
+private:
+    std::string state;
+
+public:
+    explicit Memento(const std::string& s) : state(s) {}
+
+    std::string getState() const {
+        return state;
+    }
+};
+This class holds the state of the TextEditor object.
+The state is encapsulated and accessible only through getState().
+Originator Class:
+
+cpp
+Copy code
+class TextEditor {
+private:
+    std::string text;
+
+public:
+    void type(const std::string& words) {
+        text += words; // Append new text
+    }
+
+    std::string getText() const {
+        return text;
+    }
+
+    std::shared_ptr<Memento> save() const {
+        return std::make_shared<Memento>(text); // Save current state
+    }
+
+    void restore(const std::shared_ptr<Memento>& memento) {
+        text = memento->getState(); // Restore saved state
+    }
+};
+The TextEditor is the Originator that performs operations (e.g., typing text).
+The save() method creates a snapshot (memento) of the current state.
+The restore() method reverts to a previously saved state.
+Caretaker Class:
+
+cpp
+Copy code
+class Caretaker {
+private:
+    std::vector<std::shared_ptr<Memento>> history;
+
+public:
+    void save(const std::shared_ptr<Memento>& memento) {
+        history.push_back(memento); // Save the memento
+    }
+
+    std::shared_ptr<Memento> get(size_t index) const {
+        if (index < history.size()) {
+            return history[index];
+        }
+        return nullptr;
+    }
+
+    size_t getHistorySize() const {
+        return history.size();
+    }
+};
+The Caretaker manages a history of mementos.
+It saves snapshots of states (save) and allows retrieval (get).
+Client Code:
+
+cpp
+Copy code
+int main() {
+    TextEditor editor;
+    Caretaker caretaker;
+
+    editor.type("Hello");
+    caretaker.save(editor.save());
+    std::cout << "Current text: " << editor.getText() << "\n";
+
+    editor.type(", world!");
+    caretaker.save(editor.save());
+    std::cout << "Current text: " << editor.getText() << "\n";
+
+    editor.type(" This is a test.");
+    std::cout << "Current text: " << editor.getText() << "\n";
+
+    // Undo changes
+    if (caretaker.getHistorySize() >= 2) {
+        editor.restore(caretaker.get(1));
+        std::cout << "After undo: " << editor.getText() << "\n";
+    }
+
+    if (caretaker.getHistorySize() >= 1) {
+        editor.restore(caretaker.get(0));
+        std::cout << "After second undo: " << editor.getText() << "\n";
+    }
+}
+The client interacts with the editor and uses the caretaker to manage undo history.
+The restore function allows reverting to previous versions of the text.
+Output:
+yaml
+Copy code
+Current text: Hello
+Current text: Hello, world!
+Current text: Hello, world! This is a test.
+After undo: Hello, world!
+After second undo: Hello
+Key Advantages:
+Encapsulation: The internal state of the object is stored in the memento, and the caretaker doesn't need to know the details.
+Undo/Redo Support: Provides a clear mechanism to revert to previous states.
+Separation of Concerns: The caretaker manages the state history, while the originator focuses on the main business logic.
+Would you like to explore another design pattern?
+
+
+
+
+
+
+You said:
+explin the "meditor design pttern" type in behviourl design pttern with esy understndble exmple nd detiled explintion of tht concept with esy understnding nd explin the code with ech line 
+ChatGPT said:
+ChatGPT
+Mediator Design Pattern
+Purpose:
+The Mediator Design Pattern is used to reduce the complexity of communication between multiple objects or classes. Instead of having objects communicate directly with each other, they communicate through a mediator. This decouples the objects, making the system easier to maintain and extend.
+
+Key Concepts:
+Mediator: Defines an interface for communication between objects.
+Concrete Mediator: Implements the mediator interface and manages communication between objects.
+Colleague: The objects that communicate with each other through the mediator.
+Decoupling: Colleagues do not need to know about each other's existence, only the mediator.
+Real-Life Analogy:
+Imagine an air traffic controller. Planes (colleagues) do not communicate directly with each other. Instead, they communicate with the air traffic controller (mediator), who manages their interactions and ensures safe coordination.
+
+Easy-to-Understand Example
+Let’s implement a chat room system where users communicate with each other via a mediator (the chat room). The chat room handles message delivery, ensuring that users don’t communicate directly.
+
+Code Example
+cpp
+Copy code
+#include <iostream>
+#include <string>
+#include <vector>
+#include <memory>
+
+// Step 1: Mediator Interface
+class ChatMediator {
+public:
+    virtual void sendMessage(const std::string& message, const std::string& user) = 0;
+    virtual void addUser(const std::shared_ptr<class User>& user) = 0;
+    virtual ~ChatMediator() = default;
+};
+
+// Step 2: Colleague Class (User)
+class User {
+protected:
+    std::string name;
+    std::shared_ptr<ChatMediator> mediator;
+
+public:
+    User(const std::string& name, const std::shared_ptr<ChatMediator>& mediator)
+        : name(name), mediator(mediator) {}
+
+    virtual void send(const std::string& message) = 0;
+    virtual void receive(const std::string& message) const = 0;
+
+    std::string getName() const {
+        return name;
+    }
+};
+
+// Step 3: Concrete Colleague Class
+class ConcreteUser : public User {
+public:
+    ConcreteUser(const std::string& name, const std::shared_ptr<ChatMediator>& mediator)
+        : User(name, mediator) {}
+
+    void send(const std::string& message) override {
+        std::cout << name << " sends: " << message << "\n";
+        mediator->sendMessage(message, name);
+    }
+
+    void receive(const std::string& message) const override {
+        std::cout << name << " received: " << message << "\n";
+    }
+};
+
+// Step 4: Concrete Mediator Class
+class ChatRoom : public ChatMediator {
+private:
+    std::vector<std::shared_ptr<User>> users;
+
+public:
+    void addUser(const std::shared_ptr<User>& user) override {
+        users.push_back(user);
+    }
+
+    void sendMessage(const std::string& message, const std::string& sender) override {
+        for (const auto& user : users) {
+            if (user->getName() != sender) {
+                user->receive(message);
+            }
+        }
+    }
+};
+
+// Step 5: Client Code
+int main() {
+    // Create a chat room (mediator)
+    auto chatRoom = std::make_shared<ChatRoom>();
+
+    // Create users (colleagues) and register them with the chat room
+    auto user1 = std::make_shared<ConcreteUser>("Alice", chatRoom);
+    auto user2 = std::make_shared<ConcreteUser>("Bob", chatRoom);
+    auto user3 = std::make_shared<ConcreteUser>("Charlie", chatRoom);
+
+    chatRoom->addUser(user1);
+    chatRoom->addUser(user2);
+    chatRoom->addUser(user3);
+
+    // Users communicate via the chat room
+    user1->send("Hello, everyone!");
+    user2->send("Hi, Alice!");
+    user3->send("Good morning, Alice and Bob!");
+
+    return 0;
+}
+Step-by-Step Code Explanation:
+Mediator Interface:
+
+cpp
+Copy code
+class ChatMediator {
+public:
+    virtual void sendMessage(const std::string& message, const std::string& user) = 0;
+    virtual void addUser(const std::shared_ptr<class User>& user) = 0;
+    virtual ~ChatMediator() = default;
+};
+Defines the contract for a mediator (sendMessage and addUser).
+Any concrete mediator must implement this interface.
+Colleague Class:
+
+cpp
+Copy code
+class User {
+protected:
+    std::string name;
+    std::shared_ptr<ChatMediator> mediator;
+
+public:
+    User(const std::string& name, const std::shared_ptr<ChatMediator>& mediator)
+        : name(name), mediator(mediator) {}
+
+    virtual void send(const std::string& message) = 0;
+    virtual void receive(const std::string& message) const = 0;
+
+    std::string getName() const {
+        return name;
+    }
+};
+Represents users in the chat room.
+Each user has a name and a reference to the mediator.
+Concrete Colleague:
+
+cpp
+Copy code
+class ConcreteUser : public User {
+public:
+    ConcreteUser(const std::string& name, const std::shared_ptr<ChatMediator>& mediator)
+        : User(name, mediator) {}
+
+    void send(const std::string& message) override {
+        std::cout << name << " sends: " << message << "\n";
+        mediator->sendMessage(message, name);
+    }
+
+    void receive(const std::string& message) const override {
+        std::cout << name << " received: " << message << "\n";
+    }
+};
+Implements the behavior for sending and receiving messages via the mediator.
+Concrete Mediator:
+
+cpp
+Copy code
+class ChatRoom : public ChatMediator {
+private:
+    std::vector<std::shared_ptr<User>> users;
+
+public:
+    void addUser(const std::shared_ptr<User>& user) override {
+        users.push_back(user);
+    }
+
+    void sendMessage(const std::string& message, const std::string& sender) override {
+        for (const auto& user : users) {
+            if (user->getName() != sender) {
+                user->receive(message);
+            }
+        }
+    }
+};
+The ChatRoom manages communication between users.
+It broadcasts a message from a sender to all other users.
+Client Code:
+
+cpp
+Copy code
+int main() {
+    auto chatRoom = std::make_shared<ChatRoom>();
+
+    auto user1 = std::make_shared<ConcreteUser>("Alice", chatRoom);
+    auto user2 = std::make_shared<ConcreteUser>("Bob", chatRoom);
+    auto user3 = std::make_shared<ConcreteUser>("Charlie", chatRoom);
+
+    chatRoom->addUser(user1);
+    chatRoom->addUser(user2);
+    chatRoom->addUser(user3);
+
+    user1->send("Hello, everyone!");
+    user2->send("Hi, Alice!");
+    user3->send("Good morning, Alice and Bob!");
+
+    return 0;
+}
+Creates a ChatRoom mediator.
+Users are added to the chat room and communicate through the mediator.
+Output:
+yaml
+Copy code
+Alice sends: Hello, everyone!
+Bob received: Hello, everyone!
+Charlie received: Hello, everyone!
+Bob sends: Hi, Alice!
+Alice received: Hi, Alice!
+Charlie received: Hi, Alice!
+Charlie sends: Good morning, Alice and Bob!
+Alice received: Good morning, Alice and Bob!
+Bob received: Good morning, Alice and Bob!
+Key Advantages:
+Decoupling: Colleagues don’t directly interact, reducing dependencies.
+Centralized Control: Communication logic is centralized in the mediator.
+Scalability: Adding new colleagues is straightforward.
