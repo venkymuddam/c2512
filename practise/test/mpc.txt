@@ -7,20 +7,14 @@ void child(int writeEnd){
     const char* msg = "Hello from child ";
     write(writeEnd, msg, strlen(msg)+1);
     close(writeEnd);
-    
 }
-
-
-
 void parent(int readEnd){
     close(readEnd+1);
     char buffer[1024];
     read(readEnd, buffer, sizeof(buffer));
     std::cout << "parent received : "<< buffer << std::endl;
     close(readEnd);
-    
 }
-
 int main(){
     int pipefd[2];
     pid_t pid;
@@ -29,16 +23,12 @@ int main(){
         perror("pipe");
         return 1;
     }
-    
-    
     pid = fork();
-    
     if (pid == -1){
         
         perror("fork");
         return 1;
     }
-    
     if (pid == 0){
         child(pipefd[1]);
     }
