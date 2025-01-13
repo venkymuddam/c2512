@@ -1,0 +1,40 @@
+#include<iostream>
+#include<thread>
+#include<vector>
+#include<climits>
+
+void calculateSum(const std::vector<int>& numbers, int& sum){
+    for(auto curr : numbers){
+        sum += curr;
+    }
+    
+}
+
+void calculateMini(const std::vector<int>& numbers, int& mini){
+    
+    mini = std::numeric_limits<int>::max();
+    for(auto curr : numbers) {
+        if (curr < mini){
+            mini = curr;
+        }
+    }
+}
+
+
+int main (){
+    std::vector<int> numbers = {1,2,3,4,5};
+    
+    int sum = 0;
+    int mini = INT_MAX;
+    
+    std::thread thrSum(calculateSum, std::ref(numbers), std::ref(sum));
+    std::thread thrMini(calculateMini, std::ref(numbers), std::ref(mini));
+    
+    thrSum.join();
+    thrMini.join();
+    
+    
+    std::cout << "the sum of numbers is : " << sum << std::endl;
+    std::cout << "the minimum value in numbers is : " << mini << std::endl;
+    
+}
