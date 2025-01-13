@@ -43,25 +43,18 @@ int main (){
 
 -----------------------------------------------
 
-
-
 #include<iostream>
 #include<thread>
 #include<vector>
 #include<future>
 
-
 void calculateSum(const std::vector<int>& numbers, std::promise<int> sumRes){
-    
     int sum = 0;
-    
     for (auto curr : numbers){
         sum += curr;
     }
     
     sumRes.set_value(sum);
-    
-    
 }
 
 void calculateMini(const std::vector<int>& numbers, std::promise<int> miniRes){
@@ -77,12 +70,8 @@ void calculateMini(const std::vector<int>& numbers, std::promise<int> miniRes){
     
 }
 
-
 int main (){
-    
     std::vector<int> numbers = {1,2,3,4,5};
-    
-    
     std::promise<int> sumPromise;
     std::promise<int> miniPromise;
     
@@ -91,8 +80,6 @@ int main (){
     
     std::thread thrSum(calculateSum, std::ref(numbers), std::move(sumPromise));
     std::thread thrMini(calculateMini, std::ref(numbers), std::move(miniPromise));
-    
-    
     thrSum.join();
     thrMini.join();
     
@@ -101,8 +88,6 @@ int main (){
     
     std::cout << "sum : " << sum << std::endl;
     std::cout << "mini : " << mini << std::endl;
-    
     return 0;
-    
-    
+     
 }
