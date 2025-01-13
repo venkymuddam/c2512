@@ -38,3 +38,71 @@ int main (){
     std::cout << "the minimum value in numbers is : " << mini << std::endl;
     
 }
+
+
+
+-----------------------------------------------
+
+
+
+#include<iostream>
+#include<thread>
+#include<vector>
+#include<future>
+
+
+void calculateSum(const std::vector<int>& numbers, std::promise<int> sumRes){
+    
+    int sum = 0;
+    
+    for (auto curr : numbers){
+        sum += curr;
+    }
+    
+    sumRes.set_value(sum);
+    
+    
+}
+
+void calculateMini(const std::vector<int>& numbers, std::promise<int> miniRes){
+    
+    int mini = std::numeric_limits<int>::max();
+    
+    for (auto curr : numbers){
+        if (curr < mini){
+            mini = curr;
+        }
+    }
+    miniRes.set_value(mini);
+    
+}
+
+
+int main (){
+    
+    std::vector<int> numbers = {1,2,3,4,5};
+    
+    
+    std::promise<int> sumPromise;
+    std::promise<int> miniPromise;
+    
+    std::future<int> sumRes = sumPromise.get_future();
+    std::future<int> miniRes = miniPromise.get_future();
+    
+    std::thread thrSum(calculateSum, std::ref(numbers), std::move(sumPromise));
+    std::thread thrMini(calculateMini, std::ref(numbers), std::move(miniPromise));
+    
+    
+    thrSum.join();
+    thrMini.join();
+    
+    int sum = sumRes.get();
+    int mini = miniRes.get();
+    
+    std::cout << "sum : " << sum << std::endl;
+    std::cout << "mini : " << mini << std::endl;
+    
+    return 0;
+    
+    
+}
