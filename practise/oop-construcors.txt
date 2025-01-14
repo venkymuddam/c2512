@@ -1,0 +1,70 @@
+#include<iostream>
+using namespace std;
+
+
+class Rectangle{
+	private:
+		int* length;
+		int* breath;
+	public:
+		Rectangle():Rectangle(0,0){
+			cout << "no argument constructor" << endl;
+		}
+
+		Rectangle(int p_length, int p_breath){
+			length = new int(p_length); 
+			breath = new int(p_breath);
+			
+			cout << "argument constructor " << endl;
+		}
+
+		Rectangle(const Rectangle& other):Rectangle(other.length, other.breath){
+			
+			cout << "copy constructor " << endl;
+		}
+		
+		Rectangle operator=(const Rectangle& other):Rectangle(other.length, other.breath){
+			
+			cout << "copy assaignment constructor " << endl;
+			return *this;
+		}
+
+		Rectangle(const Rectangle&& other):Rectangle(other.length, other.breath){
+
+			other.length = nullptr;
+			other.breath = nullptr;
+			cout << "move constructor " << endl;
+		}
+
+		Rectangle operator=(const Rectangle&& other):Rectangle(other.length, other.breath){
+			other.length = nullptr;
+			other.breath = nullptr;
+			cout << "move assaignment constructor " << endl;
+			return *this;
+		}
+		~Rectangle(){
+			delete length;
+			delete breath;
+			cout << "destructor is called " << endl;
+}
+	
+				
+		void display(){
+			cout << "the area of rectangle is : " << ((*length) * (*breath)) << endl;
+			};
+	
+};
+
+int main(){
+
+Rectangle ob1(); 
+Rectangle ob2(2, 3);
+Rectangle ob3(ob2);
+Rectangle ob4(5, 6); 
+Rectangle ob5(move(ob4));
+Rectangle ob6 = ob5;
+Rectangle ob7 = move(ob6);
+
+
+
+};
