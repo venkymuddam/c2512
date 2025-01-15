@@ -47,9 +47,9 @@ void client(int clientEnd) {
     
     write(clientEnd,&n,sizeof(n));
 
-    for (auto prescription : prescriptions) {
+    for (auto curr : prescriptions) {
         
-        int dosage =prescription.getDosageValue();
+        int dosage =curr.getDosageValue();
         
         write(clientEnd,&dosage,sizeof(dosage));
     }
