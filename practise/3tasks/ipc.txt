@@ -1,73 +1,73 @@
+#include <iostream>
+#include <unistd.h>
+#include <cstring>
+#include <vector>
 
-
-#include<iostream>
-#include<unistd.h>
-#include<cstring>
-#include<vector>
 using namespace std;
 
-
-
 void client(int clientEnd) {
-
     int n;
-    cout << "enter the size of the array : ";
+    cout << "Enter the size of the array: ";
     cin >> n;
-    int arr[100];
+    int arr[n];
     
-    int age = 0;
-    for (int i=0; i<n; i++){
-        
-        cout << "ener the age : " << endl;
-        cin >> age;
-        arr[i] = age;
-        
+    for (int i = 0; i < n; i++) {
+        cout << "Enter the age: ";
+        cin >> arr[i];
     }
-    write(clientEnd, arr, sizeof(arr));
+    
 
+    write(clientEnd, &n, sizeof(n));
+    write(clientEnd, arr, sizeof(arr[0]) * n);
+    close(clientEnd); 
 }
 
 void server(int serverEnd) {
-
+    int n;
     
-    int buffer[1024];
-    read(serverEnd, buffer, sizeof(buffer));
+    read(serverEnd, &n, sizeof(n));
+    
+    int buffer[n];
+    
+    read(serverEnd, buffer, sizeof(buffer[0]) * n);
     
     int sum = 0;
-    for (auto curr : buffer){
-        sum += curr;
+    for (int i = 0; i < n; i++) {
+        sum += buffer[i];
     }
-    cout << "the sum is : " << sum << endl;
+    cout << "The sum is: " << sum << endl;
+    close(serverEnd); 
 }
 
-
-
-int main(){
-    
+int main() {
     int pipefd[2];
     
-    if (pipe(pipefd) == -1){
-        perror("error");
+    if (pipe(pipefd) == -1) {
+        perror("Error");
         return 1;
     }
 
-
-	{    
-    		pid_t pid;
-    		pid = fork();
+    pid_t pid = fork();
     
-    		if (pid == -1){
-        		perror("error");
-        		return 1;
-    		}
+    {
     
-    		if (pid ==0){
-        		client(pipefd[1]);
-			return 0;
-    		}
- 
-	}
+        if (pid == -1) {
+            perror("Error");
+            return 1;
+        }
+        
+        if (pid == 0) {
+            close(pipefd[0]); 
+            client(pipefd[1]);
+            return 0;
+        }
+    
+    
+    }
+    
+    close(pipefd[1]); 
+    server(pipefd[0]);
 
-	server(pipefd[0]);
-    	return 0;
+
+    return 0;
 }
