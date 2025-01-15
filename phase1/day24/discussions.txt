@@ -1,0 +1,66 @@
+static library(extension '.a'):
+
+    The code (functions) implemented in the static library will
+    be copied to our program to which we link the static libray.
+
+    It may increase the size of the executable.
+
+Dynamic or shared library (extension '.so'):
+
+    The code (functions) won't be copied. Instead, it will be 
+    obtained from the shared library during run time. we should
+    add the path of shared library to LD_LIBRARY_PATH to aid the
+    compiler for look_ups in shared library during run time.
+
+    It might be slower compared to static linking.
+
+    =================================
+
+Steps:
+    Static linking:
+
+    1. create the source & header files for libraries.
+
+    2. compile the source code to form object code.
+        g++ -c utility.cpp
+    
+    3. create the archived library with extension .a using ar
+        ar rcs libutility.a utility.o
+
+    4. create the main program including the headers to be imported.
+
+    5. compile and link the main program
+        g++ main.cpp -L<path_to_library> -l<library_name> 
+
+        note: if the library archive name is "libutility.a", then
+                use "utility" as library_name while linking.
+
+    6. Run the program
+
+    ==================================
+
+    Dynamic linking:
+
+    1. create the source & header files for libraries.
+    
+    2. compile the source code to form object code along with -fPIC flag.
+        g++ -c -fPIC utility.cpp
+    
+    3. create the share object file with extension .so using -shared flag
+        g++ -shared -o libutility.so utility.o
+
+    4. create the main program including the headers to be imported.
+
+    5. compile and link the main program
+        g++ -L<path_ti_library> -l<library_name> main.cpp
+
+        note: if the libra archive name is "libutility.a", then
+                use "utility" as library_name while linking.
+
+    6. add the path of shared object file to LD_LIBRARY_PATH environment variable
+            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<path_to_shared_library>
+
+            note: th "$LD_LIBRARY_PATH:" is used to append the new path to
+            existing LD_LIBRARY_PATH variable 
+
+    7. run the program. 
