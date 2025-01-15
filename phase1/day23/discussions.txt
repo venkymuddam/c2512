@@ -1,0 +1,32 @@
+--INHERITANCE--
+
+Types:
+
+1. Single inheritance:
+        Parent
+           |
+         Child  // inherits parent
+
+2. Multilevel:
+        Class1
+           |
+        Class 2
+           |
+        Class 3
+
+3. Multiple:
+Parent1     Parent 2
+    |            |
+    |            |
+    -------|------
+           |
+         Child       // inherits from two parents.
+
+4. Hierarchical:
+         Parent
+            |
+            |
+        ---------
+        |       |
+     Child1   Child2
+
