@@ -1,0 +1,57 @@
+Problem Statement
+
+Design a program in C++ to implement a hierarchy of student types, 
+each with specific attributes and behaviors. 
+The program should handle `stack-based student objects` and 
+store these objects in a static array. 
+The student hierarchy must support the following requirements:
+
+1. `Base Class: `Student``
+   - Fields:
+     - `name`: A dynamically allocated `char*` for the student's name.
+     - `marks`: A dynamically allocated array of `double` to store subject marks.
+     - `numMarks`: An integer representing the number of marks.
+   - Constructors:
+     - A parameterized constructor to initialize the fields.
+     - A copy constructor for deep copying.
+     - Assignment operator overload for deep copying during assignment.
+   - Destructor to release dynamically allocated memory.
+   - Methods:
+     - `findTotalMarks()`: Calculate the total marks.
+     - `display()`: Print the name and total marks.
+
+2. `Derived Classes:`
+   - `HighSchoolStudent`:
+     - Overrides `display()` to indicate "High School Student."
+   - `NEETStudent`:
+     - Additional field: `biologyMarks` (double).
+     - Overrides `findTotalMarks()` to include biology marks.
+     - Overrides `display()` to indicate "NEET Student."
+   - `JEEStudent`:
+     - Additional fields: `physicsMarks`, `chemistryMarks`, `mathMarks` (all doubles).
+     - Overrides `findTotalMarks()` to include these marks.
+     - Overrides `display()` to indicate "JEE Student."
+   - `NEETPlusJEEStudent`:
+     - Additional fields: `biologyMarks`, `physicsMarks`, `chemistryMarks`, `mathMarks` (all doubles).
+     - Overrides `findTotalMarks()` to include all these marks.
+     - Overrides `display()` to indicate "NEET + JEE Student."
+
+3. `Static Array of Students:`
+   - Create a static array of size 10 to store instances of the various student types.
+   - Use stack-based (non-dynamic) objects for the students.
+
+4. `Additional Requirements:`
+   - A utility function `findAverage()` to calculate the average total marks of all students.
+   - Demonstrate polymorphic behavior when calling `findTotalMarks()` and `display()` on the `Student` array.
+   - Ensure proper memory management for dynamically allocated fields.
+
+5. `Input Data:`
+   - Initialize all student objects with sample data for testing.
+
+6. `Output:`
+   - Display the details of all students, including their type and total marks.
+   - Calculate and display the average total marks of all students.
+
+The program must follow proper object-oriented design principles, 
+including encapsulation, inheritance, 
+polymorphism, and resource management.
