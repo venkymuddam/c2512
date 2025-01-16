@@ -1,88 +1,76 @@
+			-------------------------------INTERVIEW QUESTIONS AND ANSWERS----------------------------
 
-
-58. User defined string copy function.
+-->question no: 58. User defined string copy function.
     a user-defined string copy function to manually copy the contents of one string to another. 
     This is useful when you want to control how the copy operation works, as opposed to relying on the built-in strcpy() function from the C Standard Library.
 
 
-59. Oops- brief idea about all the subtopics.
+-->question no: 59. Oops- brief idea about all the subtopics.
 
-60. Virtual Function Coding
+-->question no: 60. Virtual Function Coding
 
         #include <iostream>
         using namespace std;
-        // Base class
         class Shape {
         public:
-            // Declare a virtual function
             virtual void draw() {
                 cout << "Drawing Shape" << endl;
             }
         };
 
-        // Derived class 1
         class Circle : public Shape {
         public:
-            // Override the virtual function
             void draw() override {
                 cout << "Drawing Circle" << endl;
             }
         };
 
-        // Derived class 2
         class Square : public Shape {
         public:
-            // Override the virtual function
             void draw() override {
                 cout << "Drawing Square" << endl;
             }
         };
 
         int main() {
-            // Create objects of derived classes
             Shape* shape1 = new Circle();
             Shape* shape2 = new Square();
         }
 
 
 
-61      Make a dynamic array and add elements using pointer to array.
+-->question no: 61. Make a dynamic array and add elements using pointer to array.
 
         #include <iostream>
         using namespace std;
 
         int main() {
-            int n;  // Size of the array
+            int n;  
 
-            // Ask user for the size of the array
             cout << "Enter the number of elements: ";
             cin >> n;
 
-            // Create a dynamic array using a pointer
             int* arr = new int[n];  // Allocate memory for 'n' integers
 
-            // Input elements into the array using pointer arithmetic
             cout << "Enter " << n << " elements:" << endl;
             for (int i = 0; i < n; ++i) {
                 cout << "Element " << i + 1 << ": ";
                 cin >> *(arr + i);  // Access elements using pointer
             }
 
-            // Display the elements of the array using pointer
             cout << "The entered elements are: ";
             for (int i = 0; i < n; ++i) {
-                cout << *(arr + i) << " ";  // Access elements using pointer
+                cout << *(arr + i) << " ";  
             }
             cout << endl;
 
-            // Free the dynamically allocated memory
             delete[] arr;
 
             return 0;
         }
 
 
-62. Pointer- Explanation
+-->question no: 62. Pointer- Explanation
     Pointer is a variable that stores the memory address of another variable.
     Efficient Memory Access: Pointers provide a way to access and manipulate memory directly.
     Dynamic Memory Allocation: Using pointers, you can allocate memory dynamically during runtime.
@@ -102,7 +90,7 @@
 
     Memory Leak: Forgetting to free dynamically allocated memory.
 
-63. Access Specifiers 
+-->question no: 63. Access Specifiers 
         1. Public
             Members declared as public are accessible from anywhere in the program.
             There are no restrictions on access.
@@ -117,7 +105,7 @@
 
 
 
-64. Run time polymorphism coding
+-->question no: 64. Run time polymorphism coding
     Polymorphism enables methods to behave differently 
     based on the type of object they are acting on, 
     The term polymorphism means "many forms," and 
@@ -126,13 +114,12 @@
     polymorphism allows you to perform a single action in different ways.
 
 
-65. Did u study threading, sockets? 
+-->question no: 65. Did u study threading, sockets? 
     Multithreading is a programming technique that allows a program to perform multiple tasks concurrently 
     by dividing its execution into smaller units called threads. 
     Each thread runs independently, 
     Thread
     A thread is the smallest unit of a program that can execute independently. A single program can contain multiple threads, all sharing the program's resources 
-    (e.g., memory).
 
     Main Thread
     Every program starts with a main thread. In multithreading, additional threads are spawned alongside the main thread.
@@ -153,128 +140,132 @@
     Thread Safety: Ensuring shared data is accessed in a controlled manner.
 
 
-66. How was the training in both Phase 1 and Phase 2?
-67. Which phase did you like most? Why?
-68. What topics did you learn during these two phases?
-69. What is OOPs, and why is it needed?
-
-Object-Oriented Programming (OOP) is a programming paradigm based on the concept of objects, which are instances of classes. 
-It focuses on organizing code into reusable and modular components by modeling real-world entities using classes and objects.
-
-Class
-A blueprint or template for creating objects.
-Defines properties (data members) and methods (member functions).
-   
-Object
-An instance of a class.
-Represents a specific entity with properties and behaviors.
-
-Encapsulation:
-Bundling data (variables) and methods (functions) into a single unit (class).
-Achieved through access specifiers like private, public, and protected.
-
-Inheritance
-Mechanism where one class derives properties and behavior from another class.
-Promotes code reuse.
-
-Polymorphism
-The ability of a function or method to behave differently based on the context.
-Types: Compile-time polymorphism (method overloading) and Run-time polymorphism (method overriding).
-
-Abstraction
-Hiding unnecessary implementation details from the user and showing only essential features.
-Achieved using abstract classes or interfaces.
-
-Encapsulation : Bundling data (variables) and methods (functions) into a single unit (class).
-Achieved through access specifiers like private, public, and protected.
+-->question no: 66. How was the training in both Phase 1 and Phase 2?
 
 
-class Shape {
-public:
-    virtual void draw() = 0; // Pure virtual function
-};
-
-class Circle : public Shape {
-public:
-    void draw() override { cout << "Drawing Circle" << endl; }
-};
+-->question no: 67. Which phase did you like most? Why?
 
 
-Why is OOP Needed?
-    Modularity : Code is organized into classes, making it modular and easier to manage.
-    Reusability : Inheritance allows developers to reuse existing code, reducing redundancy.
-    Maintainability : Encapsulation ensures that changes in one part of the code do not affect others, making programs easier to maintain.
-    Scalability : OOP makes it easier to add new features without affecting existing code.
-    Security : Encapsulation and abstraction protect sensitive data by restricting access to it.
-
-70. What is the difference between stack and heap?
-		
-Stack	Used for static memory allocation and managing function call execution (e.g., local variables, function parameters).	
-        Memory is allocated automatically when a function is called and deallocated when the function exits.
-        Faster because it uses Last In, First Out (LIFO) structure.
-
-        Memory is automatically reclaimed when the function or block scope ends.
-        Memory is limited to the block in which it is declared.
-        	cpp int x = 10; (local variable on the stack)
-            Managed automatically by the operating system.
-    
-Heap    Used for dynamic memory allocation, where memory is allocated and freed manually by the programmer or automatically by a garbage collector.
-        Memory is allocated and deallocated manually using new/delete (C++), malloc/free (C), or automatically via garbage collection (e.g., Java).
-    	Slower due to manual memory management and potential fragmentation.
-        Memory remains allocated until explicitly freed or the program ends.
-        Memory can be accessed globally if a pointer/reference is passed.
-        cpp int* p = new int[10]; (dynamic array on the heap)
-        Managed manually by the programmer. Memory leaks and fragmentation can occur if memory is not freed properly.
+-->question no: 68. What topics did you learn during these two phases?
 
 
-71. What is the difference between structure and class?
+-->question no: 69. What is OOPs, and why is it needed?
 
-Feature	                            Structure (struct)	                                                                Class (class)
-Default Access Modifier	             Members are public by default.	                                            Members are private by default.
-Purpose                 	Originally designed for grouping related data.	                                        Designed to model both data and behavior (OOP paradigm).
-Encapsulation	            Can have encapsulation but requires explicitly setting private or protected access.	    Strongly supports encapsulation with default private members.
-Constructors/Destructors	In modern C++ (from C++11 onwards), struct can have constructors and destructors.	    Fully supports constructors, destructors, and member functions.
-Intended Use	            Generally used for  small data aggregates.	                                          Used for more complex data structures and to implement OOP features.
+	Object-Oriented Programming (OOP) is a programming paradigm based on the concept of objects, which are instances of classes. 
+	It focuses on organizing code into reusable and modular components by modeling real-world entities using classes and objects.
+	
+	Class
+	A blueprint or template for creating objects.
+	Defines properties (data members) and methods (member functions).
+	   
+	Object
+	An instance of a class.
+	Represents a specific entity with properties and behaviors.
+	
+	Encapsulation:
+	Bundling data (variables) and methods (functions) into a single unit (class).
+	Achieved through access specifiers like private, public, and protected.
+	
+	Inheritance
+	Mechanism where one class derives properties and behavior from another class.
+	Promotes code reuse.
+	
+	Polymorphism
+	The ability of a function or method to behave differently based on the context.
+	Types: Compile-time polymorphism (method overloading) and Run-time polymorphism (method overriding).
+	
+	Abstraction
+	Hiding unnecessary implementation details from the user and showing only essential features.
+	Achieved using abstract classes or interfaces.
+	
+	Encapsulation : Bundling data (variables) and methods (functions) into a single unit (class).
+	Achieved through access specifiers like private, public, and protected.
+	
+	
+	class Shape {
+	public:
+	    virtual void draw() = 0; 
+	};
+	
+	class Circle : public Shape {
+	public:
+	    void draw() override { cout << "Drawing Circle" << endl; }
+	};
+	
+	
+	Why is OOP Needed?
+	    Modularity : Code is organized into classes, making it modular and easier to manage.
+	    Reusability : Inheritance allows developers to reuse existing code, reducing redundancy.
+	    Maintainability : Encapsulation ensures that changes in one part of the code do not affect others, making programs easier to maintain.
+	    Scalability : OOP makes it easier to add new features without affecting existing code.
+	    Security : Encapsulation and abstraction protect sensitive data by restricting access to it.
+
+-->question no: 70. What is the difference between stack and heap?
+			
+	Stack	Used for static memory allocation and managing function call execution 	
+	        Memory is allocated automatically when a function is called and deallocated when the function exits.
+	        Faster because it uses Last In, First Out (LIFO) structure.
+	
+	        Memory is automatically reclaimed when the function or block scope ends.
+	        Memory is limited to the block in which it is declared.
+	        	cpp int x = 10; (local variable on the stack)
+	            Managed automatically by the operating system.
+	    
+	Heap    Used for dynamic memory allocation, where memory is allocated and freed manually by the programmer or automatically by a garbage collector.
+	        Memory is allocated and deallocated manually using new/delete (C++), malloc/free (C), or automatically via garbage collection (e.g., Java).
+	    	Slower due to manual memory management and potential fragmentation.
+	        Memory remains allocated until explicitly freed or the program ends.
+	        Memory can be accessed globally if a pointer/reference is passed.
+	        cpp int* p = new int[10]; (dynamic array on the heap)
+	        Managed manually by the programmer. Memory leaks and fragmentation can occur if memory is not freed properly.
 
 
-72. Write the syntax of the new operator.
+-->question no: 71. What is the difference between structure and class?
+			
+			Feature	                            Structure (struct)	                                                                Class (class)
+			Default Access Modifier	             Members are public by default.	                                            Members are private by default.
+			Purpose                 	Originally designed for grouping related data.	                                        Designed to model both data and behavior (OOP paradigm).
+			Encapsulation	            Can have encapsulation but requires explicitly setting private or protected access.	    Strongly supports encapsulation with default private members.
+			Constructors/Destructors	In modern C++ (from C++11 onwards), struct can have constructors and destructors.	    Fully supports constructors, destructors, and member functions.
+			Intended Use	            Generally used for  small data aggregates.	                                          Used for more complex data structures and to implement OOP features.
+
+
+-->question no: 72. Write the syntax of the new operator.
     new operator is used to dynamically allocate memory for objects or variables on the heap. 
 
-    int* ptr = new int;  // Allocates memory for one integer
+    int* ptr = new int;
 
     *ptr = 42;  
 
-    int* arr = new int[5];  // Allocates memory for an array of 5 integers
-    arr[0] = 10;           // Assign values
+    int* arr = new int[5];  
+    arr[0] = 10;           
     arr[1] = 20;
 
-    MyClass* obj = new MyClass;  // Allocates memory for an object
+    MyClass* obj = new MyClass;  
     obj->data = 42; 
 
     also want to delete the memory
     delete ptr; 
 
-73. Array sorting
+-->question no: 73. Array sorting
 
     The std::sort function is defined in the <algorithm> header. It sorts elements in **ascending
     order by default and can be customized for descending or other orders using a comparator function.
     
-    #include <algorithm> // For std::sort
+    #include <algorithm> 
     #include <iostream>
     std::sort(start_iterator, end_iterator);
 
 
     #include <iostream>
-    #include <algorithm> // For std::sort
+    #include <algorithm> 
 
     int main() {
         int arr[] = {5, 2, 9, 1, 5, 6};
         int n = sizeof(arr) / sizeof(arr[0]); // Calculate array size
 
-        // Sort in ascending order
         std::sort(arr, arr + n);
 
-        // Display sorted array
         std::cout << "Sorted array: ";
         for (int i = 0; i < n; ++i) {
             std::cout << arr[i] << " ";
@@ -284,7 +275,7 @@ Intended Use	            Generally used for  small data aggregates.	            
     }
 
 
-74. Adding an element in the middle of the array
+-->question no: 74. Adding an element in the middle of the array
         In C++, arrays have a fixed size, meaning that once they are declared, the size cannot be changed. 
 
         Create a new array with a size larger than the original array.
@@ -295,24 +286,20 @@ Intended Use	            Generally used for  small data aggregates.	            
         using namespace std;
 
         int main() {
-            int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9}; // Original array of size 9
-            int n = 9;  // Current size of the array
-            int k = 4;  // Position where the new element should be added
-            int newElement = 100; // The element to insert
+            int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9}; 
+            int n = 9;  
+            int k = 4;  
+            int newElement = 100; 
 
         if (n < 10) {
-            // Shift elements to the right to make space for the new element
             for (int i = n; i > k; --i) {
                 arr[i] = arr[i - 1];
             }
 
-            // Insert the new element at position k
             arr[k] = newElement;
 
-            // Increase the size of the array
             n++;
 
-            // Display the updated array
             cout << "Updated array: ";
             for (int i = 0; i < n; ++i) {
                 cout << arr[i] << " ";
@@ -325,7 +312,7 @@ Intended Use	            Generally used for  small data aggregates.	            
     }
 
 
-75. Operator overloading
+-->question no: 75. Operator overloading
 
     Operator Overloading in C++ allows you to redefine the way operators work for user-defined types (like classes and structures). 
     By overloading operators, you can give them custom behavior when they are applied to objects of your classes, enhancing the flexibility of your code.
@@ -367,7 +354,7 @@ Intended Use	            Generally used for  small data aggregates.	            
     }
 
 
-76. Create a class Student and an array of objects
+-->question no: 76. Create a class Student and an array of objects
 
 
         #include <iostream>
@@ -382,17 +369,14 @@ Intended Use	            Generally used for  small data aggregates.	            
             float marks;
 
         public:
-            // Constructor to initialize a student object
             Student(string n = "", int r = 0, float m = 0.0) : name(n), rollNo(r), marks(m) {}
 
-            // Function to set the details of a student
             void setDetails(string n, int r, float m) {
                 name = n;
                 rollNo = r;
                 marks = m;
             }
 
-            // Function to display the details of a student
             void displayDetails() {
                 cout << "Name: " << name << ", Roll No: " << rollNo << ", Marks: " << marks << endl;
             }
@@ -402,12 +386,10 @@ Intended Use	            Generally used for  small data aggregates.	            
             const int SIZE = 3; // Number of students
             Student students[SIZE]; // Array of Student objects
 
-            // Setting details for each student
             students[0].setDetails("Alice", 101, 85.5);
             students[1].setDetails("Bob", 102, 90.0);
             students[2].setDetails("Charlie", 103, 88.0);
 
-            // Displaying details of each student
             cout << "Student Details:" << endl;
             for (int i = 0; i < SIZE; i++) {
                 students[i].displayDetails();
