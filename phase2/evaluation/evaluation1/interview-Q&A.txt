@@ -7,6 +7,51 @@
 
 -->question no: 59. Oops- brief idea about all the subtopics.
 
+1. Class and Object
+    Class: A blueprint for creating objects; it defines properties (attributes) and behaviors (methods).
+    Object: An instance of a class; it represents a specific entity with defined attributes and behaviors.
+2. Encapsulation
+    Definition: Wrapping data (variables) and methods (functions) into a single unit (class).
+    Purpose: Protects data from unauthorized access using access specifiers like private, protected, and public.
+3. Abstraction
+    Definition: Hiding unnecessary details and showing only essential features of an object.
+    Purpose: Simplifies complex systems by exposing only what is relevant (e.g., using abstract classes or pure virtual functions).
+4. Inheritance
+    Definition: A mechanism where a class (child) can acquire properties and behaviors from another class (parent).
+    Purpose: Promotes code reuse and establishes a relationship between classes.
+
+
+Types:
+    Single Inheritance: One child inherits from one parent.
+    Multiple Inheritance: One child inherits from multiple parents.
+    Multilevel Inheritance: A child inherits from a parent, and another class inherits from that child.
+    Hierarchical Inheritance: Multiple children inherit from one parent.
+    Hybrid Inheritance: Combination of two or more types of inheritance.
+5. Polymorphism
+    Definition: The ability of a single function, operator, or object to behave in different ways.
+Types:
+    Compile-time Polymorphism (Static Binding): Achieved using function overloading and operator overloading.
+    Run-time Polymorphism (Dynamic Binding): Achieved using virtual functions and pointers.
+6. Constructor and Destructor
+    Constructor: A special function automatically called when an object is created to initialize it. Example: MyClass().
+    Destructor: A special function automatically called when an object is destroyed to clean up resources. Example: ~MyClass().
+7. Friend Function
+    Definition: A function declared as a friend of a class that can access its private and protected members.
+    Purpose: Allows external functions or other classes to interact closely with a class.
+8. Operator Overloading
+    Definition: Defining custom behavior for operators (like +, -, *, etc.) for user-defined types.
+    Purpose: Makes code intuitive by enabling operators to work with objects.
+9. Virtual Functions and Abstract Classes
+    Virtual Function: A function that can be overridden in a derived class to provide specific behavior.
+    Abstract Class: A class containing at least one pure virtual function, meant to be a base class for other classes.
+10. Templates
+    Definition: A way to create generic classes or functions that work with any data type.
+    Purpose: Promotes reusability and type safety.
+11. Exception Handling
+    Definition: Mechanism to handle runtime errors using try, catch, and throw.
+    Purpose: Ensures the program doesn't crash and handles errors gracefully.
+
+
 -->question no: 60. Virtual Function Coding
 
         #include <iostream>
@@ -141,12 +186,17 @@
 
 
 -->question no: 66. How was the training in both Phase 1 and Phase 2?
+    In phase one the training was online and phase2 is offline. both the phases the trining is very productive and engaging and i liked both the phses of trining. and our 
+    trainer mahesh teaching all the topics very good and he is giving case study after completing each task so it helped us to improve the praactical knowledge too. 
 
 
 -->question no: 67. Which phase did you like most? Why?
+    I personally i liked phase2 more when compared with phase1 because it is offline i personally i like offline class more than the onlinr classes.
 
 
 -->question no: 68. What topics did you learn during these two phases?
+    c++ programming language, how to write the good code, oracle database and sql quaries, oops in c++, smrt poinrters, lmd functions, multi threding, multi processing, 
+    inter processing communication using pipes, messge ueue, shared memory, socket progrmming using tcp nd udp.
 
 
 -->question no: 69. What is OOPs, and why is it needed?
