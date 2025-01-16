@@ -23,11 +23,11 @@ public:
 
 void client(int shm_id) {
     vector<Prescription> prescriptions = {
-        Prescription("01", 4), 
-        Prescription("02", 5), 
-        Prescription("03", 6), 
-        Prescription("04", 7), 
-        Prescription("05", 1)
+        Prescription("p01", 100), 
+        Prescription("p02", 200), 
+        Prescription("p03", 300), 
+        Prescription("p04", 400), 
+        Prescription("p05", 500)
     };
 
     int size = prescriptions.size();
