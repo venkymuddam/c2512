@@ -1,3 +1,7 @@
+// --------------------------------------NAMED PIPE PROGRAM--------------------------------
+
+
+
 #include <iostream>
 #include <sys/types.h>
 #include <sys/stat.h>
