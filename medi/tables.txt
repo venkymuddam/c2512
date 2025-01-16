@@ -1,0 +1,206 @@
+Medical Inventory Management System Case Study
+Hi, the following is the base design for Medical inventory management system (Case study)
+
+Design of the Case Study...
+
+Apps
+1. Admin App: Admin
+1. Manager App: Manager
+2. Pharmacists App : Pharmacist
+
+Pages
+1. User Management (User: role=admin)
+    - Create
+    - Edit (View)
+    - Delete
+    - Display All
+
+    users :
+        user_id,
+        name, email, password, phone, role,
+        created_at
+        updated_at
+
+2. Supplier management (User: role=Manager)
+      - Create
+    - Edit (View)
+    - Delete
+    - Display All
+
+      supplier:
+            supplier_id,
+            supplier_name, phone,email, address,
+      created_at,updated_at
+
+
+3.  Products management (User: role=Manager)
+    - Create
+    - Edit (View)
+    - Delete
+    - Display All
+
+    products:
+        products_id,
+      name, description, category, quantity, price, supplier_id, expiration_date,
+            created_at,updated_at
+
+4. Purchase Management (User: role=Manager)
+    - Create
+    - Edit (View)
+    - Delete
+    - Display All
+
+    purchase:
+        purchase_id,
+        supplier_id, total amount, purchase_date, delivery_status,
+        created_at
+        updated_at
+
+5. purchase_id Managemnt (User: role=Manager)
+    - Create
+    - Edit (View)
+    - Delete
+    - Display All
+
+    purchase_item:
+        purchase_item_id,
+        purchase_id, name, quantity, price, purchase_rate, selling_rate,
+            created_at
+        updated_at
+
+6. Sales Management (User: role=Pharmacist)
+    - Create
+    - Edit (View)
+    - Delete
+    - Display All
+   
+    sales:
+        sales_id,
+        date/time_of_purchase,payment_mode, invoice_number, total_amount
+            created_at
+            updated_at
+   
+7. Sale_item Management (User: role=Pharmacist)
+    - Create
+    - Edit (View)
+    - Delete
+    - Display All
+
+    Sale_item:
+        Sale_item_id,
+      name, description, category, quantity, price,
+            created_at
+            updated_at
+
+Apps
+1. Admin App : admin
+    1.1. Login
+    1.2.Admin Page (Dashboard :)
+        Users
+    1.3 User Managemnt
+
+2.    Manager App : Manager
+    2.1. Login
+      2.2.Manager Page (Dashboard :)
+        Supplier | Products | Purchase | Purchase_item  
+    2.3 Supplier Management
+    2.4 Products Management
+    2.5 Purchase Management
+    2.6 Purchase_item Management
+ 
+
+3. Pharmacist App: Pharmacist    
+    3.1 Login
+      3.2.Pharmacist Page (Dashboard :)
+        Sales | Sale_item
+    3.3 sales Management
+    3.4 Sale_item Management
+
+
+
+
+
+
+    --------------------------------------------------------------------------------
+
+
+
+
+    Medical inventory management system
+
+User:
+	admin 
+		user managemet
+		product management 
+		purchase management
+		sales management
+	pharamacist
+		sales management
+	
+
+Tables:
+	User:
+		- role
+		- id
+		- password
+		- Name
+		- email
+		- ph number
+		- created At 
+		- updated At
+
+	Suppliers:
+		- id
+		- Name
+		- email
+		- ph number
+		- created At 
+		- updated At
+
+	Products
+		- sl no
+		- Name
+		- Qty
+		- category
+		- Amount
+		- description
+		- supplier id -> ref Supplier(id)
+		- Expirary date
+		- created At 
+		- updated At
+
+	PurchaseData
+		- id
+		- supplier id -> ref Supplier(id)
+		- Date of purchase
+		- Payment mode
+		- Payment success
+		- Total Amount
+		- Invoice number
+		- created At 
+		- updated At
+
+		PurchaseItems
+			- id -> ref PurchaseData(id)
+			- Sl no.
+			- Name
+			- Qty
+			- Expirary date
+			- Amount
+
+	Sales
+		- Sl no.
+		- Date of purchase
+		- Payment mode
+		- Payment success
+		- Total Amount
+		- Invoice number
+		- created At 
+		- updated At
+
+		SalesItems
+			- Sl no -> ref Sales(Sl no.)
+			- Name
+			- Qty
+			- Expirary date
+			- Amount
