@@ -1,129 +1,115 @@
 #include <iostream>
+#include <vector>
 #include <unistd.h>
+#include <sys/wait.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
-#include <sys/wait.h>
 #include <cstring>
-#include <vector>
+#include <string>
 
-#define SHM_KEY 1234
+using namespace std;
 
 class Prescription {
+private:
+    string Prescription_id;
+    double Dosage;
 public:
-    std::string prescriptionID;
-    int Dosage;
+    Prescription(string p_id, double p_dosage) : Prescription_id(p_id), Dosage(p_dosage) {}
 
-    Prescription(std::string id, int dosage) : prescriptionID(id), Dosage(dosage) {}
-
-    std::string getPrescriptionId() const { return prescriptionID; }
-    int getDosage() const { return Dosage; }
-};
-
-struct SharedMemory {
-    int doses[5];
-    int sum;
-    bool dataReady;       
-    bool serverDone;      
-};
-
-void client(int& shmid) {
-    SharedMemory* sharedMem = (SharedMemory*)shmat(shmid, nullptr, 0);
-    if (sharedMem == (void*)-1) {
-        std::cerr << "Client failed to attach to shared memory!" << std::endl;
-        exit(1);
+    double getDosage() { 
+        return Dosage; 
     }
+};
 
-    std::vector<Prescription> doss = {
-        Prescription("P001", 100),
-        Prescription("P002", 200),
-        Prescription("P003", 300),
-        Prescription("P004", 400),
-        Prescription("P005", 500)
+void client(int shm_id) {
+    vector<Prescription> prescriptions = {
+        Prescription("01", 4), 
+        Prescription("02", 5), 
+        Prescription("03", 6), 
+        Prescription("04", 7), 
+        Prescription("05", 1)
     };
 
-    for (int i = 0; i < 5; ++i) {
-        sharedMem->doses[i] = doss[i].getDosage();
-    }
-
-    std::cout << "Client sent doses: ";
-    for (int i = 0; i < 5; ++i) {
-        std::cout << sharedMem->doses[i] << " ";
-    }
-    std::cout << std::endl;
-
-    sharedMem->dataReady = true;
-
-    while (!sharedMem->serverDone) {
-        sleep(1);
-    }
-
-    std::cout << "Client received sum from server: " << sharedMem->sum << std::endl;
-
-    shmdt(sharedMem);
-}
-
-void server(int& shmid) {
-    SharedMemory* sharedMem = (SharedMemory*)shmat(shmid, nullptr, 0);
-    if (sharedMem == (void*)-1) {
-        std::cerr << "Server failed to attach to shared memory!" << std::endl;
+    int size = prescriptions.size();
+    int* shared_memory = (int*) shmat(shm_id, NULL, 0);
+    if (shared_memory == (void*) -1) {
+        perror("Client: shmat failed");
         exit(1);
     }
 
-    while (!sharedMem->dataReady) {
-        sleep(1);
+    // Store the size and dosages in shared memory
+    shared_memory[0] = size;
+    for (int i = 0; i < size; i++) {
+        shared_memory[i + 1] = prescriptions[i].getDosage();
     }
 
-    std::cout << "Server received doses: ";
-    for (int i = 0; i < 5; ++i) {
-        std::cout << sharedMem->doses[i] << " ";
+    cout << "Client sending dosages: ";
+    for (int i = 0; i < size; ++i) {
+        cout << shared_memory[i + 1] << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 
-    sharedMem->sum = 0;
-    for (int i = 0; i < 5; ++i) {
-        sharedMem->sum += sharedMem->doses[i];
+    // Wait for the server to write back the result
+    while (shared_memory[0] != -1) {
+        sleep(1); // Wait for the server to finish calculation
     }
 
-    std::cout << "Server calculated sum: " << sharedMem->sum << std::endl;
+    cout << "Client received sum from server: " << shared_memory[1] << endl;
 
-    sharedMem->serverDone = true;
+    shmdt(shared_memory); // Detach shared memory
+}
 
-    shmdt(sharedMem);
+void server(int shm_id) {
+    int* shared_memory = (int*) shmat(shm_id, NULL, 0);
+    if (shared_memory == (void*) -1) {
+        perror("Server: shmat failed");
+        exit(1);
+    }
+
+    int size = shared_memory[0];
+    int sum = 0;
+
+    cout << "Server received dosages: ";
+    for (int i = 0; i < size; i++) {
+        cout << shared_memory[i + 1] << " ";
+        sum += shared_memory[i + 1];
+    }
+    cout << endl;
+
+    cout << "Server calculated sum: " << sum << endl;
+
+    // Store the sum in shared memory and signal client by setting size to -1
+    shared_memory[1] = sum;
+    shared_memory[0] = -1;  // Indicate to client that server is done
+
+    shmdt(shared_memory); // Detach shared memory
 }
 
 int main() {
-    int shmid = shmget(SHM_KEY, sizeof(SharedMemory), 0666 | IPC_CREAT);
-    if (shmid == -1) {
-        std::cerr << "Shared memory allocation failed!" << std::endl;
+    // Create shared memory segment
+    key_t key = ftok("shmfile", 65);
+    int shm_id = shmget(key, 1024, 0666 | IPC_CREAT);
+    if (shm_id == -1) {
+        perror("shmget failed");
         return 1;
     }
-
-    SharedMemory* sharedMem = (SharedMemory*)shmat(shmid, nullptr, 0);
-    if (sharedMem == (void*)-1) {
-        std::cerr << "Failed to initialize shared memory!" << std::endl;
-        return 1;
-    }
-    sharedMem->dataReady = false;
-    sharedMem->serverDone = false;
-    shmdt(sharedMem);
 
     pid_t pid = fork();
-    if (pid == 0) {
-        server(shmid);
-        return 0;
+    if (pid == -1) {
+        perror("Fork failed");
+        return 1;
     }
 
-    sleep(1); // Ensure server starts first
-    pid = fork();
-    if (pid == 0) {
-        client(shmid);
-        return 0;
+    if (pid == 0) {  
+        client(shm_id);
+        exit(0);
+    } else {  
+        server(shm_id);
+        wait(nullptr); 
     }
 
-    wait(nullptr);
-    wait(nullptr);
-
-    shmctl(shmid, IPC_RMID, nullptr);
+    
+    shmctl(shm_id, IPC_RMID, NULL);
 
     return 0;
 }
