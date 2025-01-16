@@ -1,3 +1,7 @@
+// --------------------------------------MESSAGE QUEUE PROGRAM--------------------------------
+
+
+
 #include <iostream>
 #include <vector>
 #include <sys/ipc.h>
