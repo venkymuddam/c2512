@@ -31,11 +31,11 @@ void client(int& shmid) {
 
    
     std::vector<Prescription> doss = {
-        Vaccination("P001", 100),
-        Vaccination("P002", 200),
-        Vaccination("P003", 300),
-        Vaccination("P004", 400),
-        Vaccination("P005", 500)
+        Prescription("P001", 100),
+        Prescription("P002", 200),
+        Prescription("P003", 300),
+        Prescription("P004", 400),
+        Prescription("P005", 500)
     };
 
     
