@@ -108,16 +108,16 @@
                     - after form submit:
                             !- "Invoice number 'IN001'  is generated "
                             !- update [decrement/reduce] the stock quantity in product database.
-                        - success message : ! "Sale INV001 is created successfully."
+                        - success message : !"Sale INV001 is created successfully."
                 ::Sales Management > View Sales::
                     - page title "User Management > View Sales by invoice"
                     - field : invoice_number : "Ener the Invoice Number" {requrired[" 'Invoice Number' is empty. Please enter 'Invoice Numbe' "], isExists}
                     - !display the table of added sales line items as follows:
                        
-                    code  |   Product      | Quantity  | Price  | Amount   | Expiry  
-                ------------------------------------------------------------------------- 
-                  P001    |   p 500        | 200       | 10     | 2000     | 12-12-2025  
-                  P002    |   citrigen     | 1000      | 20     | 20000    | 12-12-2025  
+                          code  |   Product      | Quantity  | Price  | Amount   | Expiry  
+                        ----------------------------------------------------------------------
+                        P001    |   p 500        | 200       | 10     | 2000     | 12-12-2025  
+                        P002    |   citrigen     | 1000      | 20     | 20000    | 12-12-2025  
 
                 ::Sales Management > Cancel Sales::
                 - page title "User Management > Cancel Sales by invoice"
