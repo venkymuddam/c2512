@@ -74,3 +74,62 @@
                     - call Function(Search Sales by Date Range(Start_Date = Date, End_Date = Date + 7))
                     - result is tabular form {Date, Bill Amount}
                     - pagination if more than one page, here page = 20 business objects
+
+
+--------------------------------------
+
+
+::Sales Management:: [1.1.5] 
+                -Nav Pages: 
+                    [1] Create [2] View [3] Cancel [4] Search sales        ! View / Cancel By Invoice Number:
+                    [99] Exit 
+                ::Sales Management > Create Sales::
+                    - page title "User Management > Create Sales"
+                    - form 
+                        fields: product, quanity [many iterations of entries]
+                            - product, "Enter Product name:", {required[" 'Product Name' is empty. Please enter 'Product Name' "], isExist, isStockAvailable, "END" to stop the iterations} by code or name 
+                            !display "Stock Quantity:10, MRP: , Price: $10, Expiry:"
+                            - quantity, "Enter Quantity :", {required[" 'Quantity' is empty. Please enter 'Quantity' "], minimum=0, quantity <= stock_quantity, isInteger}
+                            !display the table of added sales line items as follows:
+
+                            code    product   quantity     price   amount  expiry-date 
+
+                            - pagination if more than one page, here page = 20 business objects
+
+                    - sales level form fields : customer, phone, doctor, {not required [optional] fields}
+                         pay_mode {selectable}
+                    - on form submit: 
+                        - allow to edit sales line items
+                        - allow to edit sales level form fields
+                        - OR Confirm  
+                        - OR Exit  
+                    - after form submit:
+                            !- "Invoice number 'IN001'  is generated "
+                            !- update [decrement/reduce] the stock quantity in product database.
+                        - success message : ! "Sale INV001 is created successfully."
+                ::Sales Management > View Sales::
+                    - page title "User Management > View Sales by invoice"
+                    - field : invoice_number : "Ener the Invoice Number" {requrired[" 'Invoice Number' is empty. Please enter 'Invoice Numbe' "], isExists}
+                    - !display the table of added sales line items as follows:
+
+                       code    product   quantity     price   amount  expiry-date
+
+                ::Sales Management > Cancel Sales::
+                - page title "User Management > Cancel Sales by invoice"
+                    - field : invoice_number : "Enter the Invoice Number" {requrired[" 'Invoice Number' is empty. Please enter 'Invoice Numbe' "], isExists},cancel reason
+                    - reverse the products into he product database of the "invoice_number's items"                    
+
+                ::Sales Management > Today sales::
+                - page title "User Management > today's sales by invoice"
+                     - result is tabular form {Time, Invoice, Bill Amount, Payment Mode}
+                     - display all sale done today
+                     - pagination if more than one page, here page = 20 business objects
+
+                ::Sales Management > sales By Date::
+                - page title "User Management > View Sales by date"
+                    - field :  date : "Enter the Invoice Number" {requrired[" 'Date' is empty. Please enter 'Date' "], isDate}
+                    - result is tabular form {Time, Invoice, Bill Amount, Payment Mode}
+                    - pagination if more than one page, here page = 20 business objects
+                
+
+
