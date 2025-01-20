@@ -78,7 +78,6 @@
 
 --------------------------------------
 
-
 ::Sales Management:: [1.1.5] 
                 -Nav Pages: 
                     [1] Create [2] View [3] Cancel [4] Search sales        ! View / Cancel By Invoice Number:
@@ -92,9 +91,12 @@
                             - quantity, "Enter Quantity :", {required[" 'Quantity' is empty. Please enter 'Quantity' "], minimum=0, quantity <= stock_quantity, isInteger}
                             !display the table of added sales line items as follows:
 
-                            code    product   quantity     price   amount  expiry-date 
+                                code  | Product  |  Quantity  |    Price |  Amount |  Expiry
+                                ----------------------------------------------------------------
+                                p001  | p 500    |    5       |     10   |    50   |   20-08-2028
+                                p002  | citrigen |    3       |     50   |    150  |   10-09-2029
 
-                            - pagination if more than one page, here page = 20 business objects
+                    - pagination if more than one page, here page = 20 business objects
 
                     - sales level form fields : customer, phone, doctor, {not required [optional] fields}
                          pay_mode {selectable}
@@ -111,8 +113,11 @@
                     - page title "User Management > View Sales by invoice"
                     - field : invoice_number : "Ener the Invoice Number" {requrired[" 'Invoice Number' is empty. Please enter 'Invoice Numbe' "], isExists}
                     - !display the table of added sales line items as follows:
-
-                       code    product   quantity     price   amount  expiry-date
+                       
+                    code  |   Product      | Quantity  | Price  | Amount   | Expiry  
+                ------------------------------------------------------------------------- 
+                  P001    |   p 500        | 200       | 10     | 2000     | 12-12-2025  
+                  P002    |   citrigen     | 1000      | 20     | 20000    | 12-12-2025  
 
                 ::Sales Management > Cancel Sales::
                 - page title "User Management > Cancel Sales by invoice"
@@ -123,13 +128,26 @@
                 - page title "User Management > today's sales by invoice"
                      - result is tabular form {Time, Invoice, Bill Amount, Payment Mode}
                      - display all sale done today
+
+                        Time    |   INVOICE  | Amount  | Payment mode 
+                        -----------------------------------------------
+                        10:00   |   INV00001 |   500   |      Cash
+                        12:00   |   INV00004 |   400   |      Cash
+                        19:00   |   INV00003 |   100   |      Cash
+
                      - pagination if more than one page, here page = 20 business objects
 
                 ::Sales Management > sales By Date::
                 - page title "User Management > View Sales by date"
                     - field :  date : "Enter the Invoice Number" {requrired[" 'Date' is empty. Please enter 'Date' "], isDate}
                     - result is tabular form {Time, Invoice, Bill Amount, Payment Mode}
+
+                        Time    |   INVOICE  | Amount  | Payment mode 
+                        -----------------------------------------------
+                        10:00   |   INV00001 |   500   |      Cash
+                        12:00   |   INV00004 |   400   |      Cash
+                        19:00   |   INV00003 |   100   |      Cash
+
                     - pagination if more than one page, here page = 20 business objects
                 
-
 
