@@ -46,6 +46,8 @@ void makeSound(Animal* animal) {
 }
 
 int main() {
+    // destructor will call derived first and base class next.(for both static objects and dynamic objects).
+    // static objects will call the last created objects destructor first.
     //Create objects of derived classes
     // Dog dog;
     // Cat cat;
@@ -66,7 +68,9 @@ int main() {
     // cout << endl << endl;
     
     // dynamic objects
-    
+
+    // destructor will call derived first and base class next.(for both static objects and dynamic objects).
+    // dynamic objects will call the first deleted objects destructor first.
     
     Animal* ob1 = new Animal();
     
