@@ -23,6 +23,37 @@ except KeyboardInterrupt:
 client_socket.close()
 
 
+//------
+
+import socket
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket.connect(('127.0.0.1', 12345))
+
+print("Connected to server. Type 'exit' to disconnect.")
+
+try:
+    while True:
+        # Send message to server
+        message = input("Client: ")
+        client_socket.send(message.encode())
+        if message.lower() == "exit":
+            print("Exiting chat...")
+            break
+
+        # Receive response from server
+        data = client_socket.recv(1024).decode()
+        if not data or data.lower() == "exit":
+            print("Server disconnected.")
+            break
+        print(f"Server: {data}")
+
+except KeyboardInterrupt:
+    print("\nClient shutting down.")
+
+client_socket.close()
+
+
 
 //---------------------------------server
 
@@ -47,4 +78,40 @@ while True:
         except:
             print("Exited by the user")
             
-    client_socket.close()       
+    client_socket.close()    
+
+
+//-----
+
+import socket
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind(('127.0.0.1', 12345))
+server_socket.listen(1)
+
+print("Server is waiting for a connection...")
+client_socket, addr = server_socket.accept()
+print("Client connected from", addr)
+
+try:
+    while True:
+        # Receive message from client
+        data = client_socket.recv(1024).decode()
+        if not data or data.lower() == "exit":
+            print("Client disconnected.")
+            break
+        print(f"Client: {data}")
+
+        # Send response to client
+        message = input("Server: ")
+        client_socket.send(message.encode())
+        if message.lower() == "exit":
+            print("Exiting chat...")
+            break
+
+except KeyboardInterrupt:
+    print("\nServer shutting down.")
+
+client_socket.close()
+server_socket.close()
+
