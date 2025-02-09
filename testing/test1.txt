@@ -25,6 +25,7 @@ client_socket.close()
 
 //------
 
+
 import socket
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,14 +35,15 @@ print("Connected to server. Type 'exit' to disconnect.")
 
 try:
     while True:
-        # Send message to server
+        # sending data to server...
         message = input("Client: ")
         client_socket.send(message.encode())
         if message.lower() == "exit":
             print("Exiting chat...")
             break
 
-        # Receive response from server
+
+        # receiving data from server...
         data = client_socket.recv(1024).decode()
         if not data or data.lower() == "exit":
             print("Server disconnected.")
@@ -49,9 +51,11 @@ try:
         print(f"Server: {data}")
 
 except KeyboardInterrupt:
-    print("\nClient shutting down.")
+    print()
+    print("Client shutting down.")
 
 client_socket.close()
+
 
 
 
@@ -95,14 +99,14 @@ print("Client connected from", addr)
 
 try:
     while True:
-        # Receive message from client
+        # receiving data from client...
         data = client_socket.recv(1024).decode()
         if not data or data.lower() == "exit":
             print("Client disconnected.")
             break
         print(f"Client: {data}")
 
-        # Send response to client
+        # sending daa to client...
         message = input("Server: ")
         client_socket.send(message.encode())
         if message.lower() == "exit":
@@ -110,7 +114,8 @@ try:
             break
 
 except KeyboardInterrupt:
-    print("\nServer shutting down.")
+    print()
+    print("Server shutting down.")
 
 client_socket.close()
 server_socket.close()
