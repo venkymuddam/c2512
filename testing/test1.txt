@@ -1,4 +1,4 @@
-// -------------------------------------------client 
+// ----------------------------------------------------------------------------------------------------------client 
 
 
 # this is client side
@@ -23,7 +23,7 @@ except KeyboardInterrupt:
 client_socket.close()
 
 
-//------
+//------ v one
 
 
 import socket
@@ -57,9 +57,67 @@ except KeyboardInterrupt:
 client_socket.close()
 
 
+// ------- v two
+
+import socket
+
+class ChatClient:
+    def __init__(self, host='127.0.0.1', port=12345):
+        self.host = host
+        self.port = port
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect_to_server()
+    
+    def connect_to_server(self):
+        try:
+            self.client_socket.connect((self.host, self.port))
+            print("Connected to server. Type 'exit' to disconnect.")
+        except socket.error as e:
+            print(f"Connection error: {e}")
+            return
+    
+    def send_message(self, message):
+        try:
+            self.client_socket.send(message.encode())
+        except socket.error as e:
+            print(f"Error sending message: {e}")
+    
+    def receive_message(self):
+        try:
+            return self.client_socket.recv(1024).decode()
+        except socket.error as e:
+            print(f"Error receiving message: {e}")
+            return None
+    
+    def chat(self):
+        try:
+            while True:
+                message = input("Client: ")
+                self.send_message(message)
+                if message.lower() == "exit":
+                    print("Exiting chat...")
+                    break
+                
+                data = self.receive_message()
+                if not data or data.lower() == "exit":
+                    print("Server disconnected.")
+                    break
+                print(f"Server: {data}")
+        except KeyboardInterrupt:
+            print("\nClient shutting down.")
+        finally:
+            self.client_socket.close()
+            print("Connection closed.")
+
+if __name__ == "__main__":
+    client = ChatClient()
+    client.chat()
+    
+  
 
 
-//---------------------------------server
+
+//---------------------------------------------------------------------------------------------------------------server
 
 # this is server side
 import socket
@@ -85,7 +143,7 @@ while True:
     client_socket.close()    
 
 
-//-----
+//----- v one
 
 import socket
 
@@ -119,4 +177,69 @@ except KeyboardInterrupt:
 
 client_socket.close()
 server_socket.close()
+
+//--------v two
+
+
+import socket
+
+class ChatServer:
+    
+    def __init__(self, host='127.0.0.1', port=12345):
+        self.host = host
+        self.port = port
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket = None
+        self.addr = None
+        self.setup_server()
+    
+    def setup_server(self):
+        try:
+            self.server_socket.bind((self.host, self.port))
+            self.server_socket.listen(1)
+            print("Server is waiting for a connection...")
+            self.client_socket, self.addr = self.server_socket.accept()
+            print("Client connected from", self.addr)
+        except socket.error as e:
+            print(f"Server error: {e}")
+            self.server_socket.close()
+            return
+    
+    def send_message(self, message):
+        try:
+            self.client_socket.send(message.encode())
+        except socket.error as e:
+            print(f"Error sending message: {e}")
+    
+    def receive_message(self):
+        try:
+            return self.client_socket.recv(1024).decode()
+        except socket.error as e:
+            print(f"Error receiving message: {e}")
+            return None
+    
+    def chat(self):
+        try:
+            while True:
+                data = self.receive_message()
+                if not data or data.lower() == "exit":
+                    print("Client disconnected.")
+                    break
+                print(f"Client: {data}")
+                
+                message = input("Server: ")
+                self.send_message(message)
+                if message.lower() == "exit":
+                    print("Exiting chat...")
+                    break
+        except KeyboardInterrupt:
+            print("\nServer shutting down.")
+        finally:
+            self.client_socket.close()
+            self.server_socket.close()
+            print("Server closed.")
+
+if __name__ == "__main__":
+    server = ChatServer()
+    server.chat()
 
