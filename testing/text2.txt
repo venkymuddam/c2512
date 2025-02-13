@@ -1,0 +1,231 @@
+Project Requirements
+
+
+---
+
+1. React Frontend
+
+Purpose: Handles user interactions and communicates with FastAPI backend.
+
+Features:
+
+Store User Text in RAG → Sends text to FastAPI for storing in RAG.
+
+Query RAG → Sends query to FastAPI to retrieve a generated response.
+
+Search History → Displays previous queries and responses.
+
+Styling & UI Components → CSS for styling and React components for UI.
+
+
+Dependencies:
+
+Axios → Used for API calls to FastAPI.
+
+React Router (react-router-dom) → Enables component routing.
+
+React Hooks (useState, useEffect) → Manages state and side effects.
+
+Material UI / Tailwind CSS (optional) → For UI styling.
+
+
+Data Flow:
+
+1. User enters text → React sends POST request to FastAPI.
+
+Waits for confirmation from FastAPI before proceeding.
+
+
+
+2. User submits a query → React sends POST request to FastAPI.
+
+Waits for generated response before displaying it.
+
+
+
+3. Receives responses from FastAPI in JSON format and updates UI.
+
+
+
+Waiting Requirements:
+
+Waits for confirmation after storing user text.
+
+Waits for generated output from RAG before displaying the response.
+
+
+
+---
+
+2. FastAPI Backend
+
+Purpose: Acts as a bridge between React frontend and RAG + Ollama container.
+
+Features:
+
+Receives & stores user text in RAG.
+
+Receives queries, forwards them to RAG & Ollama, and returns responses.
+
+Manages API endpoints for storing and querying data.
+
+Handles multiple user requests concurrently.
+
+
+Dependencies:
+
+FastAPI → Framework for creating RESTful APIs.
+
+Uvicorn → ASGI server to run FastAPI.
+
+Pydantic → Validates incoming request data.
+
+SQLAlchemy → Manages database storage for search history.
+
+FAISS / ChromaDB → Vector database for storing embedded text.
+
+Ollama Python SDK → Communicates with Ollama for generating responses.
+
+
+Data Flow:
+
+1. Receives API request from React (either to store text or query).
+
+
+2. Forwards user text to RAG for storage.
+
+Waits for confirmation before responding to React.
+
+
+
+3. Forwards queries to RAG & Ollama.
+
+Waits for response before sending it to React.
+
+
+
+
+Waiting Requirements:
+
+Waits for RAG confirmation before notifying React about successful text storage.
+
+Waits for response from RAG + Ollama before sending it back to React.
+
+
+
+---
+
+3. RAG & Ollama System (Inside Container)
+
+Purpose: Handles text storage, vector embedding, and response generation.
+
+Features:
+
+Stores user-entered text as vectors for retrieval.
+
+Processes queries using embedded data and LLM model.
+
+Returns generated responses based on stored data.
+
+
+Dependencies:
+
+FAISS / ChromaDB → Converts text into vector embeddings and stores them.
+
+LangChain → Manages interaction between RAG and Ollama.
+
+Ollama LLM → Generates responses based on vectorized data.
+
+NumPy / SciPy → Handles mathematical computations in vector search.
+
+
+Data Flow:
+
+1. Receives user-entered text from FastAPI and embeds it into vectors.
+
+Waits for embedding confirmation before notifying FastAPI.
+
+
+
+2. Receives query from FastAPI, searches stored vectors, and passes relevant data to Ollama.
+
+Waits for generated response before sending it back to FastAPI.
+
+
+
+
+Waiting Requirements:
+
+Waits for vector embedding process to complete before confirming storage.
+
+Waits for Ollama to generate a response before sending it to FastAPI.
+
+
+
+---
+
+4. Docker (Containerized Deployment)
+
+Purpose: Manages isolated environments for FastAPI, RAG, and Ollama.
+
+Features:
+
+Encapsulates FastAPI, RAG, and Ollama into separate containers.
+
+Ensures consistent execution across different systems.
+
+Allows multiple users to interact simultaneously without conflicts.
+
+
+Dependencies:
+
+Docker Engine → Runs the containers.
+
+Docker Compose → Manages multiple containers and networking.
+
+Python (Base Image for FastAPI) → Runs FastAPI inside the container.
+
+FAISS / ChromaDB Image → Handles vector storage inside the RAG container.
+
+Ollama Image → Runs the LLM model inside a separate container.
+
+
+Data Flow:
+
+1. React sends request to FastAPI inside its container.
+
+
+2. FastAPI forwards the request to the RAG + Ollama container.
+
+
+3. RAG stores/retrieves text and generates responses with Ollama.
+
+
+4. FastAPI sends response back to React.
+
+
+
+Waiting Requirements:
+
+FastAPI container must wait for RAG & Ollama container to initialize.
+
+RAG container must finish loading stored data before processing queries.
+
+Ollama must finish model initialization before generating responses.
+
+
+
+---
+
+Final Summary
+
+React handles user input, API calls, and UI updates.
+
+FastAPI acts as a bridge, forwarding requests between React and RAG.
+
+RAG + Ollama processes and generates responses.
+
+Docker ensures smooth multi-container deployment.
+
+
+Would you like me to refine any section further?
