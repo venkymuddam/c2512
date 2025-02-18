@@ -56,3 +56,120 @@ async def query_response(request: QueryRequest):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------
+
+
+Explanation of Each Part:
+Imports:
+
+python
+Copy
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import json
+import logging
+from rag_ollama import store_data_in_rag, generate_response_from_rag_and_ollama
+FastAPI: The web framework to create API endpoints.
+HTTPException: To raise custom HTTP exceptions if anything goes wrong.
+BaseModel: Used for defining request body models (Pydantic is used for data validation).
+json: Used to work with JSON data (to parse the response from the functions).
+logging: For logging info or error messages.
+from rag_ollama import store_data_in_rag, generate_response_from_rag_and_ollama: Importing the functions you have already written in rag_ollama.py. These will be used to handle storing data and generating responses.
+FastAPI App Initialization:
+
+python
+Copy
+app = FastAPI()
+This creates a new instance of the FastAPI app.
+Logging Setup:
+
+python
+Copy
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+Initializes logging to show INFO level logs. It helps us debug by printing messages to the console when needed.
+Request Body Models:
+
+python
+Copy
+class MessageRequest(BaseModel):
+    message: str
+Defines a Pydantic model to structure the request for storing messages. When a user sends a message, this will be used to validate the request body and ensure the message is in the correct format (i.e., as a string).
+python
+Copy
+class QueryRequest(BaseModel):
+    query: str
+Similar to the previous model, but this one is used for handling user queries.
+POST Endpoint for Storing Data:
+
+python
+Copy
+@app.post("/store_message/")
+async def store_message(request: MessageRequest):
+This endpoint listens for POST requests at /store_message/ where the React frontend will send a message.
+request: MessageRequest: The body of the request will be validated as per the MessageRequest model.
+Calling the store_data_in_rag function:
+
+python
+Copy
+response = store_data_in_rag(request.message)
+Calls the store_data_in_rag function that you imported from rag_ollama.py. This function will simulate storing the data in your RAG system and return a success or failure message.
+Returning the Response:
+
+python
+Copy
+return json.loads(response)
+Since store_data_in_rag returns a JSON string, we parse it back into a Python dictionary using json.loads() to send back to the frontend.
+Handling Errors:
+
+python
+Copy
+except Exception as e:
+    logger.error(f"Error storing message: {e}")
+    raise HTTPException(status_code=500, detail="Error storing message in RAG")
+If there’s an error while storing the message, we log the error and raise an HTTP exception with a 500 status code, signaling a server error.
+POST Endpoint for Querying Data:
+
+python
+Copy
+@app.post("/query_response/")
+async def query_response(request: QueryRequest):
+This endpoint listens for POST requests at /query_response/ where the React frontend will send a query.
+request: QueryRequest: The body of the request will be validated as per the QueryRequest model.
+Calling the generate_response_from_rag_and_ollama function:
+
+python
+Copy
+response = generate_response_from_rag_and_ollama(request.query)
+Calls the generate_response_from_rag_and_ollama function to generate a response for the user query. This function simulates the process of generating a response using the RAG system and Ollama.
+Returning the Generated Response:
+python
+Copy
+return json.loads(response)
+Just like for the store function, the response is returned after being parsed into a Python dictionary.
+Error Handling:
+python
+Copy
+except Exception as e:
+    logger.error(f"Error generating response: {e}")
+    raise HTTPException(status_code=500, detail="Error generating response from RAG + Ollama")
+If there's an error while generating the response, we log it and raise an HTTP exception.
+Running the FastAPI App:
+python
+Copy
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+This part runs the FastAPI application using uvicorn on host 0.0.0.0 (meaning it listens on all network interfaces) and port 8000.
+Final Notes:
+You have successfully integrated the RAG + Ollama system with FastAPI by importing the required functions from the rag_ollama.py file.
+Each endpoint (/store_message/ and /query_response/) simply passes the user input to the corresponding function, waits for the result, and then returns that result to the React frontend.
+The functions store_data_in_rag and generate_response_from_rag_and_ollama are encapsulated in your rag_ollama.py file, and the FastAPI server just calls them, making it easier to maintain and debug the system.
+This approach ensures the FastAPI backend acts as a simple mediator between the React frontend and the RAG + Ollama backend, allowing you to focus on the actual logic in the separate rag_ollama.py file.
