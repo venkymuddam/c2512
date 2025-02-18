@@ -1,5 +1,159 @@
-I am doing a project LLM model, I will give some description of our project, then please give me all the requirements of our project, not only the software requirements only, I want complete requirements in coding also like which parameters are required in which area(for example in react,python fastapi, rag, Ollama, docker) everything. Like all the requirements in each part in detail and also the details of everything like dependency of each one with other one and when it will continue after getting that dependency or before getting that dependency give each detail in a structural understandable way and give it in a organised way.
+I am doing a project LLM model, I will give some description of our project, then please give me the hardcoded code for my project because before starting the original code i should dod the UI hardcoded to understand it beter.
 
-Project: First user will enter a his query in react  frontend then query will go the python fastapi by using fastapi calling in react so it is like creating a new entity(POST), so python fastapi will be receiving that query and it will pass it to the another container which will contain RAG database system and Ollama system, do python don't know what happening inside that it will just passing the required information like query to that container so that container will return generated output for the query. And python will return it back to the react so that react will print the generated output along with entered query in the react frontend. Multiple users can query at same time. So the container i mentioned before(RAG, ollama) it contains like rag will store the text message (which is entered in react frontend and goes to RAG through fastAPI call and no chunking is required inside RAG) in it which had some information in that for example it had content like details of all the employees and their login and logout details so if user enter "who are logged in at 5pm" then by using this query it will use RAG and Ollama are used to generate this answer so it goes like that. So python fastapi, rag, Ollama these contained inside the docker. 
+Project: The user will enter the message in the react to store that inside the RAG, so after user enter the message from react it will pass the message string to the fastapi(post method) from react. From fastapi it will receive that message and fatsapis will transfer that string to the RAG + OLLAMA systems which will take that string from fastapi and store that data inside the rag for the future responce generation(by ollama LLM) to query based on this stored data. and after rag stored the data succeessfully or failed it will return a success or fail message status of storing to the fastapi and the fastapi will be receiving that message from that and it will return that message to the react and react will display that message. And second user will enter a his query in react  frontend then query will go the python fastapi by using fastapi calling in react so it is like creating a new entity(POST), so python fastapi will be receiving that query string and it will pass it to the another container which will contain RAG database system and Ollama system, python dont know what happening inside that it will just passing the required  information like query to that container so that will return generated output(generated responce by ollama LLM) for the query to the fatapi back. And python fastapi will take that responce from that system and return that generated output back to the react so that react will print the generated output along with entered query in the react frontend. In fastapi it dont know how and what is happen inside the rag + ollama system it will just pass the string with the help of functions(which will be actually implemented inside the rag + ollama system) of rag + ollama system and it will receive the returned responce from that sysem. Multiple users can query at same time. So the container i mentioned before(RAG, ollama) it contains like rag will store the text message (which is entered in react frontend and goes to RAG through fastAPI call and no chunking is required inside RAG) in it which had some information in that for example it had content like details of all the employees and their login and logout details so if user enter "who are logged in at 5pm" then by using this query it will use RAG and Ollama are used to generate this answer so it goes like that. So python fastapi, rag, Ollama these contained inside the docker. 
 
-So these are some details now give all the requirements in the each step like saparately for react, python fastapi, rag and Ollama system, docker give all details in and out.
+
+
+
+                                ------------------------------Project Requirements-------------------------------
+
+1. React Frontend (Outside Docker Container)
+        => PURPOSE: Handles user interactions like sending user texts and query searching, and communicates with FastAPI backend.
+
+        => Features:
+            - Enters User Text in RAG : Sends text to FastAPI for storing in RAG.
+
+            - Query RAG : Sends query to FastAPI to retrieve a generated response.
+
+            - Styling & UI Components : CSS for styling and React components for UI.
+
+        => DEPENDENCIES: 
+            - Axios : Used for API calls to FastAPI.
+
+            - React Router(react-router-dom) : Enables component routing.
+
+            - React Hooks(useState, useEffect) : Manages state and side effects.
+
+            - Material UI / Bootstrap(optional) : For UI styling.
+
+        => DATA-FLOW:
+            1. User enters text : React sends POST request to FastAPI.
+             - It Waits for confirmation from FastAPI before proceeding.
+
+            2. User submits a query : React sends POST request to FastAPI.
+             - It Waits for generated response before displaying it.
+
+            3. Receives responses from FastAPI  in JSON format and updates UI.
+
+        => WAITING-REQUIREMENTS:
+            - Waits for confirmation after storing user text.
+            - Waits for generated output from RAG before displaying the response.
+
+------
+
+2. FastAPI Backend (Inside Docker Container)
+        => Purpose : It acts as a bridge between React frontend and RAG + Ollama container.
+
+        => Features :
+            - Receives and passes user text in RAG.
+
+            - Receives queries, forwards them to RAG & Ollama, and returns responses.
+
+            - Manages API endpoints for storing and querying data.
+
+            - Handles multiple user requests concurrently by using async and await features.
+
+        => Dependencies:
+            - FastAPI : Framework for creating RESTful APIs.
+
+            - Uvicorn : ASGI server to run FastAPI.
+
+            - Pydantic : Validates incoming request data.
+
+            - Ollama Python SDK : Communicates with Ollama for generating the responses.
+
+        => Data Flow:
+            1. Receives API request from React (either to store text or query).
+
+            2. Forwards user text to RAG for storage.
+             - Waits for confirmation before responding to React.
+
+            3. Forwards queries to RAG & Ollama.
+             - Waits for response before sending it to React.
+
+        => Waiting-Requirements:
+            - Waits for RAG confirmation before notifying React about successful text storage.
+            - Waits for response from RAG + Ollama before sending it back to React.
+
+------
+
+3. RAG & Ollama System (Inside Docker Container)
+    => PURPOSE : Handles text storage, vector embedding, and response generation.
+
+    => FEATURES :
+        - Stores user-entered text as vectors for retrieval.
+
+        - Processes queries using embedded data and LLM model.
+
+        - Returns generated responses based on stored data.
+
+    => DEPENDENCIES :
+        - Embedding (all_MiniLM_L6_V2) : enables similarity search in vector db.
+
+        - FAISS / ChromaDB : It will Converts text into vector embeddings and stores them.
+
+        - LangChain : It will Manages interaction between RAG and Ollama.
+
+        - Ollama LLM : It will It will Generates responses based on vectorized data.
+
+        - NumPy / SciPy : It will Handles mathematical computations in vector search.
+
+    => DATA-FLOW :
+        1. Receives user-entered text from FastAPI and embeds it into vectors.
+            - Waits for embedding confirmation before notifying FastAPI.
+
+        2. Receives query from FastAPI, searches stored vectors, and passes relevant data to Ollama.
+             - Waits for generated response before sending it back to FastAPI.
+
+    => WAITING-REQUIREMENTS :
+        - Waits for vector embedding process to complete before confirming storage.
+
+        - Waits for Ollama to generate a response before sending it to FastAPI.
+
+------
+
+4. Docker (Containerized Deployment)
+    => PURPOSE : Manages isolated environments for FastAPI, RAG, and Ollama.
+
+    => FEATURES :
+        - Encapsulates FastAPI, RAG, and Ollama into separate containers.
+
+        - Ensures consistent execution across different systems.
+
+        - Allows multiple users to interact simultaneously without conflicts. // implement kubernetes to implement this.
+
+    => DEPENDENCIES :
+        - Docker Engine : Runs the containers.
+
+        - Docker Compose : Manages multiple containers and networking.
+
+        - Python (for FastAPI) : Runs FastAPI inside the container.
+
+        - FAISS / ChromaDB Image : Handles vector storage inside the RAG container and Runs the LLM model inside a separate container.
+
+    => DATA-FLOW :
+        1. React sends request to FastAPI inside its container.
+
+        2. FastAPI forwards the request to the RAG + Ollama container.
+
+        3. RAG will stores/retrieves text and generates responses with Ollama.
+
+        4. FastAPI sends response back to React.
+
+    => WAITING-REQUIREMENTS :
+        - FastAPI container must wait for RAG & Ollama container to initialize.
+
+        - RAG container must finish loading stored data before processing queries.
+
+        - Ollama must finish model initialization before generating responses.
+
+------
+
+
+So these are some details now give me the hard coded UI which only do the control flow of the coding like only passing the the string and 
+printing the returned responce that it it will does no care of the inside functionality of the code it just hard coded to understand the 
+flow of the design like which one is taking which one and which one is returning which one not doing any logical part or any algorithms or 
+not storing inside rag just taking it and just returning the success message or some simple generated responce message(without implementing it 
+actually).please give me the hard coded for react UI(hardcoded) part, fastapi UI(hardcoded) part, rag + ollama part.
+
+
