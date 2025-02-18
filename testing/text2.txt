@@ -1,143 +1,194 @@
-                                ------------------------------Project Requirements-------------------------------
+React :
 
-1. React Frontend (Outside Docker Container)
-        => PURPOSE: Handles user interactions like sending user texts and query searching, and communicates with FastAPI backend.
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-        => Features:
-            - Enters User Text in RAG : Sends text to FastAPI for storing in RAG.
+const App = () => {
+  const [message, setMessage] = useState("");
+  const [response, setResponse] = useState("");
+  const [query, setQuery] = useState('');
+  const [result, setResult] = useState('');
+  const [data, setData] = useState([]); // State to store fetched data
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(''); // Error state
 
-            - Query RAG : Sends query to FastAPI to retrieve a generated response.
 
-            - Styling & UI Components : CSS for styling and React components for UI.
 
-        => DEPENDENCIES: 
-            - Axios : Used for API calls to FastAPI.
+  const handleSendMessage = async ()=>{
+    try{
+      const res = await axios.post("https://reqres.in/api/users", {message});
+      setResponse(JSON.stringify(res.data.message));
+    }
+    catch(error){
+      console.error("Error sending Message: ",error);
+      setResponse("Error Sending Message");
+    }
+  }
 
-            - React Router(react-router-dom) : Enables component routing.
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post('https://reqres.in/api/users', { query });
+      setResult(JSON.stringify(res.data.query));  // Display the response from FastAPI
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+      setResult('Error processing query.');
+    }
+  }
 
-            - React Hooks(useState, useEffect) : Manages state and side effects.
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('https://reqres.in/api/users?page=2');
+      setData(response.data); // Store the fetched data in state
+      setLoading(false); // Set loading to false when data is fetched
+    } catch (err) {
+      setError('Error fetching data');
+      setLoading(false);
+    }
+  };
 
-            - Material UI / Bootstrap(optional) : For UI styling.
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
-        => DATA-FLOW:
-            1. User enters text : React sends POST request to FastAPI.
-             - It Waits for confirmation from FastAPI before proceeding.
+  return (
+    <div>
+      <h2>React</h2>
+      <input
+      type = "text"
+      value={message}
+      onChange={(e)=>{setMessage(e.target.value)}}
+      placeholder='Enter The Input'
+      />
+      <button onClick={handleSendMessage}>Post</button>
+      <h3>Response:</h3>
+      <p>{response}</p>
 
-            2. User submits a query : React sends POST request to FastAPI.
-             - It Waits for generated response before displaying it.
+      <h2>Query Input</h2>
+      <input
+        type="text"
+        value={query}
+        onChange={(e)=>{setQuery(e.target.value)}}
+        placeholder="Enter your query"
+      />
+      <button onClick={handleSubmit}>Get</button>
+      <h3>Result:</h3>
+      <p>{result}</p>
 
-            3. Receives responses from FastAPI  in JSON format and updates UI.
 
-        => WAITING-REQUIREMENTS:
-            - Waits for confirmation after storing user text.
-            - Waits for generated output from RAG before displaying the response.
+      <h1>Data from FastAPI</h1>
 
-------
+      {/* Loading state */}
+      {loading && <p>Loading...</p>}
 
-2. FastAPI Backend (Inside Docker Container)
-        => Purpose : It acts as a bridge between React frontend and RAG + Ollama container.
+      {/* Error state */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        => Features :
-            - Receives and passes user text in RAG.
+      {/* Display data */}
+      {!loading && !error && (
+        <ul>
+          {data.map((item) => (
+            <li>
+              <strong>Email:</strong> {item.email}, <strong>Name:</strong> {item.first_name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
-            - Receives queries, forwards them to RAG & Ollama, and returns responses.
+export default App
 
-            - Manages API endpoints for storing and querying data.
+// ------------------------
 
-            - Handles multiple user requests concurrently by using async and await features.
+Rag + Ollama :
 
-        => Dependencies:
-            - FastAPI : Framework for creating RESTful APIs.
+import logging
+import json
+#from chromadb.utils import embedding_functions
+import ollama
+import chromadb
 
-            - Uvicorn : ASGI server to run FastAPI.
+# Initialize logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-            - Pydantic : Validates incoming request data.
+# Initialize Chroma client
+client = chromadb.Client()
 
-            - Ollama Python SDK : Communicates with Ollama for generating the responses.
+# Initialize embedding function using Ollama (as per your setup)
+# embedding_function = embedding_functions.OllamaEmbeddingFunction(model="llama-model")
 
-        => Data Flow:
-            1. Receives API request from React (either to store text or query).
+# Create or connect to a Chroma collection
+collection = client.get_or_create_collection(name="my_collection")
 
-            2. Forwards user text to RAG for storage.
-             - Waits for confirmation before responding to React.
+# Function to embed and store data in ChromaDB
+def store_data_in_vector_db(data):
+    try:
+        # Embed the data
+        # embeddings = embedding_function.embed(data)
+        
+        # Store the embeddings in the ChromaDB
+        collection.add(
+            # embeddings=embeddings,
+            documents=[data],
+            metadatas=[{"source": "example_source"}],  # Optional metadata
+            ids=[str(hash(data))]  # Unique ID for the document
+        )
 
-            3. Forwards queries to RAG & Ollama.
-             - Waits for response before sending it to React.
+        logger.info("Data successfully stored in the vector database.")
+        return json.dumps({"message": "Data successfully stored!"})
 
-        => Waiting-Requirements:
-            - Waits for RAG confirmation before notifying React about successful text storage.
-            - Waits for response from RAG + Ollama before sending it back to React.
+    except Exception as e:
+        logger.error(f"Error storing data in ChromaDB: {e}")
+        return json.dumps({"error": f"Error storing data: {e}"})
 
-------
+# Function to retrieve data from the vector DB based on a query
+def retrieve_data_from_vector_db(query):
+    try:
+        # Embed the query
+        query_embedding = embedding_function.embed(query)
 
-3. RAG & Ollama System (Inside Docker Container)
-    => PURPOSE : Handles text storage, vector embedding, and response generation.
+        # Retrieve similar documents based on query embedding
+        results = collection.query(
+            query_embeddings=[query_embedding],
+            n_results=5  # Number of results to retrieve
+        )
 
-    => FEATURES :
-        - Stores user-entered text as vectors for retrieval.
+        logger.info(f"Retrieved {len(results['documents'])} results from the vector database.")
+        return json.dumps({"message": "Data retrieval successful!", "results": results['documents']})
 
-        - Processes queries using embedded data and LLM model.
+    except Exception as e:
+        logger.error(f"Error retrieving data from ChromaDB: {e}")
+        return json.dumps({"error": f"Error retrieving data: {e}"})
 
-        - Returns generated responses based on stored data.
+# Function to generate a response based on the retrieved data
+def generate_response(query):
+    try:
+        # Call Llama model to generate a response
+        # response = ollama.chat(model="llmama3.2:1b:", messages=[{"role": "user", "content": query}])
+        response = "this is the response"
+        
+        # Return the generated response
+        logger.info("Response generated successfully.")
+        # return json.dumps({"message": "Response generated!", "response": response['text']})
+        return json.dumps({"message": "Response generated!", "response": response})
 
-    => DEPENDENCIES :
-        - Embedding (all_MiniLM_L6_V2) : enables similarity search in vector db.
+    except Exception as e:
+        logger.error(f"Error generating response: {e}")
+        return json.dumps({"error": f"Error generating response: {e}"})
 
-        - FAISS / ChromaDB : It will Converts text into vector embeddings and stores them.
+# Example usage
+if __name__ == "__main__":
+    # Example data and query
+    data = "This is an example document to be stored."
+    query = "What is an example document?"
 
-        - LangChain : It will Manages interaction between RAG and Ollama.
+    # Store data
+    print(store_data_in_vector_db(data))
 
-        - Ollama LLM : It will It will Generates responses based on vectorized data.
+    # Retrieve data
+    print(retrieve_data_from_vector_db(query))
 
-        - NumPy / SciPy : It will Handles mathematical computations in vector search.
-
-    => DATA-FLOW :
-        1. Receives user-entered text from FastAPI and embeds it into vectors.
-            - Waits for embedding confirmation before notifying FastAPI.
-
-        2. Receives query from FastAPI, searches stored vectors, and passes relevant data to Ollama.
-             - Waits for generated response before sending it back to FastAPI.
-
-    => WAITING-REQUIREMENTS :
-        - Waits for vector embedding process to complete before confirming storage.
-
-        - Waits for Ollama to generate a response before sending it to FastAPI.
-
-------
-
-4. Docker (Containerized Deployment)
-    => PURPOSE : Manages isolated environments for FastAPI, RAG, and Ollama.
-
-    => FEATURES :
-        - Encapsulates FastAPI, RAG, and Ollama into separate containers.
-
-        - Ensures consistent execution across different systems.
-
-        - Allows multiple users to interact simultaneously without conflicts. // implement kubernetes to implement this.
-
-    => DEPENDENCIES :
-        - Docker Engine : Runs the containers.
-
-        - Docker Compose : Manages multiple containers and networking.
-
-        - Python (for FastAPI) : Runs FastAPI inside the container.
-
-        - FAISS / ChromaDB Image : Handles vector storage inside the RAG container and Runs the LLM model inside a separate container. /////
-
-    => DATA-FLOW :
-        1. React sends request to FastAPI inside its container.
-
-        2. FastAPI forwards the request to the RAG + Ollama container.
-
-        3. RAG will stores/retrieves text and generates responses with Ollama.
-
-        4. FastAPI sends response back to React.
-
-    => WAITING-REQUIREMENTS :
-        - FastAPI container must wait for RAG & Ollama container to initialize.
-
-        - RAG container must finish loading stored data before processing queries.
-
-        - Ollama must finish model initialization before generating responses.
-
-------
+    # Generate response
+    print(generate_response(query))
