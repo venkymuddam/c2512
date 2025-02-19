@@ -1,47 +1,46 @@
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import json
+import json 
 import logging
 
-# Import the functions from the rag_ollama.py file
-from rag_ollama import store_data_in_rag, generate_response_from_rag_and_ollama
+from rag_ollama import store_data_in_rag, generate_response_from_rag_and_ollama  # store_data_in_vector_db,  
 
-# Initialize FastAPI app
 app = FastAPI()
 
-# Initialize logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger=logging.getLogger(__name__)
 
-# Define the request body models
 class MessageRequest(BaseModel):
-    message: str  # Request model for storing user message
-
+    message: str
 class QueryRequest(BaseModel):
-    query: str  # Request model for sending query to RAG + Ollama
+    query: str 
 
-# Endpoint to store user message in RAG
-@app.post("/store_message/")
+
+@app.post("/store_message/") 
 async def store_message(request: MessageRequest):
     try:
-        # Call the function from rag_ollama.py to store the data in RAG
-        response = store_data_in_rag(request.message)
-        return json.loads(response)  # Return success message from RAG storage
+        response = store_data_in_rag(request.message) 
+        # return json.loads(response) 
+        return response
     except Exception as e:
-        logger.error(f"Error storing message: {e}")
+        logger.error(f"error storing message: {e}")
         raise HTTPException(status_code=500, detail="Error storing message in RAG")
-
-# Endpoint to handle user query
-@app.post("/query_response/")
+    
+    
+@app.get("/query_response/") 
 async def query_response(request: QueryRequest):
     try:
-        # Call the function from rag_ollama.py to generate a response
         response = generate_response_from_rag_and_ollama(request.query)
-        return json.loads(response)  # Return the generated response from RAG + Ollama
+        # return json.loads(response)
+        return response
     except Exception as e:
-        logger.error(f"Error generating response: {e}")
-        raise HTTPException(status_code=500, detail="Error generating response from RAG + Ollama")
-
+        logger.error(f"error generating response: {e}")
+        raise HTTPException(status_code=500, detail="error generating response from RAG + Ollama")
+    
+    
+    
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)  # Run FastAPI app
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+    
