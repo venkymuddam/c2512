@@ -34,3 +34,32 @@ int main(){
 
     return 0;
 }
+
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="divs">Thus is div1</div>
+        <p class="venky">This is paragraph</p>
+        
+        <script src="dom_script.js"></script>
+    </body>
+    </html>
+
+
+////////////////
+
+const div = document.querySelector("#divs");
+console.log(div);
+
+const pvar = document.querySelector("p");
+pvar.setAttribute("class","venky1")
