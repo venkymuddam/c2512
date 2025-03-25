@@ -157,3 +157,260 @@ not storing inside rag just taking it and just returning the success message or 
 actually).please give me the hard coded for react UI(hardcoded) part, fastapi UI(hardcoded) part, rag + ollama part.
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*                                                                   CLEAN CODE.....
+
+const area = function (rad) {
+    return Math.PI * rad * rad 
+
+}
+
+const curcumference = function (rad) {
+    return 2 * Math.PI * rad
+}
+
+const calculate = function (logic) {
+    const result=[]
+    for(let i=0; i<radius_arr.length; i++){
+        result.push(logic(radius_arr[i]))
+    }
+    return result
+}
+
+
+const radius_arr=[2,3,4,5]
+console.log(calculate(area))
+console.log(calculate(curcumference))
+
+*/
+////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+/*                                                           MAP,FILTER,REDUCE...
+
+function doubleFunction(x) {
+    return x.toString(2)
+}
+function oddNumbers(x) {
+    if (x % 2 == 1) {
+        return x
+    }
+}
+
+const arr1 = [1,2,3,4,5]
+
+const arr2 = arr1.map(doubleFunction)
+console.log(arr2)
+
+const arr3 = arr1.filter(oddNumbers)
+console.log(arr3)
+*/
+////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+/*                                                         PROMISES IN JAVASCRIPT 
+
+const cart="" 
+const promise = createOrder(cart);
+
+
+promise.then(function (orderId){
+    console.log(",orderId,");
+    return orderId;
+})
+.then(function (orderId){
+    console.log(orderId);
+})
+.catch(function (err){
+    console.log(err.message);
+        
+    }
+);
+
+
+function createOrder(cart) {
+
+    const pr = new Promise(function (resolve,reject) {
+
+        if (validateCart(cart)==false) {
+            const err = new Error("Cart in invalid!");
+            reject(err);
+        }
+        const orderId = 12345;
+        if (validateCart(cart)==true){
+            resolve(orderId);
+        }
+    });
+    return pr;
+}
+
+function validateCart(cart){
+    return true;
+}
+*/
+/////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+/*
+   // promise.all,         wait until last seconds and print if all prmises are resolve...if any one promise is failed then it will print entire promises as failed.
+   // promise.allSettled,  wait until last seconds and print if all prmises are resolve...it will print all either resolve or reject 
+   // promise.race,        any promise either resolve or reject...first come first print..print immediatly after required promise found 
+   // promise.any,         only resolved promise..first come first print...if all are rejected then print all as failed..print immediatly after required promise found 
+
+const p1 = new Promise((resolve,reject) =>{
+    //setTimeout(()=>{resolve("this is p1")},5000);
+    setTimeout(()=>{reject("FAILED p1")},5000);
+});
+
+const p2 = new Promise((resolve,reject) =>{
+    //setTimeout(()=>{resolve("this is p2")},3000);
+    setTimeout(()=>{reject("FAILED p2")},3000);
+});
+
+const p3 = new Promise((resolve,reject) =>{
+    //setTimeout(()=>{resolve("this is p3")},1000);
+    setTimeout(()=>{reject("FAILED p3")},1000);
+});
+
+
+Promise.any([p1,p2,p3])
+.then((res) =>{
+    console.log(res);
+})
+.catch((err) =>{
+    console.error(err)
+});
+*/
+////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+     // in normal promises it will execute the next line immediatly, but by using the "async" and "await" we can wait for some time to execute the next line after the promise was being called.
+
+
+//                                                                    async
+/*
+async function venky1() { // async function always returns a promise
+    return "javascript"
+}
+
+const dataa = venky1();
+console.log(dataa);
+
+dataa.then((res) => {
+    console.log(res);
+})
+*/
+
+//                                                              async along with await
+
+const p1 = new Promise((resolve,reject) => {
+    setTimeout(() => {
+        resolve("Resolved Promise 1")},5000);
+});
+
+
+const p2 = new Promise((resolve,reject) => {
+    setTimeout(() => {
+        resolve("Resolved Promise 2")},1000);
+});
+
+async function venky2(){
+// all the promises calls inside the async calls parallelly and to better understanding the promises calls will pushed into the QUEUE and after the completing the first pushed item only the the second pushed item will be exwcuted.
+// but actualyy the javascript enjine works differently i wriiten this QUEUE example for easy understanding..
+// actually the call stack will be eliminated the async function for sometime while calling the await p1.. and again callstach will call the async function again from next line of the promise, after time over in await promise.
+
+
+    console.log("start");
+    const storeData1 = await p1;  // await is always written inside the async function // await will call the promise as same as p1.then()
+    console.log("p1 await called"); 
+    console.log(storeData1); 
+
+    const storeData2 = await p2;
+    console.log("p2 await called");
+    console.log(storeData2);
+};
+
+venky2().catch(() => {
+    console.log("Failed");
+});
+
+//////////////////////////////////////////////////
+
+
+
+
+
+
+/*                                                                    USE STRICT
+"use strict";
+
+console.log(this);
+
+function x() {
+    console.log(this);
+}
+x();
+
+const z = {
+    a: "bhashyam",
+    b: function () {
+        console.log(this.a);
+    }
+}
+
+
+const y = {
+    a: "venky",
+    b: function () {
+        console.log(this);
+    }
+}
+
+z.b.call(y);
+
+
+const e = {
+    a:"muddam",
+    b: () => {
+        console.log(this)
+    }
+}
+
+e.b();
+*/
